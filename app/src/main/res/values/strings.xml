@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Mentalapp</string>
+    <string name="change_user_name">Change User Name</string>
+    <string name="advices">Advices</string>
+    <string name="information">Information</string>
+    <string name="logo">logo</string>
+    <string name="show_user_name">Show user name</string>
+    <string name="show_actual_date">Show actual date</string>
+    <string name="about_us">About us</string>
+    <string name="complete_form">Take Test</string>
+    <string name="consult_previous_results">Consult Previous Results</string>
+    <string-array name="test_items">
+        <item>@string/fine</item>
+        <item>@string/regular</item>
+        <item>@string/tired</item>
+        <item>@string/sad</item>
+    </string-array>
+    <string name="How_are_you">How are you?</string>
+    <string name="fine">Fine</string>
+    <string name="regular">Regular</string>
+    <string name="tired">Tired</string>
+    <string name="sad">Sad</string>
+    <string name="ok">OK</string>
+    <string name="home">Home</string>
+    <string name="username">Username</string>
+    <string name="enter_the_new_username">Enter the new username</string>
+    <string name="profile_icon">profile icon</string>
+</resources>
