@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">Mentalapp</string>
+    <string name="app_name" translatable="false">MejorAppT</string>
     <string name="change_user_name">Change User Name</string>
-    <string name="advices">Advices</string>
-    <string name="information">Information</string>
-    <string name="logo">logo</string>
-    <string name="show_user_name">Show user name</string>
-    <string name="show_actual_date">Show actual date</string>
-    <string name="about_us">About us</string>
-    <string name="complete_form">Take Test</string>
+    <string name="advices" translatable="false">Advices</string>
+    <string name="information" translatable="false">Information</string>
+    <string name="logo" translatable="false">logo</string>
+    <string name="show_user_name" translatable="false">Show user name</string>
+    <string name="show_actual_date" translatable="false">Show actual date</string>
+    <string name="about_us" translatable="false">About us</string>
+    <string name="complete_form">Take/Resume test</string>
     <string name="consult_previous_results">Consult Previous Results</string>
     <string-array name="test_items">
         <item>@string/fine</item>
@@ -15,14 +15,17 @@
         <item>@string/tired</item>
         <item>@string/sad</item>
     </string-array>
-    <string name="How_are_you">How are you?</string>
-    <string name="fine">Fine</string>
-    <string name="regular">Regular</string>
-    <string name="tired">Tired</string>
-    <string name="sad">Sad</string>
-    <string name="ok">OK</string>
-    <string name="home">Home</string>
-    <string name="username">Username</string>
+    <string name="How_are_you" translatable="false">How are you?</string>
+    <string name="fine" translatable="false">Fine</string>
+    <string name="regular" translatable="false">Regular</string>
+    <string name="tired" translatable="false">Tired</string>
+    <string name="sad" translatable="false">Sad</string>
+    <string name="ok" translatable="false">Ok</string>
+    <string name="home" translatable="false">Home</string>
+    <string name="username" translatable="false">Username</string>
     <string name="enter_the_new_username">Enter the new username</string>
-    <string name="profile_icon">profile icon</string>
+    <string name="profile_icon" translatable="false">profile icon</string>
+    <string name="c_mo_funciona">How it works?</string>
+    <string name="background">background</string>
+    <string name="introduction">We help you to analize, understand and improve in those aspects that procudes anxiety to you when you face an exam</string>
 </resources>
