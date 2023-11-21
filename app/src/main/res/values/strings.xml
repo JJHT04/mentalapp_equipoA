@@ -15,6 +15,16 @@
         <item>@string/tired</item>
         <item>@string/sad</item>
     </string-array>
+    <string name="test">Test</string>
+    <string name="Bienvenida">Bienvenido/a al test de salud mental.</string>
+    <string name="sig">Siguiente pregunta</string>
+    <string name="ant">Anterior pregunta</string>
+    <string name="r0">Nunca</string>
+    <string name="r1">Pocas veces</string>
+    <string name="r2">Algunas veces</string>
+    <string name="r3">Bastantes veces</string>
+    <string name="r4">Muchas veces</string>
+    <string name="r5">Siempre</string>
     <string name="How_are_you" translatable="false">How are you?</string>
     <string name="fine" translatable="false">Fine</string>
     <string name="regular" translatable="false">Regular</string>

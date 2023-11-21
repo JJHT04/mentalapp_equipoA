@@ -1,5 +1,6 @@
 package com.example.mentalapp_equipoa
 
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -11,11 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.ChangeUserDialog
 import com.example.mentalapp_equipoa.dialogs.GeneralDialog
 import com.example.mentalapp_equipoa.dialogs.PreviousDialog
-import com.example.mentalapp_equipoa.dialogs.TestDialog
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
-
+private const val TAG = "MainActivity"
+const val EXTRA_MESSAGE = "com.example.mentalapp_equipoa.MESSAGE"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +58,10 @@ class MainActivity : AppCompatActivity() {
      */
 
     fun btnTestOnClick(view: View) {
-        val dialog = TestDialog()
-        dialog.show(supportFragmentManager, "TestDialog")
+        var intent = Intent(this, TestActivity::class.java).apply {
+            putExtra(EXTRA_MESSAGE, userName)
+        }
+        startActivity(intent)
     }
 
     fun btnPreviousOnClick(view: View) {
