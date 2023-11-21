@@ -6,9 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/home_bg"
+        android:layout_width="501dp"
+        android:layout_height="341dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/home"
+        tools:ignore="VisualLintBounds" />
+
+    <ImageView
+        android:id="@+id/circular_bg"
+        android:layout_width="560dp"
+        android:layout_height="539dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/circular_bg"
+        tools:ignore="VisualLintBounds" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/lexend"
+        android:text="@string/c_mo_funciona"
+        app:icon="@drawable/baseline_info_24"
+        app:layout_constraintBottom_toTopOf="@+id/btnForm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnPreviousResult"
+        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="@font/lexend"
+        android:onClick="btnPreviousOnClick"
+        android:text="@string/consult_previous_results"
+        app:icon="?android:attr/actionModeFindDrawable"
+        app:layout_constraintBottom_toBottomOf="@+id/circular_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnForm"
+        style="@style/Widget.Material3.ExtendedFloatingActionButton.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/lexend"
+        android:onClick="btnTestOnClick"
+        android:text="@string/complete_form"
+        app:icon="?attr/actionModePasteDrawable"
+        app:layout_constraintBottom_toTopOf="@+id/btnPreviousResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@null"
+        android:elevation="10dp"
+        app:elevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,53 +86,39 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_theme_light_inversePrimary"
+            android:background="@drawable/shape_rounded"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/optionsmenu"
-            app:subtitle="@string/home"
-            app:subtitleCentered="true"
-            app:title="@string/app_name"
-            app:titleCentered="true" />
+            app:menu="@menu/optionsmenu" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/imgMentapp"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:contentDescription="@string/logo"
-        android:scaleType="centerCrop"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/lexend"
+        android:text="@string/app_name"
+        android:textColor="@color/md_theme_light_onPrimary_alt"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/introduction"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mentapp_logo"
-        tools:ignore="ImageContrastCheck" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnForm"
-        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/introduction"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:onClick="btnTestOnClick"
-        android:text="@string/complete_form"
-        app:icon="?attr/actionModePasteDrawable"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="@font/lexend"
+        android:text="@string/introduction"
+        android:textAlignment="center"
+        android:textColor="@color/md_theme_light_onPrimary_alt"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgMentapp" />
-
-    <Button
-        android:id="@+id/btnPreviousResult"
-        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="btnPreviousOnClick"
-        android:text="@string/consult_previous_results"
-        app:icon="?android:attr/actionModeFindDrawable"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnForm" />
+        tools:ignore="TextSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
