@@ -88,7 +88,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rounded"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/optionsmenu" />
+            app:menu="@menu/optionsmenu"
+            app:title=" "
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
