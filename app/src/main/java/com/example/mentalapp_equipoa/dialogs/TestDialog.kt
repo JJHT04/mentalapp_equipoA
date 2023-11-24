@@ -1,12 +1,16 @@
 package com.example.mentalapp_equipoa.dialogs
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import com.example.mentalapp_equipoa.EXTRA_MESSAGE
 import com.example.mentalapp_equipoa.R
+import com.example.mentalapp_equipoa.TestActivity
+import com.example.mentalapp_equipoa.userName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class GeneralDialog(private val title: String, private val message: String, private val iconID: Int): DialogFragment() {
+class TestDialog(private val title: String, private val message: String, private val iconID: Int): DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -14,7 +18,11 @@ class GeneralDialog(private val title: String, private val message: String, priv
             builder.setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) {
-                    _,_ -> //No action needed for now
+                    _,_ ->
+                    val intent = Intent(it, TestActivity::class.java).apply {
+                        putExtra(EXTRA_MESSAGE, userName)
+                    }
+                    startActivity(intent)
                 }
                 .setIcon(iconID)
             builder.create()

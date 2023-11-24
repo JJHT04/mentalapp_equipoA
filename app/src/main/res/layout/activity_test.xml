@@ -6,20 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".TestActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topAppBar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_inversePrimary"
-        android:minHeight="?attr/actionBarSize"
+        android:background="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/optionsmenu"
-        app:subtitle="@string/test"
-        app:subtitleCentered="true"
-        app:title="@string/app_name"
-        app:titleCentered="true" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBarTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded"
+            android:minHeight="?attr/actionBarSize"
+            app:title="@string/test_appBar_title"
+            app:titleCentered="true"
+            app:navigationIcon="@drawable/outline_arrow_back_24"
+            app:titleTextColor="@color/md_theme_light_onPrimary_alt"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <TextView
         android:id="@+id/textView"
