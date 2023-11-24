@@ -38,4 +38,7 @@
     <string name="c_mo_funciona">How it works?</string>
     <string name="background">background</string>
     <string name="introduction">We help you to analize, understand and improve in those aspects that procudes anxiety to you when you face an exam</string>
+    <string name="test_appBar_title">Test</string>
+    <string name="information_test_dialog">Information</string>
+    <string name="it_works">It works...</string>
 </resources>

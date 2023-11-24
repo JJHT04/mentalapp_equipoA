@@ -1,10 +1,12 @@
 package com.example.mentalapp_equipoa
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 
 class TestActivity : AppCompatActivity() {
     private var preguntas =  arrayOf<String>("En los exámenes me sudan las manos.",
@@ -61,6 +63,11 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
+        val toolbar: Toolbar = findViewById(R.id.topAppBarTest)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            navigateUpTo(Intent(this, MainActivity::class.java))
+        }
         val message = intent.getStringExtra(EXTRA_MESSAGE)
         findViewById<TextView>(R.id.txvPregunta).apply {
             text = "-"+ (i + 1) + ". " + preguntas[i]

@@ -1,17 +1,14 @@
 package com.example.mentalapp_equipoa
 
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Bundle
-import android.text.format.DateFormat
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.ChangeUserDialog
-import com.example.mentalapp_equipoa.dialogs.GeneralDialog
 import com.example.mentalapp_equipoa.dialogs.PreviousDialog
+import com.example.mentalapp_equipoa.dialogs.TestDialog
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
@@ -58,10 +55,8 @@ class MainActivity : AppCompatActivity() {
      */
 
     fun btnTestOnClick(view: View) {
-        var intent = Intent(this, TestActivity::class.java).apply {
-            putExtra(EXTRA_MESSAGE, userName)
-        }
-        startActivity(intent)
+        TestDialog(getString(R.string.information_test_dialog),
+            getString(R.string.it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
     }
 
     fun btnPreviousOnClick(view: View) {
