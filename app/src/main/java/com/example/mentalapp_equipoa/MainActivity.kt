@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.ChangeUserDialog
 import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
+import com.example.mentalapp_equipoa.TestActivity
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
@@ -195,7 +196,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        if(genero=="nb"){
+        if(genero=="no binario"){
             if(factor==1){
                 if(edad<=14){
                     x=16.2
@@ -245,10 +246,10 @@ class MainActivity : AppCompatActivity() {
     /*
     Esta funcion sera cambiada una vez se introduzca la bbd
      */
-    /*
-    fun calcularNota(){
-        var genero = ""
-        var edad = 0
+
+    fun calcularNota(v: View): String{
+        var genero = userGender.toString().lowercase()
+        var edad = Integer.parseInt(userAge)
         var sumFactor1 = 0
         var sumFactor2 = 0
         var sumFactor3 = 0
@@ -287,6 +288,6 @@ class MainActivity : AppCompatActivity() {
                 nivel[t] = "alto"
             }
         }
+        return "Factor 1: " + nivel[0] +", Factor 2: " + nivel[1] + ", Factor 3: " + nivel[2]
     }
-    */
 }
