@@ -33,11 +33,17 @@ class ChangeUserDialog: DialogFragment() {
                     val age = requireDialog().findViewById<TextView>(R.id.Age).text.toString()
                     val gender = requireDialog().findViewById<TextView>(R.id.Gender).text.toString()
                     if (username.isNotBlank() && age.isNotBlank() && gender.isNotBlank()){
-                        userName = username
-                        userAge = age
-                        userGender = gender
-                        Toast.makeText(activity, "User name changed successfully", Toast.LENGTH_SHORT).show()
-                        valid = true
+                        if (gender.lowercase() == "hombre" || gender.lowercase() == "mujer" || gender.lowercase() == "no binario"){
+                            userName = username
+                            userAge = age
+                            userGender = gender
+                            Toast.makeText(activity, "User name changed successfully", Toast.LENGTH_SHORT).show()
+                            valid = true
+                        } else {
+                            val toast = Toast.makeText(activity, "Error: you have to enter a valid gender: Male, Female, Non-Binary", Toast.LENGTH_SHORT)
+                            toast.setGravity(Gravity.CENTER, 0,0)
+                            toast.show()
+                        }
                     } else {
                         val toast = Toast.makeText(activity, "Error: empty username, age or gender", Toast.LENGTH_SHORT)
                         toast.setGravity(Gravity.CENTER, 0,0)
