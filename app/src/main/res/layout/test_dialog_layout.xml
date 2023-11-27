@@ -42,18 +42,18 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:contentDescription="@string/profile_icon"
-            android:src="@drawable/baseline_email_24" />
+            android:src="@drawable/baseline_calendar_month_24" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/Age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="4dp"
             android:autofillHints=""
-            android:hint="@string/email"
-            android:inputType="text|textPersonName"
+            android:hint="@string/Age"
+            android:inputType="number"
             android:minHeight="48dp"
             android:textColorHint="#757575" />
     </LinearLayout>
@@ -69,17 +69,17 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:contentDescription="@string/profile_icon"
-            android:src="@drawable/baseline_password_24" />
+            android:src="@drawable/baseline_transgender_24" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/Gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="4dp"
             android:autofillHints=""
-            android:hint="@string/password"
+            android:hint="@string/gender"
             android:inputType="text|textPersonName"
             android:minHeight="48dp"
             android:textColorHint="#757575" />
