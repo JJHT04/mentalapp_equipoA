@@ -56,9 +56,14 @@ class MainActivity : AppCompatActivity() {
 
      */
 
+    fun btnUserGuideOnClick(view: View) {
+        val intent = Intent(this, UserGuideActivity::class.java)
+        startActivity(intent)
+    }
+
     fun btnTestOnClick(view: View) {
         TestDialog(getString(R.string.information_test_dialog),
-            getString(R.string.it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
+            getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
     }
 
     fun btnPreviousOnClick(view: View) {

@@ -3,6 +3,7 @@
     <string name="change_user_name">Cambiar Nombre de usuario</string>
     <string name="complete_form">Realizar/Reanudar test</string>
     <string name="consult_previous_results">Consultar resultados previos</string>
+    <string name="username">Nombre de Usuario</string>
     <string name="enter_the_new_username">Ingresa el nuevo nombre</string>
     <string name="c_mo_funciona">¿Cómo funciona?</string>
     <string name="background">fondo</string>
@@ -19,7 +20,10 @@
     <string name="introduction">Te ayudamos a analizar, comprender y mejorar en aquellos aspectos que te producen ansiedad de cara a un examen</string>
     <string name="test_appBar_title">Cuestionario</string>
     <string name="information_test_dialog">Información</string>
-    <string name="it_works">Funciona....</string>
+    <string name="title_top_appbar_user_guide">PREGUNTAS FRECUENTES</string>
+    <string name="usuarios">Usuarios</string>
+    <string name="conectarse_o_cambiar_de_usuario">Conectarse o cambiar de usuario</string>
+    <string name="el_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contrase_a_y_hacer_clic_en_conectarse">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
+    <string name="gender">Género</string>
     <string name="Age">Edad</string>
-    <string name="gender">Genero</string>
 </resources>
