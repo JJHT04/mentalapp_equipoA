@@ -27,7 +27,7 @@ class ChangeUserDialog: DialogFragment() {
                 }
                 .setPositiveButton("Accept") {
                     _,_ ->
-                    val text = requireDialog().findViewById<TextView>(R.id.email).text.toString()
+                    val text = requireDialog().findViewById<TextView>(R.id.Age).text.toString()
                     if (text.isNotBlank()) {
                         userName = text
                         Toast.makeText(activity, "User name changed successfully", Toast.LENGTH_SHORT).show()
