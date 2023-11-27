@@ -12,6 +12,8 @@ import com.example.mentalapp_equipoa.dialogs.TestDialog
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
+var userAge: String? = null
+var userGender: String? = null
 private const val TAG = "MainActivity"
 const val EXTRA_MESSAGE = "com.example.mentalapp_equipoa.MESSAGE"
 class MainActivity : AppCompatActivity() {
