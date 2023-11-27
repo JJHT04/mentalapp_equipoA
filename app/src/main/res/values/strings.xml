@@ -30,7 +30,7 @@
     <string name="regular" translatable="false">Regular</string>
     <string name="tired" translatable="false">Tired</string>
     <string name="sad" translatable="false">Sad</string>
-    <string name="ok" translatable="false">Ok</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="home" translatable="false">Home</string>
     <string name="username" translatable="false">Username</string>
     <string name="enter_the_new_username">Enter the new username</string>
@@ -40,5 +40,5 @@
     <string name="introduction">We help you to analize, understand and improve in those aspects that procudes anxiety to you when you face an exam</string>
     <string name="test_appBar_title">Test</string>
     <string name="information_test_dialog">Information</string>
-    <string name="it_works">It works...</string>
+    <string name="it_works">It works…</string>
 </resources>

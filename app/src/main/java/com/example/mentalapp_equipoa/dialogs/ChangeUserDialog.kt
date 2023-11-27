@@ -20,7 +20,7 @@ class ChangeUserDialog: DialogFragment() {
         return activity?.let {
             val builder = MaterialAlertDialogBuilder(it)
             val inflater = requireActivity().layoutInflater
-            builder.setTitle("Enter the new user name")
+            builder.setTitle(getString(R.string.enter_the_new_username))
                 .setView(inflater.inflate(R.layout.test_dialog_layout, null))
                 builder.setNegativeButton("Cancel") {
                         _,_ -> Toast.makeText(activity, "User name change cancelled", Toast.LENGTH_SHORT).show()
