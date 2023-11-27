@@ -1,14 +1,20 @@
 package com.example.mentalapp_equipoa
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 
 class TestActivity : AppCompatActivity() {
+
     private var preguntas =  arrayOf<String>("En los exámenes me sudan las manos.",
         "Cuando llevo rato haciendo el examen, siento molestias en el estómago y necesidad de defecar.",
         "Al comenzar a leer el examen se me nubla la vista y no entiendo lo que leo.",
@@ -69,47 +75,158 @@ class TestActivity : AppCompatActivity() {
             navigateUpTo(Intent(this, MainActivity::class.java))
         }
         val message = intent.getStringExtra(EXTRA_MESSAGE)
-        findViewById<TextView>(R.id.txvPregunta).apply {
+
+        findViewById<TextView>(R.id.txvPregunta1).apply {
             text = "-"+ (i + 1) + ". " + preguntas[i]
+        }
+        findViewById<TextView>(R.id.txvPregunta2).apply {
+            text = "-"+ (i + 2) + ". " + preguntas[i+1]
+        }
+        findViewById<TextView>(R.id.txvPregunta3).apply {
+            text = "-"+ (i + 3) + ". " + preguntas[i+2]
+        }
+        findViewById<TextView>(R.id.txvPregunta4).apply {
+            text = "-"+ (i + 4) + ". " + preguntas[i+3]
+        }
+        findViewById<TextView>(R.id.txvPregunta5).apply {
+            text = "-"+ (i + 5) + ". " + preguntas[i+4]
         }
 
     }
+
     fun onRadioButtonClicked(view: View) {
-        var rdb0 = findViewById<RadioButton>(R.id.rdb0)
         var rdb1 = findViewById<RadioButton>(R.id.rdb1)
         var rdb2 = findViewById<RadioButton>(R.id.rdb2)
         var rdb3 = findViewById<RadioButton>(R.id.rdb3)
         var rdb4 = findViewById<RadioButton>(R.id.rdb4)
         var rdb5 = findViewById<RadioButton>(R.id.rdb5)
+        var rdb6 = findViewById<RadioButton>(R.id.rdb6)
+        var rdb7 = findViewById<RadioButton>(R.id.rdb7)
+        var rdb8 = findViewById<RadioButton>(R.id.rdb8)
+        var rdb9 = findViewById<RadioButton>(R.id.rdb9)
+        var rdb10 = findViewById<RadioButton>(R.id.rdb10)
+        var rdb11 = findViewById<RadioButton>(R.id.rdb11)
+        var rdb12 = findViewById<RadioButton>(R.id.rdb12)
+        var rdb13 = findViewById<RadioButton>(R.id.rdb13)
+        var rdb14 = findViewById<RadioButton>(R.id.rdb14)
+        var rdb15 = findViewById<RadioButton>(R.id.rdb15)
+        var rdb16 = findViewById<RadioButton>(R.id.rdb16)
+        var rdb17 = findViewById<RadioButton>(R.id.rdb17)
+        var rdb18 = findViewById<RadioButton>(R.id.rdb18)
+        var rdb19 = findViewById<RadioButton>(R.id.rdb19)
+        var rdb20 = findViewById<RadioButton>(R.id.rdb20)
+        var rdb21 = findViewById<RadioButton>(R.id.rdb21)
+        var rdb22 = findViewById<RadioButton>(R.id.rdb22)
+        var rdb23 = findViewById<RadioButton>(R.id.rdb23)
+        var rdb24 = findViewById<RadioButton>(R.id.rdb24)
+        var rdb25 = findViewById<RadioButton>(R.id.rdb25)
+
+
         if (view is RadioButton) {
             // Is the button now checked?
             val checked = view.isChecked
 
             // Check which radio button was clicked
             when (view.getId()) {
-                R.id.rdb0 ->
+                R.id.rdb1 ->
                     if (checked) {
                         x = 0
                     }
-                R.id.rdb1 ->
+                R.id.rdb2 ->
                     if (checked) {
                         x = 1
                     }
-                R.id.rdb2 ->
+                R.id.rdb3 ->
                     if (checked) {
                         x = 2
                     }
-                R.id.rdb3 ->
+                R.id.rdb4 ->
                     if (checked) {
                         x = 3
                     }
-                R.id.rdb4 ->
+                R.id.rdb5 ->
                     if (checked) {
                         x = 4
                     }
-                R.id.rdb5 ->
+                R.id.rdb6 ->
                     if (checked) {
-                        x = 5
+                        x = 0
+                    }
+                R.id.rdb7 ->
+                    if (checked) {
+                        x = 1
+                    }
+                R.id.rdb8 ->
+                    if (checked) {
+                        x = 2
+                    }
+                R.id.rdb9 ->
+                    if (checked) {
+                        x = 3
+                    }
+                R.id.rdb10 ->
+                    if (checked) {
+                        x = 4
+                    }
+                R.id.rdb11 ->
+                    if (checked) {
+                        x = 0
+                    }
+                R.id.rdb12 ->
+                    if (checked) {
+                        x = 1
+                    }
+                R.id.rdb13 ->
+                    if (checked) {
+                        x = 2
+                    }
+                R.id.rdb14 ->
+                    if (checked) {
+                        x = 3
+                    }
+                R.id.rdb15 ->
+                    if (checked) {
+                        x = 4
+                    }
+                R.id.rdb16 ->
+                    if (checked) {
+                        x = 0
+                    }
+                R.id.rdb17 ->
+                    if (checked) {
+                        x = 1
+                    }
+                R.id.rdb18 ->
+                    if (checked) {
+                        x = 2
+                    }
+                R.id.rdb19 ->
+                    if (checked) {
+                        x = 3
+                    }
+                R.id.rdb20 ->
+                    if (checked) {
+                        x = 4
+                    }
+                R.id.rdb21 ->
+                    if (checked) {
+                        x = 0
+                    }
+                R.id.rdb22 ->
+                    if (checked) {
+                        x = 1
+                    }
+                R.id.rdb23 ->
+                    if (checked) {
+                        x = 2
+                    }
+                R.id.rdb24 ->
+                    if (checked) {
+                        x = 3
+                    }
+                R.id.rdb25 ->
+                    if (checked) {
+                        x = 4
                     }
 
             }
@@ -117,43 +234,269 @@ class TestActivity : AppCompatActivity() {
     }
     fun btnSiguienteOnClick(view: View) {
         if (i < preguntas.size - 1) {
-            findViewById<TextView>(R.id.txvAlerta).apply {
-                text = ""
-            }
-            if(x != -1){
-                var rdb0 = findViewById<RadioButton>(R.id.rdb0)
-                var rdb1 = findViewById<RadioButton>(R.id.rdb1)
-                var rdb2 = findViewById<RadioButton>(R.id.rdb2)
-                var rdb3 = findViewById<RadioButton>(R.id.rdb3)
-                var rdb4 = findViewById<RadioButton>(R.id.rdb4)
-                var rdb5 = findViewById<RadioButton>(R.id.rdb5)
-                if(rdb0.isChecked){
-                    rdb0.isChecked = false
-                }else if(rdb1.isChecked){
-                    rdb1.isChecked = false
-                }else if(rdb2.isChecked){
-                    rdb2.isChecked = false
-                }else if(rdb3.isChecked){
-                    rdb3.isChecked = false
-                }else if(rdb4.isChecked){
-                    rdb4.isChecked = false
-                }else if(rdb5.isChecked){
-                    rdb5.isChecked = false
-                }
-                respuestas[i] = x
-                x = -1
-                i += 1
-                findViewById<TextView>(R.id.txvPregunta).apply {
-                    text = "-"+ (i + 1) + ". " + preguntas[i]
-                }
-            }else{
                 findViewById<TextView>(R.id.txvAlerta).apply {
-                    text = "Tienes que seleccionar una respuesta"
+                    text = ""
+                }
+            findViewById<RadioGroup>(R.id.radioGroup4).apply {
+                visibility = View.VISIBLE
+            }
+            findViewById<RadioGroup>(R.id.radioGroup3).apply {
+                visibility = View.VISIBLE
+            }
+            findViewById<RadioGroup>(R.id.radioGroup2).apply {
+                visibility = View.VISIBLE
+            }
+            findViewById<RadioGroup>(R.id.radioGroup1).apply {
+                visibility = View.VISIBLE
+            }
+            if (i+9 < preguntas.size -1) {
+                if (x != -1) {
+
+                    for (i in 1..25) {
+                        val radioButton = findViewById<RadioButton>(
+                            resources.getIdentifier(
+                                "rdb$i",
+                                "id",
+                                packageName
+                            )
+                        )
+                        if (radioButton.isChecked) {
+                            radioButton.isChecked = false
+                        }
+                    }
+                    respuestas[i] = x
+                    respuestas[i+1] = x
+                    respuestas[i+2] = x
+                    respuestas[i+3] = x
+                    respuestas[i+4] = x
+                    x = -1
+                    i += 5
+
+                        findViewById<TextView>(R.id.txvPregunta1).apply {
+                            text = "-" + (i + 1) + ". " + preguntas[i]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta2).apply {
+                            text = "-" + (i + 2) + ". " + preguntas[i + 1]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta3).apply {
+                            text = "-" + (i + 3) + ". " + preguntas[i + 2]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta4).apply {
+                            text = "-" + (i + 4) + ". " + preguntas[i + 3]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta5).apply {
+                            text = "-" + (i + 5) + ". " + preguntas[i + 4]
+                        }
+                }else {
+                    findViewById<TextView>(R.id.txvAlerta).apply {
+                        text = "Tienes que seleccionar una respuesta para cada pregunta"
+                    }
+                }
+            }else {
+                var num = preguntas.size - 1 - (i+4)
+                if (num == 1) {
+                    if (x != -1) {
+
+                        for (i in 1..25) {
+                            val radioButton = findViewById<RadioButton>(
+                                resources.getIdentifier(
+                                    "rdb$i",
+                                    "id",
+                                    packageName
+                                )
+                            )
+                            if (radioButton.isChecked) {
+                                radioButton.isChecked = false
+                            }
+                        }
+                        respuestas[i] = x
+                        respuestas[i+1] = x
+                        respuestas[i+2] = x
+                        respuestas[i+3] = x
+                        respuestas[i+4] = x
+                        x = -1
+                        i += 5
+
+                        findViewById<TextView>(R.id.txvPregunta1).apply {
+                            text = "-" + (i + 1) + ". " + preguntas[i]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta2).apply {
+                            text = ""
+                        }
+                        findViewById<TextView>(R.id.txvPregunta3).apply {
+                            text = ""
+                        }
+                        findViewById<TextView>(R.id.txvPregunta4).apply {
+                            text = ""
+                        }
+                        findViewById<TextView>(R.id.txvPregunta5).apply {
+                            text = ""
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup2).apply {
+                            visibility = View.INVISIBLE
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup3).apply {
+                            visibility = View.INVISIBLE
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup4).apply {
+                            visibility = View.INVISIBLE
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup5).apply {
+                            visibility = View.INVISIBLE
+                        }
+                    }
+                } else if (num == 2) {
+                    if (x != -1) {
+
+                        for (i in 1..25) {
+                            val radioButton = findViewById<RadioButton>(
+                                resources.getIdentifier(
+                                    "rdb$i",
+                                    "id",
+                                    packageName
+                                )
+                            )
+                            if (radioButton.isChecked) {
+                                radioButton.isChecked = false
+                            }
+                        }
+                        respuestas[i] = x
+                        respuestas[i+1] = x
+                        respuestas[i+2] = x
+                        respuestas[i+3] = x
+                        respuestas[i+4] = x
+                        x = -1
+                        i += 5
+
+                        findViewById<TextView>(R.id.txvPregunta1).apply {
+                            text = "-" + (i + 1) + ". " + preguntas[i]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta2).apply {
+                            text = "-" + (i + 2) + ". " + preguntas[i + 1]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta3).apply {
+                            text = ""
+                        }
+                        findViewById<TextView>(R.id.txvPregunta4).apply {
+                            text = ""
+                        }
+                        findViewById<TextView>(R.id.txvPregunta5).apply {
+                            text = ""
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup3).apply {
+                            visibility = View.INVISIBLE
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup4).apply {
+                            visibility = View.INVISIBLE
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup5).apply {
+                            visibility = View.INVISIBLE
+                        }
+                    }else {
+                        findViewById<TextView>(R.id.txvAlerta).apply {
+                            text = "Tienes que seleccionar una respuesta para cada pregunta"
+                        }
+                    }
+                } else if (num == 3) {
+                    if (x != -1) {
+
+                        for (i in 1..25) {
+                            val radioButton = findViewById<RadioButton>(
+                                resources.getIdentifier(
+                                    "rdb$i",
+                                    "id",
+                                    packageName
+                                )
+                            )
+                            if (radioButton.isChecked) {
+                                radioButton.isChecked = false
+                            }
+                        }
+                        respuestas[i] = x
+                        respuestas[i+1] = x
+                        respuestas[i+2] = x
+                        respuestas[i+3] = x
+                        respuestas[i+4] = x
+                        x = -1
+                        i += 5
+
+                        findViewById<TextView>(R.id.txvPregunta1).apply {
+                            text = "-" + (i + 1) + ". " + preguntas[i]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta2).apply {
+                            text = "-" + (i + 2) + ". " + preguntas[i + 1]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta3).apply {
+                            text = "-" + (i + 3) + ". " + preguntas[i + 2]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta4).apply {
+                            text = ""
+                        }
+                        findViewById<TextView>(R.id.txvPregunta5).apply {
+                            text = ""
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup4).apply {
+                            visibility = View.INVISIBLE
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup5).apply {
+                            visibility = View.INVISIBLE
+                        }
+                    }else {
+                        findViewById<TextView>(R.id.txvAlerta).apply {
+                            text = "Tienes que seleccionar una respuesta para cada pregunta"
+                        }
+                    }
+                } else if (num == 4) {
+                    if (x != -1) {
+
+                        for (i in 1..25) {
+                            val radioButton = findViewById<RadioButton>(
+                                resources.getIdentifier(
+                                    "rdb$i",
+                                    "id",
+                                    packageName
+                                )
+                            )
+                            if (radioButton.isChecked) {
+                                radioButton.isChecked = false
+                            }
+                        }
+                        respuestas[i] = x
+                        respuestas[i+1] = x
+                        respuestas[i+2] = x
+                        respuestas[i+3] = x
+                        respuestas[i+4] = x
+                        x = -1
+                        i += 5
+
+                        findViewById<TextView>(R.id.txvPregunta1).apply {
+                            text = "-" + (i + 1) + ". " + preguntas[i]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta2).apply {
+                            text = "-" + (i + 2) + ". " + preguntas[i + 1]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta3).apply {
+                            text = "-" + (i + 3) + ". " + preguntas[i + 2]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta4).apply {
+                            text = "-" + (i + 4) + ". " + preguntas[i + 3]
+                        }
+                        findViewById<TextView>(R.id.txvPregunta5).apply {
+                            text = ""
+                        }
+                        findViewById<RadioGroup>(R.id.radioGroup5).apply {
+                            visibility = View.INVISIBLE
+                        }
+                    }else {
+                        findViewById<TextView>(R.id.txvAlerta).apply {
+                            text = "Tienes que seleccionar una respuesta para cada pregunta"
+                        }
+                    }
                 }
             }
 
 
-        } else {
+        }else{
             findViewById<TextView>(R.id.txvAlerta).apply {
                 text = "Has completado el test de salud mental, felicidades!!"
             }
@@ -166,34 +509,30 @@ class TestActivity : AppCompatActivity() {
             }
 
 
-            i -= 1
+            i -= 5
             if(respuestas[i] == 0){
-                findViewById<RadioButton>(R.id.rdb0).apply {
-                    isChecked = true
-                }
-            }else if(respuestas[i] == 1){
                 findViewById<RadioButton>(R.id.rdb1).apply {
                     isChecked = true
                 }
-            }else if(respuestas[i] == 2){
+            }else if(respuestas[i] == 1){
                 findViewById<RadioButton>(R.id.rdb2).apply {
                     isChecked = true
                 }
-            }else if(respuestas[i] == 3){
+            }else if(respuestas[i] == 2){
                 findViewById<RadioButton>(R.id.rdb3).apply {
                     isChecked = true
                 }
-            }else if(respuestas[i] == 4){
+            }else if(respuestas[i] == 3){
                 findViewById<RadioButton>(R.id.rdb4).apply {
                     isChecked = true
                 }
-            }else if(respuestas[i] == 5){
+            }else if(respuestas[i] == 4){
                 findViewById<RadioButton>(R.id.rdb5).apply {
                     isChecked = true
                 }
             }
             x = respuestas[i]
-            findViewById<TextView>(R.id.txvPregunta).apply {
+            findViewById<TextView>(R.id.txvPregunta1).apply {
                 text = "-"+ (i + 1) + ". " + preguntas[i]
             }
         } else {
