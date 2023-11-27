@@ -17,13 +17,13 @@
     </string-array>
     <string name="test">Test</string>
     <string name="Bienvenida">Bienvenido/a al test de salud mental.</string>
-    <string name="sig">Next question</string>
-    <string name="ant">Previous question</string>
-    <string name="r0">Never</string>
-    <string name="r1">Rarely</string>
-    <string name="r2">Algunas veces</string>
-    <string name="r3">Sometimes</string>
-    <string name="r4">Muchas veces</string>
+    <string name="sig">Siguiente pregunta</string>
+    <string name="ant">Anterior pregunta</string>
+    <string name="r0">0</string>
+    <string name="r1">1</string>
+    <string name="r2">2</string>
+    <string name="r3">3</string>
+    <string name="r4">4</string>
     <string name="r5">Siempre</string>
     <string name="How_are_you" translatable="false">How are you?</string>
     <string name="fine" translatable="false">Fine</string>

@@ -10,11 +10,11 @@
     <string name="Bienvenida">Bienvenido/a al test de salud mental.</string>
     <string name="sig">Siguiente pregunta</string>
     <string name="ant">Anterior pregunta</string>
-    <string name="r0">Nunca</string>
-    <string name="r1">Pocas veces</string>
-    <string name="r2">Algunas veces</string>
-    <string name="r3">Bastantes veces</string>
-    <string name="r4">Muchas veces</string>
+    <string name="r0">0</string>
+    <string name="r1">1</string>
+    <string name="r2">2</string>
+    <string name="r3">3</string>
+    <string name="r4">4</string>
     <string name="r5">Siempre</string>
     <string name="test">Test</string>
     <string name="introduction">Te ayudamos a analizar, comprender y mejorar en aquellos aspectos que te producen ansiedad de cara a un examen</string>
