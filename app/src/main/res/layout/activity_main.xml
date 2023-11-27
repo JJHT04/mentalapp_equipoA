@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:fontFamily="@font/lexend"
+        android:onClick="btnUserGuideOnClick"
         android:text="@string/c_mo_funciona"
         app:icon="@drawable/baseline_info_24"
         app:layout_constraintBottom_toTopOf="@+id/btnForm"
