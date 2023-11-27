@@ -1,28 +1,25 @@
 package com.example.mentalapp_equipoa
 
-import android.icu.util.Calendar
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.text.format.DateFormat
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.ChangeUserDialog
-import com.example.mentalapp_equipoa.dialogs.GeneralDialog
 import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
-
+private const val TAG = "MainActivity"
+const val EXTRA_MESSAGE = "com.example.mentalapp_equipoa.MESSAGE"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //Ya no se usa
         setSupportActionBar(findViewById(R.id.topAppBar))
-        registerForContextMenu(findViewById(R.id.imgMentapp))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -38,23 +35,13 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.optionsOpt2 -> {
-                GeneralDialog("Advices", "Drink a lot of water :3", R.drawable.baseline_info_24).show(supportFragmentManager, "general05")
-                true
-            }
-
-            R.id.optionsOpt3 -> {
-                GeneralDialog("Information", "This app sells all your data to the chinese", R.drawable.baseline_info_24).show(supportFragmentManager, "general05")
-                true
-            }
-
             else -> {
-                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG).show()
-                true
+                super.onOptionsItemSelected(item)
             }
         }
     }
 
+    /*
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
@@ -65,9 +52,11 @@ class MainActivity : AppCompatActivity() {
         inflater.inflate(R.menu.img_context_menu, menu)
     }
 
+     */
+
     fun btnTestOnClick(view: View) {
-        val dialog = TestDialog()
-        dialog.show(supportFragmentManager, "TestDialog")
+        TestDialog(getString(R.string.information_test_dialog),
+            getString(R.string.it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
     }
 
     fun btnPreviousOnClick(view: View) {
@@ -75,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show(supportFragmentManager, "PreviousDialog")
     }
 
+    /*
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.imgMenu_opt1 -> {
@@ -102,4 +92,6 @@ class MainActivity : AppCompatActivity() {
             else -> {super.onContextItemSelected(item)}
         }
     }
+
+     */
 }
