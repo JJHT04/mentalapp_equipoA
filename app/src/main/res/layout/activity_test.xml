@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/seed"
     tools:context=".TestActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -49,10 +50,13 @@
                 android:layout_width="288dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/lexend"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <RadioGroup
                 android:id="@+id/radioGroup1"
                 android:layout_width="wrap_content"
@@ -66,45 +70,69 @@
 
                 <RadioButton
                     android:id="@+id/rdb1"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r0" />
+                    android:text="@string/r0"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r1" />
+                    android:text="@string/r1"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r2" />
+                    android:text="@string/r2"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r3" />
+                    android:text="@string/r3"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r4" />
+                    android:text="@string/r4"
+                    android:textColor="@android:color/white" />
 
             </RadioGroup>
+
             <TextView
                 android:id="@+id/txvPregunta2"
                 android:layout_width="288dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/lexend"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,36 +153,56 @@
                     android:id="@+id/rdb6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r0" />
+                    android:text="@string/r0"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r1" />
+                    android:text="@string/r1"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r2" />
+                    android:text="@string/r2"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r3" />
+                    android:text="@string/r3"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r4" />
+                    android:text="@string/r4"
+                    android:textColor="@android:color/white" />
 
             </RadioGroup>
 
@@ -163,6 +211,8 @@
                 android:layout_width="288dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/lexend"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
@@ -183,43 +233,66 @@
                     android:id="@+id/rdb11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r0" />
+                    android:text="@string/r0"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r1" />
+                    android:text="@string/r1"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r2" />
+                    android:text="@string/r2"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r3" />
+                    android:text="@string/r3"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r4" />
+                    android:text="@string/r4"
+                    android:textColor="@android:color/white" />
 
             </RadioGroup>
+
             <TextView
                 android:id="@+id/txvPregunta4"
                 android:layout_width="288dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/lexend"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
@@ -240,43 +313,66 @@
                     android:id="@+id/rdb16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r0" />
+                    android:text="@string/r0"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r1" />
+                    android:text="@string/r1"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r2" />
+                    android:text="@string/r2"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r3" />
+                    android:text="@string/r3"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r4" />
+                    android:text="@string/r4"
+                    android:textColor="@android:color/white" />
 
             </RadioGroup>
+
             <TextView
                 android:id="@+id/txvPregunta5"
                 android:layout_width="288dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/lexend"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
@@ -297,44 +393,66 @@
                     android:id="@+id/rdb21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r0" />
+                    android:text="@string/r0"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r1" />
+                    android:text="@string/r1"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb23"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r2" />
+                    android:text="@string/r2"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r3" />
+                    android:text="@string/r3"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/rdb25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/ic_launcher_background"
+                    android:buttonTintMode="multiply"
+                    android:fontFamily="@font/lexend"
                     android:onClick="onRadioButtonClicked"
-                    android:text="@string/r4" />
+                    android:text="@string/r4"
+                    android:textColor="@android:color/white" />
 
             </RadioGroup>
 
             <Button
                 android:id="@+id/btnSiguiente"
-                android:layout_width="wrap_content"
+                style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/lexend"
                 android:onClick="btnSiguienteOnClick"
                 android:text="@string/sig"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -343,7 +461,8 @@
 
             <Button
                 android:id="@+id/btnAnterior"
-                android:layout_width="wrap_content"
+                style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:onClick="btnAnteriorOnClick"
@@ -357,6 +476,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/lexend"
+                android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

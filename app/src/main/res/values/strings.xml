@@ -43,6 +43,7 @@
     <string name="title_top_appbar_user_guide">User Guide</string>
     <string name="test_how_it_works" translatable="false">Se presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.</string>
     <string name="usuarios">Usuarios</string>
+    <string name="conectarse_o_cambiar_de_usuario">Conectarse o cambiar de usuario</string>
     <string name="el_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contrase_a_y_hacer_clic_en_conectarse">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
     <string name="gender">gender</string>
     <string name="Age">Age</string>
