@@ -13,6 +13,8 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
+var respuestas=Array<Int?>(44){null}
+var factor = arrayOf<Int>(1, 1, 1, 2, 1, 1, 1, 3, 1, 1, 1, 2, 1, 3, 3, 3, 3, 1, 3, 2, 3, 3, 3, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 3, 1, 1, 2, 3)
 
 class TestActivity : AppCompatActivity() {
 
@@ -61,9 +63,7 @@ class TestActivity : AppCompatActivity() {
         "Establezco un ritual previo al examen y si no puedo cumplirlo, busco alguna excusa y no entro al examen.",
         "Tras haber realizado un examen siento que lo he hecho fatal y pienso en desaparecer o hacerme daño."
     )
-    private var respuestas=Array<Int?>(44){null}
     //private var respuestas =  arrayOf<Int>(2,1,4,3,0,5,1,2,4,0,3,5,1,2,3,0,4,5,1,2,3,0,4,5,1,2,3,0,4,5,1,2,3,0,4,5,1,2,3,0,4,5,1)
-    private var factor = arrayOf<Int>(1, 1, 1, 2, 1, 1, 1, 3, 1, 1, 1, 2, 1, 3, 3, 3, 3, 1, 3, 2, 3, 3, 3, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 3, 1, 1, 2, 3)
     // Éstos arrays, posteriormente serán rellenados siendo leídos desde un archivo .csv, el cual habrá sido creado a partir de los datos recogidos de una base de datos.
     // El posterior cambio no perjudicará el funcionamiento del programa
     private var i = 0
