@@ -12,6 +12,8 @@ import com.example.mentalapp_equipoa.dialogs.TestDialog
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
+var userAge: String? = null
+var userGender: String? = null
 private const val TAG = "MainActivity"
 const val EXTRA_MESSAGE = "com.example.mentalapp_equipoa.MESSAGE"
 class MainActivity : AppCompatActivity() {
@@ -54,9 +56,14 @@ class MainActivity : AppCompatActivity() {
 
      */
 
+    fun btnUserGuideOnClick(view: View) {
+        val intent = Intent(this, UserGuideActivity::class.java)
+        startActivity(intent)
+    }
+
     fun btnTestOnClick(view: View) {
         TestDialog(getString(R.string.information_test_dialog),
-            getString(R.string.it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
+            getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
     }
 
     fun btnPreviousOnClick(view: View) {
