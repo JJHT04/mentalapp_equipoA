@@ -20,4 +20,6 @@
     <string name="test_appBar_title">Cuestionario</string>
     <string name="information_test_dialog">Información</string>
     <string name="it_works">Funciona....</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
 </resources>

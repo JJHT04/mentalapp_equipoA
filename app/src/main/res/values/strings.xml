@@ -41,4 +41,6 @@
     <string name="test_appBar_title">Test</string>
     <string name="information_test_dialog">Information</string>
     <string name="it_works">It works...</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
