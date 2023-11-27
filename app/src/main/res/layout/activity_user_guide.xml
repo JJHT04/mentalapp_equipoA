@@ -64,7 +64,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/conectarse_o_cambiar_de_usuario"
+                android:text="@string/Conectarse_o_cambiar_de_usuario"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -77,7 +77,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/el_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contrase_a_y_hacer_clic_en_conectarse"
+                android:text="@string/El_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contraseña_y_hacer_clic_en_conectarse"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
@@ -152,7 +152,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Al_hacer_clic_en_este_boton_se_empezara_un_test_nuevo_para_el_usuario_si_el_usuario_ya_empezo_un_test_y_decidio_posponerlo_se_retomara_ese_mismo_test_El_test_consiste_en_una_serie_de_preguntas_que_apareceran_de_cinco_en_cinco_y_una_vez_el_usuario_haya_terminado_esas_preguntas_prodra_pulsar_en_siguiente_ubicado_en_la_esquina_inferio_derecha_para_pasar_a_las_siguientes_se_podra_volver_a_las_anteriores_con_el_boton_Anterior_Se_presentaran_cinco_respuestas_del_cero_al_cuatro_siendo_Cero_nunca_Uno_En_pocas_ocasiones_Dos_Con_cierta_frecuencia_Tres_A_menudo_Cuatro_Siempre_El_resultado_se_mostrara_una_vez_terminado_el_test"
+                android:text="@string/Al_hacer_clic_en_este_boton_se_empezara_un_test_nuevo_para_el_usuario_si_el_usuario_ya_empezo_un_test_y_decidio_posponerlo_se_retomara_ese_mismo_test_El_test_consiste_en_una_serie_de_preguntas_que_apareceran_de_cinco_en_cinco_y_una_vez_el_usuario_haya_terminado_esas_preguntas_prodra_pulsar_en_siguiente_ubicado_en_la_esquina_inferio_derecha_para_pasar_a_las_siguientes_se_podra_volver_a_las_anteriores_con_el_boton_Anterior_Se_presentaran_cinco_respuestas_del_cero_al_cuatro_siendo_Cero_nunca_Uno_En_pocas_ocasiones_Dos_Con_cierta_frecuencia_Tres_A_menudo__Cuatro_Siempre_El_resultado_se_mostrara_una_vez_terminado_el_test"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
