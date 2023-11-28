@@ -21,13 +21,13 @@
             android:id="@+id/topAppBarTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_rounded"
+            android:background="@drawable/shape_rounded_alt"
             android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/outline_arrow_back_24_alt"
             app:title="@string/test_appBar_title"
             app:titleCentered="true"
-            app:navigationIcon="@drawable/outline_arrow_back_24"
-            app:titleTextColor="@color/md_theme_light_onPrimary_alt"
-            />
+            app:titleTextAppearance="@style/toolbarText"
+            app:titleTextColor="@color/md_theme_light_onPrimary_alt" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
