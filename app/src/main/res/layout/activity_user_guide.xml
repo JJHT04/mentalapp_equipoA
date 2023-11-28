@@ -81,7 +81,7 @@
                 android:fontFamily="@font/lexend"
                 android:text="@string/infoUserButton"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:fontFamily="@font/lexend"
                 android:text="@string/registerInfo"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
@@ -131,7 +131,7 @@
                 android:fontFamily="@font/lexend"
                 android:text="@string/userInfoInfo"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
@@ -156,7 +156,7 @@
                 android:fontFamily="@font/lexend"
                 android:text="@string/beginTestHeader"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
