@@ -903,10 +903,12 @@ class TestActivity : AppCompatActivity() {
             x = variables!!.first
             y = variables!!.second
 
+            // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
+
             if(sumFactores[t-1]<=x){
                 nivel[t-1] = "bajo"
             }
-            if(sumFactores[t-1]>x || sumFactores[t-1]<=y){
+            if(sumFactores[t-1]>x && sumFactores[t-1]<=y){
                 nivel[t-1] = "medio"
             }
             if(sumFactores[t-1]>y){
