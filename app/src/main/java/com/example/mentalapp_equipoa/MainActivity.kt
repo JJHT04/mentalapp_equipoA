@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.ChangeUserDialog
 import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
+import com.example.mentalapp_equipoa.TestActivity
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
@@ -101,4 +102,7 @@ class MainActivity : AppCompatActivity() {
     }
 
      */
+
+
+
 }
