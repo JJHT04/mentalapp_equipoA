@@ -6,6 +6,26 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/outline_person_outline_24"
         android:id="@+id/optionsOpt1">
+
+        <menu
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <item
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:title="Registrar"
+                android:id="@+id/registrar"/>
+            <item
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/acceder"
+                android:title="Acceder" />
+            <item
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/modificar"
+                android:title="Modificar" />
+        </menu>
     </item>
 
 </menu>
