@@ -1,7 +1,9 @@
 package com.example.mentalapp_equipoa
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,11 +16,14 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+
 var respuestas=Array<Int?>(44){null}
 var factor = arrayOf<Int>(1, 1, 1, 2, 1, 1, 1, 3, 1, 1, 1, 2, 1, 3, 3, 3, 3, 1, 3, 2, 3, 3, 3, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 3, 1, 1, 2, 3)
-
+var factor2 = Array<Int?>(44){null}
 class TestActivity : AppCompatActivity() {
-
+    private var preguntas2 = Array<String?>(44){null}
     private var preguntas =  arrayOf<String>("En los exámenes me sudan las manos.",
         "Cuando llevo rato haciendo el examen, siento molestias en el estómago y necesidad de defecar.",
         "Al comenzar a leer el examen se me nubla la vista y no entiendo lo que leo.",
@@ -73,6 +78,7 @@ class TestActivity : AppCompatActivity() {
     private var z = -1
     private var l = -1
     private var k = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
@@ -82,25 +88,80 @@ class TestActivity : AppCompatActivity() {
             navigateUpTo(Intent(this, MainActivity::class.java))
         }
         val message = intent.getStringExtra(EXTRA_MESSAGE)
-
+        var j = 0
+        while (j<44){
+            obtenerPregunta(j)
+            j++
+        }
         findViewById<TextView>(R.id.txvPregunta1).apply {
-            text = "-"+ (i + 1) + ". " + preguntas[i]
+            text = "-"+ (i + 1) + ". " + preguntas2[i]
         }
         findViewById<TextView>(R.id.txvPregunta2).apply {
-            text = "-"+ (i + 2) + ". " + preguntas[i+1]
+            text = "-"+ (i + 2) + ". " + preguntas2[i+1]
         }
         findViewById<TextView>(R.id.txvPregunta3).apply {
-            text = "-"+ (i + 3) + ". " + preguntas[i+2]
+            text = "-"+ (i + 3) + ". " + preguntas2[i+2]
         }
         findViewById<TextView>(R.id.txvPregunta4).apply {
-            text = "-"+ (i + 4) + ". " + preguntas[i+3]
+            text = "-"+ (i + 4) + ". " + preguntas2[i+3]
         }
         findViewById<TextView>(R.id.txvPregunta5).apply {
-            text = "-"+ (i + 5) + ". " + preguntas[i+4]
+            text = "-"+ (i + 5) + ". " + preguntas2[i+4]
         }
-
+        inicializar()
     }
+    private fun leerArchivo(): Array<String> {
+        val inputStream = resources.openRawResource(R.raw.preguntas)
+        val byteArray = ByteArrayOutputStream()
+        try {
+            var i = inputStream.read()
+            while (i != -1) {
+                byteArray.write(i)
+                i = inputStream.read()
+            }
+            inputStream.close()
+        } catch (io: IOException) {
+            io.printStackTrace()
+        }
+        return byteArray.toString().split("\n".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
+    }
+    private fun inicializar() {
+        val texto: Array<String> = leerArchivo()
+        val bh = DBHelper(this)
+        val db: SQLiteDatabase = bh.getWritableDatabase()
+        db.beginTransaction()
+        for (i in texto.indices) {
+            if (texto[i] !== "") {
+                val linea = texto[i].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()
+                val cvalue = ContentValues()
+                cvalue.put("Id", linea[0])
+                cvalue.put("Pregunta", linea[1])
+                cvalue.put("factor", linea[2])
+                cvalue.put("valor", linea[3])
+                db.insert("Preguntas", null, cvalue)
+            }
+        }
+        db.setTransactionSuccessful()
+        db.endTransaction()
+    }
+    private fun obtenerPregunta(i: Int) {
+        val bh = DBHelper(this)
+        var l = i+1
+        val dbR: SQLiteDatabase = bh.getReadableDatabase()
+        val c = dbR.rawQuery("SELECT Pregunta,factor,valor FROM Preguntas Where Id = $l", null)
+        if (c.moveToFirst()) {
+            do {
+                preguntas2[i] = c.getString(0)
+                factor2[i] = c.getInt(1)
+                respuestas[i] = c.getInt(2)
 
+            } while (c.moveToNext())
+        }
+        c.close()
+        dbR.close()
+    }
     fun onRadioButtonClicked(view: View) {
         var rdb1 = findViewById<RadioButton>(R.id.rdb1)
         var rdb2 = findViewById<RadioButton>(R.id.rdb2)
