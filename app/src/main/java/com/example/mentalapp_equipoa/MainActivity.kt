@@ -6,10 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mentalapp_equipoa.dialogs.ChangeUserDialog
+import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
+import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
+import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
 import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
-import com.example.mentalapp_equipoa.TestActivity
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
@@ -34,7 +35,19 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.optionsOpt1 -> {
-                ChangeUserDialog().show(supportFragmentManager, "userDialog1")
+
+                true
+            }
+            R.id.registrar -> {
+                RegisterUserDialog().show(supportFragmentManager, "registerDialog")
+                true
+            }
+            R.id.modificar -> {
+                ModifyUserDialog().show(supportFragmentManager, "modifyDialog")
+                true
+            }
+            R.id.acceder -> {
+                LoginUserDialog().show(supportFragmentManager, "loginDialog")
                 true
             }
 

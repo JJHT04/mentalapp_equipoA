@@ -34,6 +34,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +64,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Conectarse_o_cambiar_de_usuario"
+                android:text="@string/connectHeader"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -72,14 +74,14 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="411dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/El_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contraseña_y_hacer_clic_en_conectarse"
+                android:text="@string/infoUserButton"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
@@ -87,9 +89,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Registrar_un_nuevo_usuario"
+                android:text="@string/registerHeader"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -102,9 +104,9 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/En_la_ventana_de_cambiar_usuario_al_final_del_formulario_estara_ubicado_el_boton_Registrarse_una_vez_hecho_clic_el_formulario_se_adaptara_para_poder_introducir_los_necesarios_nombre_de_usuario_contraseña_confirmar_contraseña_gmail_Se_debera_hacer_clic_en_confirmar_y_volvera_a_aparecer_el_formulario_de_conexión_de_usuario"
+                android:text="@string/registerInfo"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
@@ -112,9 +114,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Como_se_con_que_usuario_estoy_conectado"
+                android:text="@string/userInfoHeader"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -127,9 +129,9 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/El_nombre_de_usuario_actual_se_mostrara_en_la_esquina_inferior_izquierda"
+                android:text="@string/userInfoInfo"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
@@ -137,9 +139,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Realizar_continuar_test"
+                android:text="@string/startText"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -152,9 +154,9 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Al_hacer_clic_en_este_boton_se_empezara_un_test_nuevo_para_el_usuario_si_el_usuario_ya_empezo_un_test_y_decidio_posponerlo_se_retomara_ese_mismo_test_El_test_consiste_en_una_serie_de_preguntas_que_apareceran_de_cinco_en_cinco_y_una_vez_el_usuario_haya_terminado_esas_preguntas_prodra_pulsar_en_siguiente_ubicado_en_la_esquina_inferio_derecha_para_pasar_a_las_siguientes_se_podra_volver_a_las_anteriores_con_el_boton_Anterior_Se_presentaran_cinco_respuestas_del_cero_al_cuatro_siendo_Cero_nunca_Uno_En_pocas_ocasiones_Dos_Con_cierta_frecuencia_Tres_A_menudo__Cuatro_Siempre_El_resultado_se_mostrara_una_vez_terminado_el_test"
+                android:text="@string/beginTestHeader"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
 
             <TextView
@@ -162,9 +164,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Ver_resultado_anteriores"
+                android:text="@string/previousResultHeader"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -177,9 +179,9 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lexend"
-                android:text="@string/Se_muestra_los_resultados_de_los_test_anteriores_que_ha_realizado_el_usuario_actual"
+                android:text="@string/previousResultInfo"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 tools:ignore="TextContrastCheck,VisualLintLongText" />
         </LinearLayout>
     </ScrollView>
