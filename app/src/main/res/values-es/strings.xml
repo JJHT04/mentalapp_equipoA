@@ -26,4 +26,7 @@
     <string name="gender">Género</string>
     <string name="Age">Edad</string>
     <string name="connectHeader">Conectarse o cambiar de usuario</string>
+    <string name="rdbHombre">Hombre</string>
+    <string name="rdbMujer">Mujer</string>
+    <string name="rdbNoBinario">No Binario\n</string>
 </resources>

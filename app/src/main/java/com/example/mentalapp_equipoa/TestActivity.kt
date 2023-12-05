@@ -7,18 +7,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import androidx.core.view.isVisible
 
 var respuestas=Array<Int?>(55){null}
 var factor = Array<Int?>(55){null}
 class TestActivity : AppCompatActivity() {
     private var preguntas2 = Array<String?>(55){null}
     private var i = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
@@ -100,6 +103,7 @@ class TestActivity : AppCompatActivity() {
         }
         i += 5
     }
+
     fun comprobarRespuestas(): Boolean {
         var mostrar = true
         for (i in 1..5) {
@@ -368,8 +372,6 @@ class TestActivity : AppCompatActivity() {
             if(sumFactores[t-1]>y){
                 nivel[t-1] = "alto"
             }
-            t++
         }
-        return "Factor 1: " + nivel[0] +", Factor 2: " + nivel[1] + ", Factor 3: " + nivel[2]
     }
 }
