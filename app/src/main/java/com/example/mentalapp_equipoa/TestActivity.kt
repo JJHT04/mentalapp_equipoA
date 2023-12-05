@@ -14,10 +14,10 @@ import androidx.appcompat.widget.Toolbar
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
-var respuestas=Array<Int?>(55){null}
-var factor = Array<Int?>(55){null}
+var respuestas=Array<Int?>(20){null}
+var factor = Array<Int?>(20){null}
 class TestActivity : AppCompatActivity() {
-    private var preguntas2 = Array<String?>(55){null}
+    private var preguntas2 = Array<String?>(20){null}
     private var i = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class TestActivity : AppCompatActivity() {
         }
         inicializar()
         var j = 0
-        while (j<55){
+        while (j<20){
             obtenerPregunta(j)
             j++
         }
@@ -154,11 +154,12 @@ class TestActivity : AppCompatActivity() {
                 cargarRespuestas()
                 limpiarRespuestas()
                 cargarPreguntas()
-                if(i+5 == preguntas2.size){
+                if(i == preguntas2.size){
                     findViewById<Button>(R.id.btnSiguiente).apply { text = "Mostrar Resultados" }
                 }
             }else{
-                findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
+                //findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
+                findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
             }
         }else {
             findViewById<TextView>(R.id.txvAlerta).apply {text = "Tienes que seleccionar una respuesta para cada pregunta" }
