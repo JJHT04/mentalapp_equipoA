@@ -21,6 +21,8 @@ class PruebasFirebase {
                 "id" to 1,
                 "usuario" to "Juse",
                 "fecha" to time,
+                "sexo" to "Macho",
+                "edad" to 34,
                 "FACT01" to 3,
                 "FACT02" to 4,
                 "FACT03" to 5,
