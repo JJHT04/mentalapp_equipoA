@@ -82,7 +82,6 @@ class TestActivity : AppCompatActivity() {
                 preguntas2[i] = c.getString(0)
                 factor[i] = c.getInt(1)
                 respuestas[i] = c.getInt(2)
-
             } while (c.moveToNext())
         }
         c.close()
@@ -144,7 +143,6 @@ class TestActivity : AppCompatActivity() {
                     "id",
                     packageName
                 )
-
             )
             radioGroup.clearCheck();
         }
