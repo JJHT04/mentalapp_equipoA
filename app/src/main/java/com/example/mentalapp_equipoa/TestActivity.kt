@@ -326,7 +326,7 @@ class TestActivity : AppCompatActivity() {
     Esta funcion sera cambiada una vez se introduzca la bbd
      */
 
-    fun calcularNota(): String{
+    fun calcularNota(): String {
         var genero = userGender.toString().lowercase()
         var edad = userAge?.toInt()
         var sumFactor1 = 0
@@ -337,41 +337,42 @@ class TestActivity : AppCompatActivity() {
         var y = 0.0
 
         var j = 0
-        for(i in 0..factor.size){
-            if(i==1){
+        for (i in 0..factor.size) {
+            if (i == 1) {
                 sumFactor1 += respuestas[j]!!
 
             }
-            if(i==2){
-                sumFactor2+=respuestas[j]!!
+            if (i == 2) {
+                sumFactor2 += respuestas[j]!!
             }
-            if(i==3){
-                sumFactor3+=respuestas[j]!!
+            if (i == 3) {
+                sumFactor3 += respuestas[j]!!
             }
             j++
         }
 
-        var sumFactores =  arrayOf<Int>(sumFactor1, sumFactor2, sumFactor3)
-        var nivel = arrayOf<String>("","","")
+        var sumFactores = arrayOf<Int>(sumFactor1, sumFactor2, sumFactor3)
+        var nivel = arrayOf<String>("", "", "")
 
         var t = 1
 
-        for(i in 1..3){
+        for (i in 1..3) {
             val variables = edad?.let { asignarVariablesCalcularNota(genero, it, i) }
             x = variables!!.first
             y = variables!!.second
 
             // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
 
-            if(sumFactores[t-1]<=x){
-                nivel[t-1] = "bajo"
+            if (sumFactores[t - 1] <= x) {
+                nivel[t - 1] = "bajo"
             }
-            if(sumFactores[t-1]>x && sumFactores[t-1]<=y){
-                nivel[t-1] = "medio"
+            if (sumFactores[t - 1] > x && sumFactores[t - 1] <= y) {
+                nivel[t - 1] = "medio"
             }
-            if(sumFactores[t-1]>y){
-                nivel[t-1] = "alto"
+            if (sumFactores[t - 1] > y) {
+                nivel[t - 1] = "alto"
             }
         }
+        return "Factor 1: " + nivel[0] +", Factor 2: " + nivel[1] + ", Factor 3: " + nivel[2]
     }
 }
