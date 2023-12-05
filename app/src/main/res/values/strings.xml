@@ -47,17 +47,18 @@
     <string name="gender">gender</string>
     <string name="Age">Age</string>
     <string name="connectHeader">Conectarse o cambiar de usuario</string>
-    <string name="infoUserButton">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
-    <string name="registerHeader">Registrar un nuevo usuario</string>
-    <string name="registerInfo">En [la ventana de cambiar usuario, al final del formulario] estara ubicado el boton “Registrarse”, una vez hecho clic el formulario se adaptara para poder introducir los necesarios: nombre de usuario, contraseña, confirmar contraseña, [gmail]. Se debera hacer clic en confirmar y volvera a aparecer el formulario de conexión de usuario.</string>
-    <string name="userInfoHeader">¿Cómo conozco la información relativa a mi usuario?</string>
-    <string name="userInfoInfo">El nombre de usuario actual se mostrara en [la esquina inferior izquierda]</string>
-    <string name="startText">Comenzar test</string>
-    <string name="continueText">Reanudar test</string>
-    <string name="beginTestHeader">Al hacer clic en este boton se empezara un test nuevo para el usuario, si el usuario ya empezo un test y decidio posponerlo, se retomara ese mismo test.\n[El test consiste en una serie de preguntas que apareceran de cinco en cinco, y una vez el usuario haya terminado esas preguntas prodra pulsar en siguiente ubicado en [la esquina inferio derecha] para pasar a las siguientes, se podra volver a las anteriores con el boton “Anterior”]\nSe presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.\nEl resultado se mostrara una vez terminado el test</string>
-    <string name="previousResultHeader">Ver resultado anteriores</string>
-    <string name="previousResultInfo">Se muestra los resultados de los test anteriores que ha realizado el usuario actual.</string>
+    <string name="infoUserButton" translatable="false">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
+    <string name="registerHeader" translatable="false">Registrar un nuevo usuario</string>
+    <string name="registerInfo" translatable="false">En [la ventana de cambiar usuario, al final del formulario] estara ubicado el boton “Registrarse”, una vez hecho clic el formulario se adaptara para poder introducir los necesarios: nombre de usuario, contraseña, confirmar contraseña, [gmail]. Se debera hacer clic en confirmar y volvera a aparecer el formulario de conexión de usuario.</string>
+    <string name="userInfoHeader" translatable="false">¿Cómo conozco la información relativa a mi usuario?</string>
+    <string name="userInfoInfo" translatable="false">El nombre de usuario actual se mostrara en [la esquina inferior izquierda]</string>
+    <string name="startText" translatable="false">Comenzar test</string>
+    <string name="continueText" translatable="false">Reanudar test</string>
+    <string name="beginTestHeader" translatable="false">Al hacer clic en este boton se empezara un test nuevo para el usuario, si el usuario ya empezo un test y decidio posponerlo, se retomara ese mismo test.\n[El test consiste en una serie de preguntas que apareceran de cinco en cinco, y una vez el usuario haya terminado esas preguntas prodra pulsar en siguiente ubicado en [la esquina inferio derecha] para pasar a las siguientes, se podra volver a las anteriores con el boton “Anterior”]\nSe presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.\nEl resultado se mostrara una vez terminado el test</string>
+    <string name="previousResultHeader" translatable="false">Ver resultado anteriores</string>
+    <string name="previousResultInfo" translatable="false">Se muestra los resultados de los test anteriores que ha realizado el usuario actual.</string>
     <string name="rdbHombre">Hombre</string>
     <string name="rdbMujer">Mujer</string>
     <string name="rdbNoBinario">No Binario\n</string>
+    <string name="history">History</string>
 </resources>
