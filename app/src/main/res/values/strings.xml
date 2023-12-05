@@ -43,7 +43,6 @@
     <string name="title_top_appbar_user_guide">User Guide</string>
     <string name="test_how_it_works" translatable="false">Se presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.</string>
     <string name="usuarios">Usuarios</string>
-    <string name="conectarse_o_cambiar_de_usuario">Conectarse o cambiar de usuario</string>
     <string name="el_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contrase_a_y_hacer_clic_en_conectarse">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
     <string name="gender">gender</string>
     <string name="Age">Age</string>
@@ -58,4 +57,7 @@
     <string name="beginTestHeader">Al hacer clic en este boton se empezara un test nuevo para el usuario, si el usuario ya empezo un test y decidio posponerlo, se retomara ese mismo test.\n[El test consiste en una serie de preguntas que apareceran de cinco en cinco, y una vez el usuario haya terminado esas preguntas prodra pulsar en siguiente ubicado en [la esquina inferio derecha] para pasar a las siguientes, se podra volver a las anteriores con el boton “Anterior”]\nSe presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.\nEl resultado se mostrara una vez terminado el test</string>
     <string name="previousResultHeader">Ver resultado anteriores</string>
     <string name="previousResultInfo">Se muestra los resultados de los test anteriores que ha realizado el usuario actual.</string>
+    <string name="rdbHombre">Hombre</string>
+    <string name="rdbMujer">Mujer</string>
+    <string name="rdbNoBinario">No Binario\n</string>
 </resources>
