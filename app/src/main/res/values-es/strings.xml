@@ -26,4 +26,5 @@
     <string name="gender">Género</string>
     <string name="Age">Edad</string>
     <string name="Conectarse_o_cambiar_de_usuario">Conectarse o cambiar de usuario</string>
+    <string name="history">Historia</string>
 </resources>

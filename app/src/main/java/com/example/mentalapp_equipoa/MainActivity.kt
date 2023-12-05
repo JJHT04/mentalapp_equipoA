@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btnPreviousOnClick(view: View) {
-        val dialog = PreviousDialog()
-        dialog.show(supportFragmentManager, "PreviousDialog")
+        val intent = Intent(this, PreviousResultsActivity::class.java)
+        startActivity(intent)
     }
 
     /*
