@@ -28,7 +28,7 @@ class TestActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.topAppBarTest)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
-            navigateUpTo(Intent(this, MainActivity::class.java))
+            navigateUpTo(intent)
         }
         inicializar()
         var j = 0

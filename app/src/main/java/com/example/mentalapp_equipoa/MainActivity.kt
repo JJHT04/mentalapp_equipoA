@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //Ya no se usa
         setSupportActionBar(findViewById(R.id.topAppBar))
-
+        
         PruebasFirebase.insertar(this)
     }
 

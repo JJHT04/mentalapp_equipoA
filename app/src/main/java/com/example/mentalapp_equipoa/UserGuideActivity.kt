@@ -1,14 +1,8 @@
 package com.example.mentalapp_equipoa
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 
 class UserGuideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +12,7 @@ class UserGuideActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.topAppBarUserGuide)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
-            navigateUpTo(Intent(this, MainActivity::class.java))
+            navigateUpTo(intent)
         }
 
 
