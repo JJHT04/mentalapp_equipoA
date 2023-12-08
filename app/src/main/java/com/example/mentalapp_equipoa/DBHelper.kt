@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
+const val inicializado = "false"
 private const val SQL_CREATE_ENTRIES1 = "CREATE TABLE IF NOT EXISTS preguntas" +
         "(Id integer PRIMARY KEY, Pregunta text, factor integer, valor integer)"
 private const val SQL_CREATE_ENTRIES2 = "CREATE TABLE IF NOT EXISTS " +
