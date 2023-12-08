@@ -24,7 +24,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //Ya no se usa
         setSupportActionBar(findViewById(R.id.topAppBar))
+
+        PruebasFirebase.insertar(this)
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -81,8 +84,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btnPreviousOnClick(view: View) {
-        val dialog = PreviousDialog()
-        dialog.show(supportFragmentManager, "PreviousDialog")
+        val intent = Intent(this, PreviousResultsActivity::class.java)
+        startActivity(intent)
     }
 
     /*
