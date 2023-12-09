@@ -279,7 +279,11 @@ class TestActivity : AppCompatActivity() {
                 findViewById<Button?>(R.id.btnAnterior).apply {
                     isEnabled = false
                 }
+                findViewById<Button?>(R.id.btnSiguiente).apply {
+                    isEnabled = false
+                }
                 i = 0
+
             }
         }else {
             findViewById<TextView>(R.id.txvAlerta).apply {text = "Tienes que responder todas las preguntas" }
