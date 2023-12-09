@@ -1,25 +1,23 @@
 package com.example.mentalapp_equipoa
 
 import android.content.ContentValues
-import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import androidx.core.view.isVisible
 
-var respuestas=Array<Int?>(55){null}
-var factor = Array<Int?>(55){null}
+var respuestas=Array<Int?>(20){null}
+var factor = Array<Int?>(20){null}
 class TestActivity : AppCompatActivity() {
-    private var preguntas2 = Array<String?>(55){null}
+    private var preferencesUtil: PreferencesUtil? = null
+    private var preguntas2 = Array<String?>(20){null}
     private var i = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,16 +26,25 @@ class TestActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.topAppBarTest)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
-            navigateUpTo(Intent(this, MainActivity::class.java))
+            navigateUpTo(intent)
         }
-        inicializar()
+
+        preferencesUtil = PreferencesUtil(this)
+
+        val isFirst = preferencesUtil!!.isFirstRun()
+        i = preferencesUtil!!.getNumPage()
+        if(i == 15){
+            findViewById<Button>(R.id.btnSiguiente).apply {
+                text = "Mostrar"
+            }
+        }
+        inicializar(isFirst)
         var j = 0
-        while (j<55){
+        while (j<20){
             obtenerPregunta(j)
             j++
         }
         cargarPreguntas()
-
     }
     private fun leerArchivo(): Array<String> {
         val inputStream = resources.openRawResource(R.raw.preguntas)
@@ -55,26 +62,38 @@ class TestActivity : AppCompatActivity() {
         return byteArray.toString().split("\n".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray()
     }
-    private fun inicializar() {
-        val texto: Array<String> = leerArchivo()
-        val bh = DBHelper(this)
-        val db: SQLiteDatabase = bh.getWritableDatabase()
-        db.beginTransaction()
-        for (i in texto.indices) {
-            if (texto[i] !== "") {
-                val linea = texto[i].split(";".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()
-                val cvalue = ContentValues()
-                cvalue.put("Id", linea[0])
-                cvalue.put("Pregunta", linea[1])
-                cvalue.put("factor", linea[2])
-                cvalue.put("valor", linea[3])
-                db.insert("Preguntas", null, cvalue)
+
+    private fun inicializar(iniciar: Boolean) {
+        // Obtener las preferencias compartidas
+
+        if (iniciar) {
+            // Realizar acciones de inicialización o configuración inicial
+            // Por ejemplo, crear la base de datos o realizar configuraciones iniciales
+            val texto: Array<String> = leerArchivo()
+
+            val bh = DBHelper(this)
+            val db: SQLiteDatabase = bh.getWritableDatabase()
+            db.beginTransaction()
+            for (i in texto.indices) {
+                if (texto[i] !== "") {
+                    val linea = texto[i].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
+                    val cvalue = ContentValues()
+                    cvalue.put("Id", linea[0])
+                    cvalue.put("Pregunta", linea[1])
+                    cvalue.put("factor", linea[2])
+                    cvalue.put("valor", linea[3])
+                    db.insert("Preguntas", null, cvalue)
+                }
             }
+            db.setTransactionSuccessful()
+            db.endTransaction()
+            // Guardar el indicador de que la app ya se ejecutó antes
+            preferencesUtil?.setFirstRun(false)
         }
-        db.setTransactionSuccessful()
-        db.endTransaction()
+
     }
+
     private fun obtenerPregunta(i: Int) {
         val bh = DBHelper(this)
         var l = i+1
@@ -99,7 +118,32 @@ class TestActivity : AppCompatActivity() {
                     packageName
                 )
             )
-            textView.text = "-"+(i+t)+ ". " + preguntas2[i+t-1]
+            var o = i+t
+            val bh = DBHelper(this)
+            val dbR: SQLiteDatabase = bh.getReadableDatabase()
+            val c = dbR.rawQuery("SELECT valor FROM Preguntas Where Id = $o", null)
+            var n = 0
+            if (c.moveToFirst()) {
+                do {
+                   n = c.getInt(0)
+                } while (c.moveToNext())
+            }
+            c.close()
+            dbR.close()
+            if(n != -1) {
+                var m = (o - 1) % 5
+                var rdb = ((5 * m) + n) + 1
+                val rdb1 = findViewById<RadioButton>(
+                    resources.getIdentifier(
+                        "rdb$rdb",
+                        "id",
+                        packageName
+                    )
+                )
+                rdb1.isChecked = true
+
+            }
+            textView.text = "-" + (i + t) + ". " + preguntas2[i + t - 1]
         }
         i += 5
     }
@@ -151,37 +195,106 @@ class TestActivity : AppCompatActivity() {
             radioGroup.clearCheck();
         }
     }
+    fun subirRespuestas(){
+        for (k in 1..5) {
+            val radioGroup = findViewById<RadioGroup>(
+                resources.getIdentifier(
+                    "radioGroup$k",
+                    "id",
+                    packageName
+                )
+            )
+            val radioButtonId = radioGroup.checkedRadioButtonId
+            var num = findViewById<RadioButton>(radioButtonId).text.toString().toInt()
+            val texto: Array<String> = leerArchivo()
+            val bh = DBHelper(this)
+            val db: SQLiteDatabase = bh.getWritableDatabase()
+            db.beginTransaction()
+            var p = i+k-6
+
+            if (texto[p] !== "") {
+                    val linea = texto[p].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
+
+                    val cvalue = ContentValues()
+                    cvalue.put("Pregunta", linea[1])
+                    cvalue.put("factor", linea[2])
+                    cvalue.put("valor", num)
+
+                    // Especifica la condición para la actualización (en este ejemplo, basado en el Id)
+                    val whereClause = "Id = ?"
+                    val whereArgs = arrayOf(linea[0])
+
+                    // Realiza la actualización
+                    val filasActualizadas = db.update("Preguntas", cvalue, whereClause, whereArgs)
+            }
+
+            db.setTransactionSuccessful()
+            db.endTransaction()
+        }
+    }
     fun btnSiguienteOnClick(view: View) {
         if(comprobarRespuestas()){
+            subirRespuestas()
             if (i < preguntas2.size) {
                 findViewById<TextView>(R.id.txvAlerta).apply { text = "" }
                 cargarRespuestas()
                 limpiarRespuestas()
                 cargarPreguntas()
-                if(i+5 == preguntas2.size){
+                if(i == preguntas2.size){
                     findViewById<Button>(R.id.btnSiguiente).apply { text = "Mostrar Resultados" }
                 }
             }else{
-                findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
+                //findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
+                findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
+                val texto: Array<String> = leerArchivo()
+                val bh = DBHelper(this)
+                val db: SQLiteDatabase = bh.getWritableDatabase()
+                db.beginTransaction()
+                for (cc in texto.indices) {
+                    if (texto[cc] !== "") {
+                        val linea = texto[cc].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                            .toTypedArray()
+
+                        val cvalue = ContentValues()
+                        cvalue.put("Pregunta", linea[1])
+                        cvalue.put("factor", linea[2])
+                        cvalue.put("valor", linea[3])
+
+                        // Especifica la condición para la actualización (en este ejemplo, basado en el Id)
+                        val whereClause = "Id = ?"
+                        val whereArgs = arrayOf(linea[0])
+
+                        // Realiza la actualización
+                        val filasActualizadas = db.update("Preguntas", cvalue, whereClause, whereArgs)
+
+                        if (filasActualizadas == 0) {
+                            // Si no hay filas actualizadas, puedes manejarlo como un caso especial
+                            // o decidir insertar el registro si no existe
+                        }
+                    }
+                }
+                db.setTransactionSuccessful()
+                db.endTransaction()
+                findViewById<Button?>(R.id.btnAnterior).apply {
+                    isEnabled = false
+                }
+                i = 0
             }
         }else {
-            findViewById<TextView>(R.id.txvAlerta).apply {text = "Tienes que seleccionar una respuesta para cada pregunta" }
+            findViewById<TextView>(R.id.txvAlerta).apply {text = "Tienes que responder todas las preguntas" }
         }
     }
     fun btnAnteriorOnClick(view: View) {
-        if (i > 0 && i+5 < preguntas2.size) {
-            findViewById<TextView>(R.id.txvAlerta).apply {
-                text = ""
+            if ((i-5) > 0) {
+                findViewById<TextView>(R.id.txvAlerta).apply { text = "" }
+                limpiarRespuestas()
+                i -=10
+                cargarPreguntas()
+                findViewById<Button>(R.id.btnSiguiente).apply { text = "Siguiente" }
+            }else{
+                findViewById<TextView>(R.id.txvAlerta).apply {text = "No hay preguntas anteriores" }
             }
-            i -= 5
-
-            cargarPreguntas()
-        } else if (i==0){
-            // Mensaje o acción cuando no hay más preguntas
-            findViewById<TextView>(R.id.txvAlerta).apply {
-                text = "No hay una preguntas anterior"
-            }
-        }
     }
     fun asignarVariablesCalcularNota(genero: String, edad: Int, factor: Int): Pair<Double, Double> {
         var x = 0.0
@@ -326,7 +439,7 @@ class TestActivity : AppCompatActivity() {
     Esta funcion sera cambiada una vez se introduzca la bbd
      */
 
-    fun calcularNota(): String {
+    fun calcularNota(): String{
         var genero = userGender.toString().lowercase()
         var edad = userAge?.toInt()
         var sumFactor1 = 0
@@ -337,42 +450,53 @@ class TestActivity : AppCompatActivity() {
         var y = 0.0
 
         var j = 0
-        for (i in 0..factor.size) {
-            if (i == 1) {
+        for(i in 0..factor.size){
+            if(i==1){
                 sumFactor1 += respuestas[j]!!
 
             }
-            if (i == 2) {
-                sumFactor2 += respuestas[j]!!
+            if(i==2){
+                sumFactor2+=respuestas[j]!!
             }
-            if (i == 3) {
-                sumFactor3 += respuestas[j]!!
+            if(i==3){
+                sumFactor3+=respuestas[j]!!
             }
             j++
         }
 
-        var sumFactores = arrayOf<Int>(sumFactor1, sumFactor2, sumFactor3)
-        var nivel = arrayOf<String>("", "", "")
+        var sumFactores =  arrayOf<Int>(sumFactor1, sumFactor2, sumFactor3)
+        var nivel = arrayOf<String>("","","")
 
         var t = 1
 
-        for (i in 1..3) {
+        for(i in 1..3){
             val variables = edad?.let { asignarVariablesCalcularNota(genero, it, i) }
             x = variables!!.first
             y = variables!!.second
 
             // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
 
-            if (sumFactores[t - 1] <= x) {
-                nivel[t - 1] = "bajo"
+            if(sumFactores[t-1]<=x){
+                nivel[t-1] = "bajo"
             }
-            if (sumFactores[t - 1] > x && sumFactores[t - 1] <= y) {
-                nivel[t - 1] = "medio"
+            if(sumFactores[t-1]>x && sumFactores[t-1]<=y){
+                nivel[t-1] = "medio"
             }
-            if (sumFactores[t - 1] > y) {
-                nivel[t - 1] = "alto"
+            if(sumFactores[t-1]>y){
+                nivel[t-1] = "alto"
             }
         }
-        return "Factor 1: " + nivel[0] +", Factor 2: " + nivel[1] + ", Factor 3: " + nivel[2]
+        return "resultado"
+    }
+
+    override fun onDestroy() {
+
+        if(i != 0) {
+            preferencesUtil?.setNumPage(i-5)
+        }else{
+            preferencesUtil?.setNumPage(i)
+        }
+
+        super.onDestroy()
     }
 }

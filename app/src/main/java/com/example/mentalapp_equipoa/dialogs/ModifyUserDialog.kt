@@ -44,7 +44,7 @@ class ModifyUserDialog : DialogFragment() {
 
                     if (username.isNotBlank() && age.isNotBlank() && genero != "Seleccione su genero") {
                         userName = username
-                        userAge = age
+                        userAge = age.toInt()
                         userGender = genero
                         Toast.makeText(activity, "User name changed successfully", Toast.LENGTH_SHORT).show()
                         valid = true
