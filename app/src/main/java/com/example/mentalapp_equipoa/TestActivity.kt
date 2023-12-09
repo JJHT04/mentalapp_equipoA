@@ -7,7 +7,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.io.ByteArrayOutputStream
@@ -35,7 +37,7 @@ class TestActivity : AppCompatActivity() {
         i = preferencesUtil!!.getNumPage()
         if(i == 15){
             findViewById<Button>(R.id.btnSiguiente).apply {
-                text = "Mostrar"
+                text = getString(R.string.mostrar)
             }
         }
         inicializar(isFirst)
@@ -237,12 +239,11 @@ class TestActivity : AppCompatActivity() {
         if(comprobarRespuestas()){
             subirRespuestas()
             if (i < preguntas2.size) {
-                findViewById<TextView>(R.id.txvAlerta).apply { text = "" }
                 cargarRespuestas()
                 limpiarRespuestas()
                 cargarPreguntas()
                 if(i == preguntas2.size){
-                    findViewById<Button>(R.id.btnSiguiente).apply { text = "Mostrar Resultados" }
+                    findViewById<Button>(R.id.btnSiguiente).apply { text = getString(R.string.mostrar) }
                 }
             }else{
                 findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
@@ -285,8 +286,10 @@ class TestActivity : AppCompatActivity() {
                 i = 0
 
             }
+
+            destruction()
         }else {
-            findViewById<TextView>(R.id.txvAlerta).apply {text = "Tienes que responder todas las preguntas" }
+            showToast(this, "Contesta todas las preguntas")
         }
     }
     fun btnAnteriorOnClick(view: View) {
@@ -297,7 +300,7 @@ class TestActivity : AppCompatActivity() {
                 cargarPreguntas()
                 findViewById<Button>(R.id.btnSiguiente).apply { text = "Siguiente" }
             }else{
-                findViewById<TextView>(R.id.txvAlerta).apply {text = "No hay preguntas anteriores" }
+                showToast(this, "No hay preguntas anteriores")
             }
     }
     fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
@@ -366,14 +369,12 @@ class TestActivity : AppCompatActivity() {
         return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]
     }
 
-    override fun onDestroy() {
+    private fun destruction() {
 
         if(i != 0) {
             preferencesUtil?.setNumPage(i-5)
         }else{
             preferencesUtil?.setNumPage(i)
         }
-
-        super.onDestroy()
     }
 }
