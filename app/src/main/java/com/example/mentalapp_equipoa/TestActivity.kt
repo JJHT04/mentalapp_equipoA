@@ -725,144 +725,19 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
+
     fun asignarVariablesCalcularNota(genero: String, edad: Int, factor: Int): Pair<Double, Double> {
         var x = 0.0
         var y = 0.0
 
-        if(genero=="mujer"){
-            if(factor==1){
-                if(edad<=14){
-                    x=19.2
-                    y=30.0
-                }
-                if(edad<=16){
-                    x=26.4
-                    y=32.4
-                }
-                if(edad<=18){
-                    x=28.2
-                    y=38.4
-                }
-            }
-            if(factor==2){
-                if(edad<=14){
-                    x=0.0
-                    y=1.0
-                }
-                if(edad<=16){
-                    x=0.0
-                    y=2.0
-                }
-                if(edad<=18){
-                    x=0.0
-                    y=1.0
-                }
-            }
-            if(factor==3){
-                if(edad<=14){
-                    x=26.0
-                    y=34.1
-                }
-                if(edad<=16){
-                    x=28.0
-                    y=36.0
-                }
-                if(edad<=18){
-                    x=30.0
-                    y=35.0
-                }
-            }
-        }
-        if(genero=="hombre"){
-            if(factor==1){
-                if(edad<=14){
-                    x=13.2
-                    y=20.4
-                }
-                if(edad<=16){
-                    x=14.4
-                    y=21.6
-                }
-                if(edad<=18){
-                    x=14.4
-                    y=22.0
-                }
-            }
-            if(factor==2){
-                if(edad<=14){
-                    x=0.0
-                    y=1.0
-                }
-                if(edad<=16){
-                    x=0.0
-                    y=2.0
-                }
-                if(edad<=18){
-                    x=0.0
-                    y=2.5
-                }
-            }
-            if(factor==3){
-                if(edad<=14){
-                    x=19.0
-                    y=28.0
-                }
-                if(edad<=16){
-                    x=19.0
-                    y=26.0
-                }
-                if(edad<=18){
-                    x=21.0
-                    y=26.0
-                }
-            }
-        }
-        if(genero=="no binario"){
-            if(factor==1){
-                if(edad<=14){
-                    x=16.2
-                    y=25.2
-                }
-                if(edad<=16){
-                    x=20.4
-                    y=32.4
-                }
-                if(edad<=18){
-                    x=21.3
-                    y=30.2
-                }
-            }
-            if(factor==2){
-                if(edad<=14){
-                    x=0.0
-                    y=1.0
-                }
-                if(edad<=16){
-                    x=0.0
-                    y=2.0
-                }
-                if(edad<=18){
-                    x=0.0
-                    y=1.0
-                }
-            }
-            if(factor==3){
-                if(edad<=14){
-                    x=22.5
-                    y=27.0
-                }
-                if(edad<=16){
-                    x=23.5
-                    y=31.0
-                }
-                if(edad<=18){
-                    x=25.5
-                    y=30.5
-                }
-            }
-        }
+        //var sumaFactorCog = Select sum_Fact01 from resultados
+
+        var sumaFactores = arrayOf<Int>()
+
+
         return Pair(x, y)
     }
+
 
     /*
     Esta funcion sera cambiada una vez se introduzca la bbd
@@ -899,9 +774,11 @@ class TestActivity : AppCompatActivity() {
         var t = 1
 
         for(i in 1..3){
+
             val variables = edad?.let { asignarVariablesCalcularNota(genero, it, i) }
             x = variables!!.first
             y = variables!!.second
+
 
             // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
 
