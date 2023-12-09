@@ -14,17 +14,22 @@ import com.example.mentalapp_equipoa.dialogs.TestDialog
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
-var userAge: String? = null
+var userAge: Int? = null
 var userGender: String? = null
 private const val TAG = "MainActivity"
 const val EXTRA_MESSAGE = "com.example.mentalapp_equipoa.MESSAGE"
 class MainActivity : AppCompatActivity() {
+    private var preferencesUtil: PreferencesUtil? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //Ya no se usa
         setSupportActionBar(findViewById(R.id.topAppBar))
-        
+
+        userName = preferencesUtil?.getUsername()
+        userAge = preferencesUtil?.getAge()
+        userGender = preferencesUtil?.getGender()
+
         PruebasFirebase.insertar(this)
     }
 
