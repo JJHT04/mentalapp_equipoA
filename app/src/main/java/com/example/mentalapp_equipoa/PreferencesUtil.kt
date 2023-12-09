@@ -2,7 +2,6 @@ package com.example.mentalapp_equipoa
 
 import android.content.Context
 import android.content.SharedPreferences
-import kotlin.reflect.typeOf
 
 private const val PREF_NAME = "MyAppPrefs"
 private const val KEY_FIRST_RUN = "isFirstRun"
