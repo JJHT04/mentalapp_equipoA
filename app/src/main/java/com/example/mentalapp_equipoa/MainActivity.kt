@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mentalapp_equipoa.dialogs.ChangeUserDialog
+import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
+import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
+import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
 import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
 import com.example.mentalapp_equipoa.TestActivity
@@ -23,7 +25,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //Ya no se usa
         setSupportActionBar(findViewById(R.id.topAppBar))
+
+        PruebasFirebase.insertar(this)
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -34,7 +39,19 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.optionsOpt1 -> {
-                ChangeUserDialog().show(supportFragmentManager, "userDialog1")
+
+                true
+            }
+            R.id.registrar -> {
+                RegisterUserDialog().show(supportFragmentManager, "registerDialog")
+                true
+            }
+            R.id.modificar -> {
+                ModifyUserDialog().show(supportFragmentManager, "modifyDialog")
+                true
+            }
+            R.id.acceder -> {
+                LoginUserDialog().show(supportFragmentManager, "loginDialog")
                 true
             }
 
@@ -68,8 +85,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btnPreviousOnClick(view: View) {
-        val dialog = PreviousDialog()
-        dialog.show(supportFragmentManager, "PreviousDialog")
+        val intent = Intent(this, PreviousResultsActivity::class.java)
+        startActivity(intent)
     }
 
     /*

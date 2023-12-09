@@ -43,18 +43,22 @@
     <string name="title_top_appbar_user_guide">User Guide</string>
     <string name="test_how_it_works" translatable="false">Se presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.</string>
     <string name="usuarios">Usuarios</string>
-    <string name="conectarse_o_cambiar_de_usuario">Conectarse o cambiar de usuario</string>
     <string name="el_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contrase_a_y_hacer_clic_en_conectarse">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
     <string name="gender">gender</string>
     <string name="Age">Age</string>
-    <string name="Conectarse_o_cambiar_de_usuario">Conectarse o cambiar de usuario</string>
-    <string name="El_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contraseña_y_hacer_clic_en_conectarse">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
-    <string name="Registrar_un_nuevo_usuario">Registrar un nuevo usuario</string>
-    <string name="En_la_ventana_de_cambiar_usuario_al_final_del_formulario_estara_ubicado_el_boton_Registrarse_una_vez_hecho_clic_el_formulario_se_adaptara_para_poder_introducir_los_necesarios_nombre_de_usuario_contraseña_confirmar_contraseña_gmail_Se_debera_hacer_clic_en_confirmar_y_volvera_a_aparecer_el_formulario_de_conexión_de_usuario">En [la ventana de cambiar usuario, al final del formulario] estara ubicado el boton “Registrarse”, una vez hecho clic el formulario se adaptara para poder introducir los necesarios: nombre de usuario, contraseña, confirmar contraseña, [gmail]. Se debera hacer clic en confirmar y volvera a aparecer el formulario de conexión de usuario.</string>
-    <string name="Como_se_con_que_usuario_estoy_conectado">¿Cómo se con que usuario estoy conectado?</string>
-    <string name="El_nombre_de_usuario_actual_se_mostrara_en_la_esquina_inferior_izquierda">El nombre de usuario actual se mostrara en [la esquina inferior izquierda]</string>
-    <string name="Realizar_continuar_test">Realizar/continuar test</string>
-    <string name="Al_hacer_clic_en_este_boton_se_empezara_un_test_nuevo_para_el_usuario_si_el_usuario_ya_empezo_un_test_y_decidio_posponerlo_se_retomara_ese_mismo_test_El_test_consiste_en_una_serie_de_preguntas_que_apareceran_de_cinco_en_cinco_y_una_vez_el_usuario_haya_terminado_esas_preguntas_prodra_pulsar_en_siguiente_ubicado_en_la_esquina_inferio_derecha_para_pasar_a_las_siguientes_se_podra_volver_a_las_anteriores_con_el_boton_Anterior_Se_presentaran_cinco_respuestas_del_cero_al_cuatro_siendo_Cero_nunca_Uno_En_pocas_ocasiones_Dos_Con_cierta_frecuencia_Tres_A_menudo__Cuatro_Siempre_El_resultado_se_mostrara_una_vez_terminado_el_test">Al hacer clic en este boton se empezara un test nuevo para el usuario, si el usuario ya empezo un test y decidio posponerlo, se retomara ese mismo test.\n[El test consiste en una serie de preguntas que apareceran de cinco en cinco, y una vez el usuario haya terminado esas preguntas prodra pulsar en siguiente ubicado en [la esquina inferio derecha] para pasar a las siguientes, se podra volver a las anteriores con el boton “Anterior”]\nSe presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.\nEl resultado se mostrara una vez terminado el test</string>
-    <string name="Ver_resultado_anteriores">Ver resultado anteriores</string>
-    <string name="Se_muestra_los_resultados_de_los_test_anteriores_que_ha_realizado_el_usuario_actual">Se muestra los resultados de los test anteriores que ha realizado el usuario actual.</string>
+    <string name="connectHeader">Conectarse o cambiar de usuario</string>
+    <string name="infoUserButton" translatable="false">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
+    <string name="registerHeader" translatable="false">Registrar un nuevo usuario</string>
+    <string name="registerInfo" translatable="false">En [la ventana de cambiar usuario, al final del formulario] estara ubicado el boton “Registrarse”, una vez hecho clic el formulario se adaptara para poder introducir los necesarios: nombre de usuario, contraseña, confirmar contraseña, [gmail]. Se debera hacer clic en confirmar y volvera a aparecer el formulario de conexión de usuario.</string>
+    <string name="userInfoHeader" translatable="false">¿Cómo conozco la información relativa a mi usuario?</string>
+    <string name="userInfoInfo" translatable="false">El nombre de usuario actual se mostrara en [la esquina inferior izquierda]</string>
+    <string name="startText" translatable="false">Comenzar test</string>
+    <string name="continueText" translatable="false">Reanudar test</string>
+    <string name="beginTestHeader" translatable="false">Al hacer clic en este boton se empezara un test nuevo para el usuario, si el usuario ya empezo un test y decidio posponerlo, se retomara ese mismo test.\n[El test consiste en una serie de preguntas que apareceran de cinco en cinco, y una vez el usuario haya terminado esas preguntas prodra pulsar en siguiente ubicado en [la esquina inferio derecha] para pasar a las siguientes, se podra volver a las anteriores con el boton “Anterior”]\nSe presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.\nEl resultado se mostrara una vez terminado el test</string>
+    <string name="previousResultHeader" translatable="false">Ver resultado anteriores</string>
+    <string name="previousResultInfo" translatable="false">Se muestra los resultados de los test anteriores que ha realizado el usuario actual.</string>
+    <string name="rdbHombre">Hombre</string>
+    <string name="rdbMujer">Mujer</string>
+    <string name="rdbNoBinario">No Binario\n</string>
+    <string name="history">History</string>
 </resources>
