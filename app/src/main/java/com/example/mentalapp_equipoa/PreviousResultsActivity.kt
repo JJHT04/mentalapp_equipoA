@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.BounceInterpolator
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -14,6 +16,8 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 
 class PreviousResultsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -158,15 +162,31 @@ class PreviousResultsActivity : AppCompatActivity() {
 
         val marginParams = layoutParams as ViewGroup.MarginLayoutParams
         marginParams.setMargins(10, 0, 10, 16) // Margen inferior entre las cartas
-        cardView.layoutParams = marginParams
+
+        val frameLayout = FrameLayout(this).apply {
+            id = View.generateViewId()
+        }
+
+        frameLayout.addView(cardView)
+
+        frameLayout.layoutParams = marginParams
+
 
         createDropDownCard(cardView, bodyView, iconView)
 
-        findViewById<LinearLayout>(R.id.linear_previous).addView(cardView)
+        findViewById<LinearLayout>(R.id.linear_previous).addView(frameLayout)
     }
 
     private fun createDropDownCard (card: CardView, text: TextView, icon: ImageView) {
+
+        val transition = ChangeBounds().apply {
+            duration = 300
+            interpolator = BounceInterpolator()
+        }
+
         card.setOnClickListener {
+            TransitionManager.beginDelayedTransition(findViewById<LinearLayout>(R.id.linear_previous), transition)
+
             if (text.visibility == View.GONE) {
                 text.visibility = View.VISIBLE // Mostrar la respuesta al hacer clic
                 icon.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_keyboard_arrow_down_24))
