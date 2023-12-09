@@ -245,8 +245,8 @@ class TestActivity : AppCompatActivity() {
                     findViewById<Button>(R.id.btnSiguiente).apply { text = "Mostrar Resultados" }
                 }
             }else{
-                //findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
-                findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
+                findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
+                //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
                 val texto: Array<String> = leerArchivo()
                 val bh = DBHelper(this)
                 val db: SQLiteDatabase = bh.getWritableDatabase()
@@ -301,15 +301,15 @@ class TestActivity : AppCompatActivity() {
         var y = 0
         if(factor==1){
             x=15
-            y=21
+            y=23
         }
         if(factor==2){
-            x=0
-            y=1
+            x=15
+            y=21
         }
         if(factor==3){
-            x=15
-            y=23
+            x=2
+            y=3
         }
         return Pair(x, y)
     }
@@ -320,18 +320,23 @@ class TestActivity : AppCompatActivity() {
 
     fun calcularNota(): String{
 
+        var sumFactores = arrayOf<Int>(0,0,0)
+
         val bh = DBHelper(this)
-        val dbr
+        val dbR: SQLiteDatabase = bh.getReadableDatabase()
 
-
-        var sumFactor1 = 0
-        var sumFactor2 = 0
-        var sumFactor3 = 0
+        for(i in 1..3){
+            val c = dbR.rawQuery("SELECT SUM(valor) FROM Preguntas Where factor = $i", null)
+            if(c.moveToFirst()){
+                do{
+                    sumFactores[i-1]=c.getInt(0)
+                } while (c.moveToNext())
+            }
+        }
 
         var x = 0
         var y = 0
 
-        var sumFactores =  arrayOf<Int>(sumFactor1, sumFactor2, sumFactor3)
         var nivel = arrayOf<String>("","","")
 
         var t = 1
@@ -352,8 +357,9 @@ class TestActivity : AppCompatActivity() {
             if(sumFactores[t-1]>y){
                 nivel[t-1] = "alto"
             }
+            t++
         }
-        return "resultado"
+        return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]
     }
 
     override fun onDestroy() {
