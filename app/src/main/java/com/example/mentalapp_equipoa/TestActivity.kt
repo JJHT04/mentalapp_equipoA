@@ -1,33 +1,22 @@
 package com.example.mentalapp_equipoa
 
 import android.content.ContentValues
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import androidx.core.view.isVisible
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
-import java.io.OutputStreamWriter
-private val PREF_NAME = "MyAppPrefs"
-private val KEY_FIRST_RUN = "isFirstRun"
-private val PAG_NUM = "pagNum"
+
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
 class TestActivity : AppCompatActivity() {
+    private var preferencesUtil: PreferencesUtil? = null
     private var preguntas2 = Array<String?>(20){null}
     private var i = 0
 
@@ -40,10 +29,10 @@ class TestActivity : AppCompatActivity() {
             navigateUpTo(intent)
         }
 
-        val sharedPreferences: SharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        preferencesUtil = PreferencesUtil(this)
 
-        val isFirst = sharedPreferences.getBoolean(KEY_FIRST_RUN, true)
-        i = sharedPreferences.getInt(PAG_NUM, 0)
+        val isFirst = preferencesUtil!!.isFirstRun()
+        i = preferencesUtil!!.getNumPage()
         if(i == 15){
             findViewById<Button>(R.id.btnSiguiente).apply {
                 text = "Mostrar"
@@ -77,7 +66,6 @@ class TestActivity : AppCompatActivity() {
     private fun inicializar(iniciar: Boolean) {
         // Obtener las preferencias compartidas
 
-        val sharedPreferences: SharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         if (iniciar) {
             // Realizar acciones de inicialización o configuración inicial
             // Por ejemplo, crear la base de datos o realizar configuraciones iniciales
@@ -101,9 +89,7 @@ class TestActivity : AppCompatActivity() {
             db.setTransactionSuccessful()
             db.endTransaction()
             // Guardar el indicador de que la app ya se ejecutó antes
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            editor.putBoolean(KEY_FIRST_RUN, false)
-            editor.apply()
+            preferencesUtil?.setFirstRun(false)
         }
 
     }
@@ -225,7 +211,8 @@ class TestActivity : AppCompatActivity() {
             val db: SQLiteDatabase = bh.getWritableDatabase()
             db.beginTransaction()
             var p = i+k-6
-                if (texto[p] !== "") {
+
+            if (texto[p] !== "") {
                     val linea = texto[p].split(";".toRegex()).dropLastWhile { it.isEmpty() }
                         .toTypedArray()
 
@@ -240,7 +227,7 @@ class TestActivity : AppCompatActivity() {
 
                     // Realiza la actualización
                     val filasActualizadas = db.update("Preguntas", cvalue, whereClause, whereArgs)
-                }
+            }
 
             db.setTransactionSuccessful()
             db.endTransaction()
@@ -501,15 +488,15 @@ class TestActivity : AppCompatActivity() {
         }
         return "resultado"
     }
+
     override fun onDestroy() {
-        val sharedPreferences: SharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
         if(i != 0) {
-            editor.putInt(PAG_NUM, i - 5)
+            preferencesUtil?.setNumPage(i-5)
         }else{
-            editor.putInt(PAG_NUM, i)
+            preferencesUtil?.setNumPage(i)
         }
-        editor.apply()
+
         super.onDestroy()
     }
 }
