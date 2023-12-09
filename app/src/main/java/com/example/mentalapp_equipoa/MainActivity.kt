@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
 import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
 import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
-import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
 
 val previous_results = ArrayList<String>()
@@ -24,10 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //Ya no se usa
         setSupportActionBar(findViewById(R.id.topAppBar))
-
-        PruebasFirebase.insertar(this)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -80,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     fun btnTestOnClick(view: View) {
         TestDialog(getString(R.string.information_test_dialog),
-            getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
+        getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
     }
 
     fun btnPreviousOnClick(view: View) {
