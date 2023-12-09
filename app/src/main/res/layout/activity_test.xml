@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rounded_alt"
             android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/outline_arrow_back_24_alt"
+            app:navigationIcon="@drawable/outline_arrow_back_24"
             app:title="@string/test_appBar_title"
             app:titleCentered="true"
             app:titleTextAppearance="@style/toolbarText"
@@ -32,6 +32,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/scrollViewTest"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -421,42 +422,48 @@
 
             </RadioGroup>
 
-            <Button
-                android:id="@+id/btnSiguiente"
-                style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/lexend"
-                android:onClick="btnSiguienteOnClick"
-                android:text="@string/sig"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup5" />
-
-            <Button
-                android:id="@+id/btnAnterior"
-                style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:onClick="btnAnteriorOnClick"
-                android:text="@string/ant"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSiguiente" />
-
             <TextView
                 android:id="@+id/txvAlerta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/lexend"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnAnterior" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup5">
+
+                <Button
+                    android:id="@+id/btnAnterior"
+                    style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="btnAnteriorOnClick"
+                    android:text="@string/ant" />
+
+                <Button
+                    android:id="@+id/btnSiguiente"
+                    style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/lexend"
+                    android:onClick="btnSiguienteOnClick"
+                    android:text="@string/sig" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
