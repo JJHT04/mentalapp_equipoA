@@ -9,6 +9,8 @@ private const val KEY_PAG_NUM = "pagNum"
 private const val KEY_USERNAME = "username"
 private const val KEY_GENDER = "gender"
 private const val KEY_AGE = "age"
+private const val KEY_PREVIOUS_RESULTS = "previousResults"
+private const val KEY_PREVIOUS_ADVICES = "previousAdvices"
 
 class PreferencesUtil(context: Context) {
 
@@ -59,5 +61,12 @@ class PreferencesUtil(context: Context) {
         writePreference(KEY_AGE, value)
     }
 
+    fun getPreviousResults (): Set<String>? = sharedPreferences.getStringSet(KEY_PREVIOUS_RESULTS, emptySet<String>())
+
+    fun setPreviousResults (value: Set<String>) = writePreference(KEY_PREVIOUS_RESULTS, value)
+
+    fun getPreviousAdvices (): Set<String>? = sharedPreferences.getStringSet(KEY_PREVIOUS_ADVICES, emptySet<String>())
+
+    fun setPreviousAdvices (value: Set<String>) = writePreference(KEY_PREVIOUS_ADVICES, value)
 
 }
