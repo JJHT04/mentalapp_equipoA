@@ -60,16 +60,15 @@ class RegisterUserDialog : DialogFragment() {
                     val age = dialogView.findViewById<TextView>(R.id.Age).text.toString()
 
                     if (username.isNotBlank() && age.isNotBlank() && spinner.selectedItemPosition != Spinner.INVALID_POSITION) {
-                        userName.value = username
                         userAge = age.toInt() //Que sea solo entero ya está manejado en el componente
                         userGender = genderMap[spinner.selectedItem.toString()]
 
                         val preferencesUtil = PreferencesUtil(requireContext())
-                        preferencesUtil.setUsername(userName.value!!)
                         preferencesUtil.setAge(userAge!!)
                         preferencesUtil.setGender(userGender!!)
-                        requireActivity()
 
+                        userName.value = username
+                        preferencesUtil.setUsername(userName.value!!)
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){ //Si ya existe
                             Toast.makeText(activity, "Este usuario ya está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
                         }else{
