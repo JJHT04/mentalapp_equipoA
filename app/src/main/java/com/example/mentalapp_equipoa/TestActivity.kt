@@ -252,7 +252,6 @@ class TestActivity : AppCompatActivity() {
 
                 var sincronizado:Boolean = true
                 // ** Firebase **
-                // Log.i("aus","Austria Hungria declaro la guerra a Serbia")
 
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
@@ -260,23 +259,29 @@ class TestActivity : AppCompatActivity() {
                     val con:ConexionFirebase = ConexionFirebase()
 
                     val usuario:String? = preferencesUtil!!.getUsername()
-                    val sexo:String? = preferencesUtil!!.getGender()
-                    val edad: Int = preferencesUtil!!.getAge()
+                    val idFirebaseUser:String? = preferencesUtil!!.getUsername() // conseguir el id de firebase
 
-                    Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
+                    Log.i("aus","Usuario -> ${usuario}")
 
                     val factores:Array<Int> = calcularFactores()
                     val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
-                    Log.i("aus","DE FUERA\nFactor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
-                    if (usuario != null && sexo != null) {
-                        Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
-                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
-                    } else {
-                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
-                        // Petaron las "preferencesUtil"
-                        // TODO: Si no ha podido insertar cambiar el boolean de sicnronizado de true a false
-                        sincronizado = false
+
+                    /*val bh = DBHelper(this)
+                    val dbR: SQLiteDatabase = bh.readableDatabase
+
+                    val c = dbR.rawQuery("SELECT id FROM user WHERE name = $usuario ",null)
+                    var idUsuario:Int = -1
+
+                    if (c.moveToFirst()) {
+                        idUsuario = c.getInt(0)
                     }
+
+                    c.close()
+                    dbR.close()
+                    bh.close()*/
+
+                    Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                    con.insertarTest(3,trio.first,trio.second,trio.third)
                 } else {
                     sincronizado = false
                     Log.i("aus","No hay conexion")
