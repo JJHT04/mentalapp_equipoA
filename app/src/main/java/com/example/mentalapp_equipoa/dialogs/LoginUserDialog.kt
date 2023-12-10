@@ -5,16 +5,12 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.mentalapp_equipoa.MainActivity
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
-import com.example.mentalapp_equipoa.userAge
-import com.example.mentalapp_equipoa.userGender
 import com.example.mentalapp_equipoa.userName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -48,7 +44,7 @@ class LoginUserDialog : DialogFragment() {
                 .setPositiveButton("Acceder") { _, _ ->
                     val username = dialogView.findViewById<TextView>(R.id.username).text.toString()
 
-                    if (username.isNotBlank() && username == userName) {
+                    if (username.isNotBlank() && username == userName.value) {
                         Toast.makeText(activity, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){
                             PruebasFirebase.iniciarSesion(username)

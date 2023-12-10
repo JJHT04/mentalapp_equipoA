@@ -2,6 +2,9 @@ package com.example.mentalapp_equipoa
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,34 +12,56 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.MutableLiveData
 import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
 import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
 import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
+import com.example.mentalapp_equipoa.enums.Gender
 
 val previous_results = ArrayList<String>()
-var userName: String? = null
+var userName = MutableLiveData<String>()
 var userAge: Int? = null
-var userGender: String? = null
-private const val TAG = "MainActivity"
-const val EXTRA_MESSAGE = "com.example.mentalapp_equipoa.MESSAGE"
+var userGender: Gender? = null
 
 fun showToast (context: Context, message: String) = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 fun showToast (context: Context, @StringRes id: Int) = Toast.makeText(context, id, Toast.LENGTH_SHORT).show()
 class MainActivity : AppCompatActivity() {
-    private var preferencesUtil: PreferencesUtil? = null
+    private lateinit var preferencesUtil: PreferencesUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //Ya no se usa
-        setSupportActionBar(findViewById(R.id.topAppBar))
 
-        userName = preferencesUtil?.getUsername()
-        userAge = preferencesUtil?.getAge()
-        userGender = preferencesUtil?.getGender()
+        val toolbar = findViewById<Toolbar>(R.id.topAppBar)
+        setSupportActionBar(toolbar)
 
+        preferencesUtil = PreferencesUtil(this)
+
+        userName.observe(this){
+
+            if (it != null) {
+                userAge = preferencesUtil.getAge()
+                userGender = preferencesUtil.getGender()
+                supportActionBar?.title = it
+                supportActionBar?.subtitle = "$userAge ${getString(R.string.years_old)}"
+
+                val originalDrawable = getIconHappy(this)
+                // Redimensiona el Drawable creando un nuevo Bitmap con las dimensiones deseadas
+                val resizedBitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(resizedBitmap)
+                originalDrawable?.setBounds(0, 0, canvas.width, canvas.height)
+                originalDrawable?.draw(canvas)
+
+                // Crea un nuevo Drawable a partir del Bitmap redimensionado
+                val resizedDrawable = BitmapDrawable(resources, resizedBitmap)
+                supportActionBar?.setIcon(resizedDrawable)
+            }
+        }
+
+        userName.value = preferencesUtil.getUsername()
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -69,19 +94,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*
-    override fun onCreateContextMenu(
-        menu: ContextMenu?,
-        v: View?,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        val inflater = menuInflater
-        inflater.inflate(R.menu.img_context_menu, menu)
-    }
-
-     */
-
     fun btnUserGuideOnClick(view: View) {
         val intent = Intent(this, UserGuideActivity::class.java)
         startActivity(intent)
@@ -96,38 +108,5 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, PreviousResultsActivity::class.java)
         startActivity(intent)
     }
-
-    /*
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
-            R.id.imgMenu_opt1 -> {
-                val generalDialog = if (userName != null){
-                    GeneralDialog("Actual Username", userName!!, R.drawable.baseline_info_24)
-                } else {
-                    GeneralDialog("Error", "You are not login", R.drawable.baseline_error_24)
-                }
-
-                generalDialog.show(supportFragmentManager, "general01")
-                true
-            }
-
-            R.id.imgMenu_opt2 -> {
-                val actualDate = Calendar.getInstance().time
-                GeneralDialog("Actual Date", DateFormat.getDateFormat(this).format(actualDate), R.drawable.baseline_calendar_today_24).show(supportFragmentManager, "general03")
-                true
-            }
-
-            R.id.imgMenu_opt3 -> {
-                GeneralDialog("About us", "We are the Team A :3", R.drawable.baseline_info_24).show(supportFragmentManager, "general04")
-                true
-            }
-
-            else -> {super.onContextItemSelected(item)}
-        }
-    }
-
-     */
-
-
 
 }
