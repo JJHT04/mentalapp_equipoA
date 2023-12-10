@@ -12,9 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
 import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
 import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
-import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
-import com.example.mentalapp_equipoa.TestActivity
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
@@ -37,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         userAge = preferencesUtil?.getAge()
         userGender = preferencesUtil?.getGender()
 
-        PruebasFirebase.insertar(this)
     }
 
 
