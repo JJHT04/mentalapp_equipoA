@@ -257,6 +257,8 @@ class TestActivity : AppCompatActivity() {
                 // ** Firebase **
                 // Log.i("aus","Austria Hungria declaro la guerra a Serbia")
 
+                val factores:Array<Int> = calcularFactores()
+
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
                     preferencesUtil = PreferencesUtil(this)
@@ -268,7 +270,7 @@ class TestActivity : AppCompatActivity() {
 
                     Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
 
-                    val factores:Array<Int> = calcularFactores()
+
                     val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
                     Log.i("aus","DE FUERA\nFactor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
                     if (usuario != null && sexo != null) {
@@ -282,8 +284,11 @@ class TestActivity : AppCompatActivity() {
                     }
                 } else {
                     sincronizado = false
+
                     Log.i("aus","No hay conexion")
                 }
+
+                guardarResultados(factores,sincronizado)
 
 
                 val texto: Array<String> = leerArchivo()
@@ -360,6 +365,28 @@ class TestActivity : AppCompatActivity() {
         return Pair(x, y)
     }
 
+    fun asignarVariables2(factor: Int): Pair<Int, Int> {
+        var x = 0
+        var y = 0
+        if (factor == 0) {
+            x = 31
+            y = 50
+        }
+        if (factor == 1) {
+            x = 29
+            y = 46
+        }
+        if (factor == 2) {
+            x = 16
+            y = 27
+        }
+        if (factor == 3) {
+            x = 16
+            y = 29
+        }
+        return Pair(x, y)
+    }
+
     fun calcularFactores(): Array<Int>{
         val sumFactores = arrayOf<Int>(0,0,0)
         val bh = DBHelper(this)
@@ -384,6 +411,7 @@ class TestActivity : AppCompatActivity() {
         var y = 0
 
         var nivel = arrayOf<String>("","","")
+        var nivel2 = arrayOf<String>("","","","")
 
         var t = 1
 
@@ -391,8 +419,6 @@ class TestActivity : AppCompatActivity() {
             val variables = asignarVariablesCalcularNota(i)
             x = variables!!.first
             y = variables!!.second
-
-            // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
 
             if(sumFactores[t-1]<=x){
                 nivel[t-1] = "bajo"
@@ -405,12 +431,44 @@ class TestActivity : AppCompatActivity() {
             }
             t++
         }
-        guardarResultados(sumFactores)
-        return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]
+
+        /*
+        sumFactores2[0]: suma de todos
+        sumFactores2[1]:suma Fisiologico y Cognitivo
+        sumFactores2[2]: suma Cognitivo y Evitacion
+        sumFactores2[3]: suma Fisiologico y evitcion
+         */
+
+        val sumFactores2 = arrayOf<Int>(sumFactores[0]+sumFactores[1]+sumFactores[2],
+            sumFactores[0]+sumFactores[1],sumFactores[1]+sumFactores[2], sumFactores[0]+sumFactores[2])
+
+        for(i in 0..sumFactores2.size-1){
+            val variables = asignarVariables2(i)
+            x = variables!!.first
+            y = variables!!.second
+
+            if(sumFactores[i]<=x){
+                nivel2[i] = "bajo"
+            }
+            if(sumFactores[i]>x && sumFactores[i]<=y){
+                nivel2[i] = "medio"
+            }
+            if(sumFactores[i]>y){
+                nivel2[i] = "alto"
+            }
+        }
+
+
+        return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]+"\n"+
+                "Otros "
     }
 
-    fun guardarResultados(factores: Array<Int>){
+    fun guardarResultados(factores: Array<Int>, sincronizado:Boolean){
         val formato = SimpleDateFormat("yyyy-MM-dd")
+        var subido = 0
+        if(sincronizado){
+            subido=1
+        }
 
         val bh = DBHelper(this)
         val db: SQLiteDatabase = bh.getWritableDatabase()
@@ -421,48 +479,11 @@ class TestActivity : AppCompatActivity() {
         cvalue.put("factor1", factores[0])
         cvalue.put("factor2", factores[1])
         cvalue.put("factor3", factores[2])
-        cvalue.put("subido", 0) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
+        cvalue.put("subido", subido) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
         db.insert("resultados", null, cvalue)
     }
 
-    fun guardarDatosUsuario(){
-        var nombreAux=""
-        val bh = DBHelper(this)
-        val dbR: SQLiteDatabase = bh.getReadableDatabase()
 
-        if(userName!=null){
-            val c = dbR.rawQuery("SELECT nombre FROM Usuarios Where nombre = $userName", null)
-            if(c.moveToFirst()){
-                do{
-                    nombreAux=c.getString(0)
-                } while (c.moveToNext())
-            }
-            c.close()
-        }
-
-        /*
-        Controla que el usuario no exista en la bdd
-         */
-
-        if(nombreAux==null){
-            val db: SQLiteDatabase = bh.getWritableDatabase()
-            db.beginTransaction()
-
-            var nomUser = userName.toString()
-            var genUser = userGender.toString()
-            var ageUser = userAge.toString().toInt()
-
-
-            val cvalue = ContentValues()
-            cvalue.put("username", nomUser)
-            cvalue.put("genero", genUser)
-            cvalue.put("edad", ageUser)
-            cvalue.put("subido", 0) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
-            db.insert("usuarios", null, cvalue)
-        }else{
-            //Hacer popup de que el usuario ya existe
-        }
-    }
 
     private fun destruction() {
 
