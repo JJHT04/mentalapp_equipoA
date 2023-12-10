@@ -15,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
@@ -342,24 +345,20 @@ class TestActivity : AppCompatActivity() {
     fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
         var x = 0
         var y = 0
-        if(factor==1){
-            x=15
-            y=23
+        if (factor == 1) {
+            x = 15
+            y = 23
         }
-        if(factor==2){
-            x=15
-            y=21
+        if (factor == 2) {
+            x = 15
+            y = 21
         }
-        if(factor==3){
-            x=2
-            y=3
+        if (factor == 3) {
+            x = 2
+            y = 3
         }
         return Pair(x, y)
     }
-
-    /*
-    Esta funcion sera cambiada una vez se introduzca la bbd
-     */
 
     fun calcularFactores(): Array<Int>{
         val sumFactores = arrayOf<Int>(0,0,0)
@@ -406,7 +405,63 @@ class TestActivity : AppCompatActivity() {
             }
             t++
         }
+        guardarResultados(sumFactores)
         return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]
+    }
+
+    fun guardarResultados(factores: Array<Int>){
+        val formato = SimpleDateFormat("yyyy-MM-dd")
+
+        val bh = DBHelper(this)
+        val db: SQLiteDatabase = bh.getWritableDatabase()
+        db.beginTransaction()
+        val cvalue = ContentValues()
+        cvalue.put("username", userName)
+        cvalue.put("fecha", formato.format(Date()))
+        cvalue.put("factor1", factores[0])
+        cvalue.put("factor2", factores[1])
+        cvalue.put("factor3", factores[2])
+        cvalue.put("subido", 0) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
+        db.insert("resultados", null, cvalue)
+    }
+
+    fun guardarDatosUsuario(){
+        var nombreAux=""
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.getReadableDatabase()
+
+        if(userName!=null){
+            val c = dbR.rawQuery("SELECT nombre FROM Usuarios Where nombre = $userName", null)
+            if(c.moveToFirst()){
+                do{
+                    nombreAux=c.getString(0)
+                } while (c.moveToNext())
+            }
+            c.close()
+        }
+
+        /*
+        Controla que el usuario no exista en la bdd
+         */
+
+        if(nombreAux==null){
+            val db: SQLiteDatabase = bh.getWritableDatabase()
+            db.beginTransaction()
+
+            var nomUser = userName.toString()
+            var genUser = userGender.toString()
+            var ageUser = userAge.toString().toInt()
+
+
+            val cvalue = ContentValues()
+            cvalue.put("username", nomUser)
+            cvalue.put("genero", genUser)
+            cvalue.put("edad", ageUser)
+            cvalue.put("subido", 0) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
+            db.insert("usuarios", null, cvalue)
+        }else{
+            //Hacer popup de que el usuario ya existe
+        }
     }
 
     private fun destruction() {
