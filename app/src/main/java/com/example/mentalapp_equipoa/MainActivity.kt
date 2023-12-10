@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
 import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
@@ -29,8 +30,6 @@ class MainActivity : AppCompatActivity() {
         userName = preferencesUtil?.getUsername()
         userAge = preferencesUtil?.getAge()
         userGender = preferencesUtil?.getGender()
-
-        PruebasFirebase.insertar(this)
     }
 
 

@@ -251,6 +251,7 @@ class TestActivity : AppCompatActivity() {
                 val bh = DBHelper(this)
                 val db: SQLiteDatabase = bh.getWritableDatabase()
                 db.beginTransaction()
+
                 for (cc in texto.indices) {
                     if (texto[cc] !== "") {
                         val linea = texto[cc].split(";".toRegex()).dropLastWhile { it.isEmpty() }
