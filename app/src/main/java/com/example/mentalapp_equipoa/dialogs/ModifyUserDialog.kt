@@ -4,15 +4,16 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.mentalapp_equipoa.MainActivity
+import com.example.mentalapp_equipoa.PreferencesUtil
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
+import com.example.mentalapp_equipoa.enums.Gender
 import com.example.mentalapp_equipoa.userAge
 import com.example.mentalapp_equipoa.userGender
 import com.example.mentalapp_equipoa.userName
@@ -39,11 +40,13 @@ class ModifyUserDialog : DialogFragment() {
             val inflater = requireActivity().layoutInflater
             val dialogView = inflater.inflate(R.layout.layout_register_modify, null)
             val spinner = dialogView.findViewById<Spinner>(R.id.spiGeneros)
-            val lista = listOf("Seleccione su género", "Hombre", "Mujer", "No binario")
+            val genderMap = Gender.getGenderMap(requireContext())
+            val lista = Gender.getAllStringRepresentations(requireContext())
 
             val adaptador = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, lista)
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adaptador
+            spinner.setSelection(Spinner.INVALID_POSITION)
 
             builder.setTitle(getString(R.string.enter_the_new_username))
                 .setView(dialogView)
@@ -53,15 +56,19 @@ class ModifyUserDialog : DialogFragment() {
                 .setPositiveButton("Modificar") { _, _ ->
                     val username = dialogView.findViewById<TextView>(R.id.username).text.toString()
                     val age = dialogView.findViewById<TextView>(R.id.Age).text.toString()
-                    val gender = spinner.selectedItem.toString()
 
-                    if (username.isNotBlank() && age.isNotBlank() && gender != "Seleccione su género") {
-                        userName = username
+                    if (username.isNotBlank() && age.isNotBlank() && spinner.selectedItemPosition != Spinner.INVALID_POSITION) {
+                        userName.value = username
                         userAge = age.toInt()
-                        userGender = gender
+                        userGender = genderMap[spinner.selectedItem.toString()]
+
+                        val preferencesUtil = PreferencesUtil(requireContext())
+                        preferencesUtil.setUsername(userName.value!!)
+                        preferencesUtil.setAge(userAge!!)
+                        preferencesUtil.setGender(userGender!!)
                         Toast.makeText(activity, "Modificación realizada correctamente", Toast.LENGTH_SHORT).show()
-                        PruebasFirebase.modificarUsuario(actividadMain, username, Integer.parseInt(age), gender)
-                        PruebasFirebase.modificarUsuarioFirebase(username, Integer.parseInt(age), gender)
+                        PruebasFirebase.modificarUsuario(actividadMain, username, age.toInt(), userGender.toString())
+                        PruebasFirebase.modificarUsuarioFirebase(username, age.toInt(), userGender.toString())
                         valid = true
                     } else {
                         Toast.makeText(activity, "Rellena todos los campos", Toast.LENGTH_SHORT).show()

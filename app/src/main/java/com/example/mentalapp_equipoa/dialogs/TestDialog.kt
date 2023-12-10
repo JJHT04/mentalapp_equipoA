@@ -19,9 +19,7 @@ class TestDialog(private val title: String, private val message: String, private
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) {
                     _,_ ->
-                    val intent = Intent(it, TestActivity::class.java).apply {
-                        putExtra(EXTRA_MESSAGE, userName)
-                    }
+                    val intent = Intent(it, TestActivity::class.java)
                     startActivity(intent)
                 }
                 .setIcon(iconID)

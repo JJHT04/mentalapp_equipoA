@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="toolbarTextSubTitle">
+        <item name="android:fontFamily"> @font/lexend </item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/md_theme_light_onPrimary_alt</item>
+    </style>
+</resources>

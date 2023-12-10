@@ -1,6 +1,7 @@
 package com.example.mentalapp_equipoa
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -14,33 +15,35 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+import com.example.mentalapp_equipoa.enums.Gender
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
+
+fun getIconHappy (context: Context): Drawable? {
+    return when (userGender) {
+        Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_happy)
+
+        else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_happy)
+    }
+}
+
+fun getIconAnnoyed (context: Context): Drawable? {
+    return when (userGender) {
+        Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_annoyed)
+
+        else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_annoyed)
+    }
+}
+
 class TestActivity : AppCompatActivity() {
     private var progressBar: IconRoundCornerProgressBar? = null
-    private var preferencesUtil: PreferencesUtil? = null
+    private lateinit var preferencesUtil: PreferencesUtil
     private var preguntas2 = Array<String?>(20){null}
     private var i: Int = 0
     private var iconChange = false
-
-    private fun getIconHappy (): Drawable? {
-        return when (userGender) {
-            "Mujer" -> AppCompatResources.getDrawable(this, R.drawable.female_icon_happy)
-
-            else -> AppCompatResources.getDrawable(this, R.drawable.non_binary_icon_happy)
-        }
-    }
-
-    private fun getIconAnnoyed (): Drawable? {
-        return when (userGender) {
-            "Mujer" -> AppCompatResources.getDrawable(this, R.drawable.female_icon_annoyed)
-
-            else -> AppCompatResources.getDrawable(this, R.drawable.non_binary_icon_annoyed)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +63,7 @@ class TestActivity : AppCompatActivity() {
 
         progressBar?.apply {
             setProgress(i)
-            setIconImageDrawable(getIconHappy())
+            setIconImageDrawable(getIconHappy(this@TestActivity))
         }
 
         if(i == 15){
@@ -277,7 +280,7 @@ class TestActivity : AppCompatActivity() {
                 progressBar?.apply {
                     setProgress(i-5)
                     if (iconChange) {
-                        setIconImageDrawable(getIconHappy())
+                        setIconImageDrawable(getIconHappy(this@TestActivity))
                         iconChange = false
                     }
                 }
@@ -291,11 +294,10 @@ class TestActivity : AppCompatActivity() {
 
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
-                    preferencesUtil = PreferencesUtil(this)
                     val con:ConexionFirebase = ConexionFirebase()
 
                     val usuario:String? = preferencesUtil!!.getUsername()
-                    val sexo:String? = preferencesUtil!!.getGender()
+                    val sexo: String = preferencesUtil!!.getGender().toString()
                     val edad: Int = preferencesUtil!!.getAge()
 
                     Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
@@ -374,7 +376,7 @@ class TestActivity : AppCompatActivity() {
                     setProgress(i-5)
 
                     if (!iconChange) {
-                        setIconImageDrawable(getIconAnnoyed())
+                        setIconImageDrawable(getIconAnnoyed(this@TestActivity))
                         iconChange = true
                     }
                 }
