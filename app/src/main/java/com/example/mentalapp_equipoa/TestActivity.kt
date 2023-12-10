@@ -300,16 +300,16 @@ class TestActivity : AppCompatActivity() {
         var x = 0
         var y = 0
         if(factor==1){
-            x=15
-            y=23
+            x=14
+            y=24
         }
         if(factor==2){
-            x=15
-            y=21
+            x=14
+            y=22
         }
         if(factor==3){
-            x=2
-            y=3
+            x=1
+            y=4
         }
         return Pair(x, y)
     }
@@ -332,7 +332,11 @@ class TestActivity : AppCompatActivity() {
                     sumFactores[i-1]=c.getInt(0)
                 } while (c.moveToNext())
             }
+            c.close()
         }
+
+
+        dbR.close()
 
         var x = 0
         var y = 0
@@ -346,8 +350,6 @@ class TestActivity : AppCompatActivity() {
             x = variables!!.first
             y = variables!!.second
 
-            // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
-
             if(sumFactores[t-1]<=x){
                 nivel[t-1] = "bajo"
             }
@@ -359,7 +361,61 @@ class TestActivity : AppCompatActivity() {
             }
             t++
         }
+
+        /*
+        Fis = 1
+        Cog = 2
+        Evi = 3
+         */
+
+        var sumTodos = sumFactores[0]+sumFactores[1]+sumFactores[2]
+        var sumFisCog = sumFactores[0]+sumFactores[1]
+        var sumCogEvi = sumFactores[1]+sumFactores[2]
+        var sumFisEvi = sumFactores[0]+sumFactores[2]
+
+
+
         return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]
+    }
+
+    // Posible traslado a la clase RegisterUserDialog?
+    fun guardarDatosUsuario(){
+        var nombreAux=""
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.getReadableDatabase()
+
+        if(userName!=null){
+            val c = dbR.rawQuery("SELECT nombre FROM Usuarios Where nombre = $userName", null)
+            if(c.moveToFirst()){
+                do{
+                    nombreAux=c.getString(0)
+                } while (c.moveToNext())
+            }
+            c.close()
+        }
+
+        /*
+        Controla que el usuario no exista en la bdd
+         */
+
+        if(nombreAux==null){
+            val db: SQLiteDatabase = bh.getWritableDatabase()
+            db.beginTransaction()
+
+            var nomUser = userName.toString()
+            var genUser = userGender.toString()
+            var ageUser = userAge.toString().toInt()
+
+
+            val cvalue = ContentValues()
+            cvalue.put("username", nomUser)
+            cvalue.put("genero", genUser)
+            cvalue.put("edad", ageUser)
+            cvalue.put("subido", 0) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
+            db.insert("Usuarios", null, cvalue)
+        }else{
+            //Hacer popup de que el usuario ya existe
+        }
     }
 
     override fun onDestroy() {
