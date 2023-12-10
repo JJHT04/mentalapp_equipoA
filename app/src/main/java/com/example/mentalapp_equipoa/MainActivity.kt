@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         userGender = preferencesUtil?.getGender()
 
         PruebasFirebase.insertar(this)
+        PruebasFirebase.recuperar(this)
     }
 
 
