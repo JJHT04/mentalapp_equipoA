@@ -3,11 +3,14 @@ package com.example.mentalapp_equipoa
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.io.ByteArrayOutputStream
@@ -35,7 +38,7 @@ class TestActivity : AppCompatActivity() {
         i = preferencesUtil!!.getNumPage()
         if(i == 15){
             findViewById<Button>(R.id.btnSiguiente).apply {
-                text = "Mostrar"
+                text = getString(R.string.mostrar)
             }
         }
         inicializar(isFirst)
@@ -237,20 +240,54 @@ class TestActivity : AppCompatActivity() {
         if(comprobarRespuestas()){
             subirRespuestas()
             if (i < preguntas2.size) {
-                findViewById<TextView>(R.id.txvAlerta).apply { text = "" }
                 cargarRespuestas()
                 limpiarRespuestas()
                 cargarPreguntas()
                 if(i == preguntas2.size){
-                    findViewById<Button>(R.id.btnSiguiente).apply { text = "Mostrar Resultados" }
+                    findViewById<Button>(R.id.btnSiguiente).apply { text = getString(R.string.mostrar) }
                 }
             }else{
                 findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
+
+                var sincronizado:Boolean = true
+                // ** Firebase **
+                // Log.i("aus","Austria Hungria declaro la guerra a Serbia")
+
+                if (TestCon.hayConexion()){
+                    Log.i("aus","Si hay conexion")
+                    preferencesUtil = PreferencesUtil(this)
+                    val con:ConexionFirebase = ConexionFirebase()
+
+                    val usuario:String? = preferencesUtil!!.getUsername()
+                    val sexo:String? = preferencesUtil!!.getGender()
+                    val edad: Int = preferencesUtil!!.getAge()
+
+                    Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
+
+                    val factores:Array<Int> = calcularFactores()
+                    val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
+                    Log.i("aus","DE FUERA\nFactor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                    if (usuario != null && sexo != null) {
+                        Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
+                    } else {
+                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
+                        // Petaron las "preferencesUtil"
+                        // TODO: Si no ha podido insertar cambiar el boolean de sicnronizado de true a false
+                        sincronizado = false
+                    }
+                } else {
+                    sincronizado = false
+                    Log.i("aus","No hay conexion")
+                }
+
+
                 val texto: Array<String> = leerArchivo()
                 val bh = DBHelper(this)
                 val db: SQLiteDatabase = bh.getWritableDatabase()
                 db.beginTransaction()
+
                 for (cc in texto.indices) {
                     if (texto[cc] !== "") {
                         val linea = texto[cc].split(";".toRegex()).dropLastWhile { it.isEmpty() }
@@ -279,10 +316,16 @@ class TestActivity : AppCompatActivity() {
                 findViewById<Button?>(R.id.btnAnterior).apply {
                     isEnabled = false
                 }
+                findViewById<Button?>(R.id.btnSiguiente).apply {
+                    isEnabled = false
+                }
                 i = 0
+
             }
+
+            destruction()
         }else {
-            findViewById<TextView>(R.id.txvAlerta).apply {text = "Tienes que responder todas las preguntas" }
+            showToast(this, "Contesta todas las preguntas")
         }
     }
     fun btnAnteriorOnClick(view: View) {
@@ -293,23 +336,23 @@ class TestActivity : AppCompatActivity() {
                 cargarPreguntas()
                 findViewById<Button>(R.id.btnSiguiente).apply { text = "Siguiente" }
             }else{
-                findViewById<TextView>(R.id.txvAlerta).apply {text = "No hay preguntas anteriores" }
+                showToast(this, "No hay preguntas anteriores")
             }
     }
     fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
         var x = 0
         var y = 0
         if(factor==1){
-            x=14
-            y=24
+            x=15
+            y=23
         }
         if(factor==2){
-            x=14
-            y=22
+            x=15
+            y=21
         }
         if(factor==3){
-            x=1
-            y=4
+            x=2
+            y=3
         }
         return Pair(x, y)
     }
@@ -318,25 +361,25 @@ class TestActivity : AppCompatActivity() {
     Esta funcion sera cambiada una vez se introduzca la bbd
      */
 
-    fun calcularNota(): String{
-
-        var sumFactores = arrayOf<Int>(0,0,0)
-
+    fun calcularFactores(): Array<Int>{
+        val sumFactores = arrayOf<Int>(0,0,0)
         val bh = DBHelper(this)
-        val dbR: SQLiteDatabase = bh.getReadableDatabase()
+        val dbR: SQLiteDatabase = bh.readableDatabase
 
         for(i in 1..3){
             val c = dbR.rawQuery("SELECT SUM(valor) FROM Preguntas Where factor = $i", null)
-            if(c.moveToFirst()){
-                do{
-                    sumFactores[i-1]=c.getInt(0)
+            if(c.moveToFirst()) {
+                do {
+                    sumFactores[i-1] = c.getInt(0)
                 } while (c.moveToNext())
             }
             c.close()
         }
+        return sumFactores
+    }
 
-
-        dbR.close()
+    fun calcularNota(): String{
+        var sumFactores = calcularFactores()
 
         var x = 0
         var y = 0
@@ -350,6 +393,8 @@ class TestActivity : AppCompatActivity() {
             x = variables!!.first
             y = variables!!.second
 
+            // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
+
             if(sumFactores[t-1]<=x){
                 nivel[t-1] = "bajo"
             }
@@ -361,71 +406,15 @@ class TestActivity : AppCompatActivity() {
             }
             t++
         }
-
-        /*
-        Fis = 1
-        Cog = 2
-        Evi = 3
-         */
-
-        var sumTodos = sumFactores[0]+sumFactores[1]+sumFactores[2]
-        var sumFisCog = sumFactores[0]+sumFactores[1]
-        var sumCogEvi = sumFactores[1]+sumFactores[2]
-        var sumFisEvi = sumFactores[0]+sumFactores[2]
-
-
-
         return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]
     }
 
-    // Posible traslado a la clase RegisterUserDialog?
-    fun guardarDatosUsuario(){
-        var nombreAux=""
-        val bh = DBHelper(this)
-        val dbR: SQLiteDatabase = bh.getReadableDatabase()
-
-        if(userName!=null){
-            val c = dbR.rawQuery("SELECT nombre FROM Usuarios Where nombre = $userName", null)
-            if(c.moveToFirst()){
-                do{
-                    nombreAux=c.getString(0)
-                } while (c.moveToNext())
-            }
-            c.close()
-        }
-
-        /*
-        Controla que el usuario no exista en la bdd
-         */
-
-        if(nombreAux==null){
-            val db: SQLiteDatabase = bh.getWritableDatabase()
-            db.beginTransaction()
-
-            var nomUser = userName.toString()
-            var genUser = userGender.toString()
-            var ageUser = userAge.toString().toInt()
-
-
-            val cvalue = ContentValues()
-            cvalue.put("username", nomUser)
-            cvalue.put("genero", genUser)
-            cvalue.put("edad", ageUser)
-            cvalue.put("subido", 0) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
-            db.insert("Usuarios", null, cvalue)
-        }else{
-            //Hacer popup de que el usuario ya existe
-        }
-    }
-
-    override fun onDestroy() {
+    private fun destruction() {
 
         if(i != 0) {
             preferencesUtil?.setNumPage(i-5)
         }else{
             preferencesUtil?.setNumPage(i)
         }
-
-        super.onDestroy()
     }
 }
