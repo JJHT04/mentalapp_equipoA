@@ -1,30 +1,29 @@
 package com.example.mentalapp_equipoa
 
 import android.app.Activity
+import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import android.widget.Toast
+import com.example.mentalapp_equipoa.PruebasFirebase.Companion.getMaxId
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
-import kotlinx.coroutines.tasks.await
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
 import java.util.Calendar
-import java.util.concurrent.Callable
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
-import java.util.concurrent.ScheduledExecutorService
-import java.util.concurrent.TimeUnit
+import java.util.Date
 
 class ConexionFirebase {
-    fun insertarTest(actividad: Activity) {
+    private fun insertar(actividad: Activity) {
         // Toast.makeText(actividad,"Hola don Pepito",Toast.LENGTH_LONG).show()
         val time: Calendar = Calendar.getInstance()
 
@@ -42,8 +41,7 @@ class ConexionFirebase {
             "edad" to 18,
             "FACT01" to 18,
             "FACT02" to 21,
-            "FACT03" to 12,
-            "FACT04" to 32,
+            "FACT03" to 12
         )
 
         db.collection("resultados2")
@@ -57,40 +55,65 @@ class ConexionFirebase {
                 Log.w("prueba", "Error adding document", e)
             }
     }
-    fun insertar(usuario:String, sexo:String, edad:Int, factor1:Int,factor2:Int,factor3:Int,factor4:Int) {
+    fun insertarTest(usuario:String, sexo:String, fecha:Date, edad:Int, factor1:Int, factor2:Int, factor3:Int) {
+        //Devuelve una conexion del firebase directa a la base de datos
+        val db: FirebaseFirestore = Firebase.firestore
+
+        getMaxId("resultados2").addOnCompleteListener { res ->
+            // Es como un Diccionario de Strings(campos) y cualquier elemento
+            val inserto = hashMapOf<String, Any>(
+                "id" to res.result,
+                "usuario" to usuario,
+                "fecha" to fecha,
+                "sexo" to sexo,
+                "edad" to edad,
+                "FACT01" to factor1,
+                "FACT02" to factor2,
+                "FACT03" to factor3
+            )
+
+            db.collection("resultados2").add(inserto)
+            /*    .addOnSuccessListener { documentReference ->
+                    Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w("prueba", "Error adding document", e)
+                }*/
+        }
+    }
+    fun insertarTest(usuario:String, sexo:String, edad:Int, factor1:Int, factor2:Int, factor3:Int) {
         // Toast.makeText(actividad,"Hola don Pepito",Toast.LENGTH_LONG).show()
-        val time: Calendar = Calendar.getInstance()
+        val time: Date = Calendar.getInstance().time
 
         //Devuelve una conexion del firebase directa a la base de datos
         val db: FirebaseFirestore = Firebase.firestore
 
-        // Es como un Diccionario de Strings(campos) y cualquier elemento
-        val inserto = hashMapOf<String, Any>(
-            "id" to 1,
-            "usuario" to usuario,
-            "fecha" to time,
-            "sexo" to sexo,
-            "edad" to edad,
-            "FACT01" to factor1,
-            "FACT02" to factor2,
-            "FACT03" to factor3,
-            "FACT04" to factor4,
-        )
+        getMaxId("resultados2").addOnCompleteListener { res ->
+            // Es como un Diccionario de Strings(campos) y cualquier elemento
+            val inserto = hashMapOf<String, Any>(
+                "id" to res.result,
+                "usuario" to usuario,
+                "fecha" to time,
+                "sexo" to sexo,
+                "edad" to edad,
+                "FACT01" to factor1,
+                "FACT02" to factor2,
+                "FACT03" to factor3
+            )
 
-        db.collection("resultados2")
-            .add(inserto)
-            .addOnSuccessListener { documentReference ->
-                Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("prueba", "Error adding document", e)
-            }
+            db.collection("resultados2").add(inserto)
+            /*    .addOnSuccessListener { documentReference ->
+                    Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w("prueba", "Error adding document", e)
+                }*/
+        }
     }
-
-
-    fun getMaxId(coleccion:String):Long{
+    private fun getMaxId(coleccion:String):Task<Long>{
         val db: FirebaseFirestore = Firebase.firestore
-        var max: Long = 0
+        val max: TaskCompletionSource<Long> = TaskCompletionSource<Long>()
+
         // Realiza la consulta ordenando por el campo 'id' de forma descendente y limitando a 1 resultado
         val loc: Task<QuerySnapshot> = db.collection(coleccion)
             .orderBy("id", Query.Direction.DESCENDING)
@@ -103,61 +126,77 @@ class ConexionFirebase {
                 val documentoMaxID:DocumentSnapshot = documentReference.documents[0]
                 val maxId: Long?  = documentoMaxID.getLong("id")
                 if (maxId != null) {
-                    max = maxId + 1
+                    max.setResult(maxId + 1)
                 }
-                Log.d("test", "Máximo ID encontrado: $max")
+                Log.d("test", "Máximo ID encontrado: ${max.task.result}")
+            } else {
+                max.setResult(0)
             }
         }
-        Log.d("test", "Máximo ID fuera : $max")
-        return max
+        //Log.d("test", "Máximo ID fuera : ${max.task.result}")
+        return max.task
     }
-
-    fun recuperar() {
-        //Devuelve una conexion del firebase directa a la base de datos
-        val db: FirebaseFirestore = Firebase.firestore
-
-        db.collection("resultados")
-            //.whereEqualTo("capital", true) // campo -> valor buscado
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Log.d("Holi", "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("Holi", "Error getting documents: ", exception)
-            }
-    }
-    fun recuperarLocal(actividad: Activity) {
-        //Devuelve una conexion del firebase directa a la base de datos
-        val db: FirebaseFirestore = Firebase.firestore
-
-        db.collection("resultados")
-            //.whereEqualTo("capital", true) // campo -> valor buscado
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Log.d("Holi", "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("Holi", "Error getting documents: ", exception)
-            }
-    }
-    private fun obtenerPregunta(actividad: Activity, i: Int,) {
-        val bh:DBHelper = DBHelper(actividad)
-
+    fun sincronizarLocalFirebase(context: Context){
+        val bh = DBHelper(context)
         val dbR: SQLiteDatabase = bh.readableDatabase
+        val db: SQLiteDatabase = bh.writableDatabase
 
-        val c = dbR.rawQuery("SELECT Pregunta,factor FROM Preguntas WHERE Id = $i", null)
+        // nick es referenica a usuario
+        val c = dbR.rawQuery("SELECT intento, nick, factor1, factor2, factor3, sincronizado FROM Respuestas WHERE sincronizado = false", null)
         if (c.moveToFirst()) {
             do {
-                val pregunta = c.getString(0)
-                val factor = c.getInt(1)
+                val intento:Int = c.getInt(0)
+                val nombre:String = c.getString(0)
+                val sexo:String = c.getString(0)
+                val fecha:Date = Date() // c.getDate(0) ¿No existe Date?
+                val edad:Int = c.getInt(0)
+                val fac1:Int = c.getInt(0)
+                val fac2:Int = c.getInt(0)
+                val fac3:Int = c.getInt(0)
+
+                insertarTest(nombre,sexo,fecha,edad,fac1,fac2,fac3)
+
+                // ** Actualizar la tabla local **
+                db.beginTransaction()
+
+                val cvalue = ContentValues()
+                cvalue.put("sincronizado", true)
+
+                // Especifica la condición para la actualización (en este ejemplo, basado en el Id)
+                val whereClause = "intento = ?"
+                val whereArgs = Array<String>(1){ intento.toString() }
+
+                // Realiza la actualización
+                val filasActualizadas = db.update("Respuestas", cvalue, whereClause, whereArgs)
+
+                db.setTransactionSuccessful()
+                db.endTransaction()
+
             } while (c.moveToNext())
+        } else {
+            // Todas Sincronizadas
         }
         c.close()
+        db.close()
         dbR.close()
+        bh.close()
+    }
+
+    fun recuperarTestFirebase() {
+        //Devuelve una conexion del firebase directa a la base de datos
+        val db: FirebaseFirestore = Firebase.firestore
+
+        db.collection("resultados")
+            //.whereEqualTo("capital", true) // campo -> valor buscado
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d("Holi", "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("Holi", "Error getting documents: ", exception)
+            }
     }
 
 }

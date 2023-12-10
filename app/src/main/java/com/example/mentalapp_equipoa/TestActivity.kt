@@ -3,6 +3,7 @@ package com.example.mentalapp_equipoa
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
@@ -248,6 +249,40 @@ class TestActivity : AppCompatActivity() {
             }else{
                 findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
+
+                var sincronizado:Boolean = true
+                // ** Firebase **
+                // Log.i("aus","Austria Hungria declaro la guerra a Serbia")
+
+                if (TestCon.hayConexion()){
+                    Log.i("aus","Si hay conexion")
+                    preferencesUtil = PreferencesUtil(this)
+                    val con:ConexionFirebase = ConexionFirebase()
+
+                    val usuario:String? = preferencesUtil!!.getUsername()
+                    val sexo:String? = preferencesUtil!!.getGender()
+                    val edad: Int = preferencesUtil!!.getAge()
+
+                    Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
+
+                    val factores:Array<Int> = calcularFactores()
+                    val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
+                    Log.i("aus","DE FUERA\nFactor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                    if (usuario != null && sexo != null) {
+                        Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
+                    } else {
+                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
+                        // Petaron las "preferencesUtil"
+                        // TODO: Si no ha podido insertar cambiar el boolean de sicnronizado de true a false
+                        sincronizado = false
+                    }
+                } else {
+                    sincronizado = false
+                    Log.i("aus","No hay conexion")
+                }
+
+
                 val texto: Array<String> = leerArchivo()
                 val bh = DBHelper(this)
                 val db: SQLiteDatabase = bh.getWritableDatabase()
@@ -326,21 +361,25 @@ class TestActivity : AppCompatActivity() {
     Esta funcion sera cambiada una vez se introduzca la bbd
      */
 
-    fun calcularNota(): String{
-
-        var sumFactores = arrayOf<Int>(0,0,0)
-
+    fun calcularFactores(): Array<Int>{
+        val sumFactores = arrayOf<Int>(0,0,0)
         val bh = DBHelper(this)
-        val dbR: SQLiteDatabase = bh.getReadableDatabase()
+        val dbR: SQLiteDatabase = bh.readableDatabase
 
         for(i in 1..3){
             val c = dbR.rawQuery("SELECT SUM(valor) FROM Preguntas Where factor = $i", null)
-            if(c.moveToFirst()){
-                do{
-                    sumFactores[i-1]=c.getInt(0)
+            if(c.moveToFirst()) {
+                do {
+                    sumFactores[i-1] = c.getInt(0)
                 } while (c.moveToNext())
             }
+            c.close()
         }
+        return sumFactores
+    }
+
+    fun calcularNota(): String{
+        var sumFactores = calcularFactores()
 
         var x = 0
         var y = 0
