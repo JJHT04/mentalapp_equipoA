@@ -24,9 +24,6 @@ val previous_results = ArrayList<String>()
 var userName = MutableLiveData<String>()
 var userAge: Int? = null
 var userGender: Gender? = null
-private const val TAG = "MainActivity"
-const val EXTRA_MESSAGE = "com.example.mentalapp_equipoa.MESSAGE"
-private var dataChanged: Boolean = false
 
 fun showToast (context: Context, message: String) = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 fun showToast (context: Context, @StringRes id: Int) = Toast.makeText(context, id, Toast.LENGTH_SHORT).show()
@@ -43,13 +40,16 @@ class MainActivity : AppCompatActivity() {
         preferencesUtil = PreferencesUtil(this)
 
         userName.observe(this){
+
             if (it != null) {
+                userAge = preferencesUtil.getAge()
+                userGender = preferencesUtil.getGender()
                 supportActionBar?.title = it
                 supportActionBar?.subtitle = "$userAge ${getString(R.string.years_old)}"
 
                 val originalDrawable = getIconHappy(this)
                 // Redimensiona el Drawable creando un nuevo Bitmap con las dimensiones deseadas
-                val resizedBitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+                val resizedBitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(resizedBitmap)
                 originalDrawable?.setBounds(0, 0, canvas.width, canvas.height)
                 originalDrawable?.draw(canvas)
@@ -61,9 +61,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         userName.value = preferencesUtil.getUsername()
-        userAge = preferencesUtil.getAge()
-        userGender = preferencesUtil.getGender()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

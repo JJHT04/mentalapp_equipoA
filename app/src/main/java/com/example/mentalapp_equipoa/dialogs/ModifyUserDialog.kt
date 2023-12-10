@@ -58,14 +58,14 @@ class ModifyUserDialog : DialogFragment() {
                     val age = dialogView.findViewById<TextView>(R.id.Age).text.toString()
 
                     if (username.isNotBlank() && age.isNotBlank() && spinner.selectedItemPosition != Spinner.INVALID_POSITION) {
-                        userName.value = username
                         userAge = age.toInt()
                         userGender = genderMap[spinner.selectedItem.toString()]
 
                         val preferencesUtil = PreferencesUtil(requireContext())
-                        preferencesUtil.setUsername(userName.value!!)
                         preferencesUtil.setAge(userAge!!)
                         preferencesUtil.setGender(userGender!!)
+                        userName.value = username
+                        preferencesUtil.setUsername(userName.value!!)
                         Toast.makeText(activity, "Modificación realizada correctamente", Toast.LENGTH_SHORT).show()
                         PruebasFirebase.modificarUsuario(actividadMain, username, age.toInt(), userGender.toString())
                         PruebasFirebase.modificarUsuarioFirebase(username, age.toInt(), userGender.toString())

@@ -38,7 +38,7 @@ class DBHelper(context: Context) :
     }
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val DATABASE_NAME = "p1_preguntas.db"
     }
 
