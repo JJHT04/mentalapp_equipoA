@@ -1,18 +1,21 @@
 package com.example.mentalapp_equipoa
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+import com.example.mentalapp_equipoa.enums.Gender
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -21,10 +24,29 @@ import java.util.Date
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
+
+fun getIconHappy (context: Context): Drawable? {
+    return when (userGender) {
+        Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_happy)
+
+        else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_happy)
+    }
+}
+
+fun getIconAnnoyed (context: Context): Drawable? {
+    return when (userGender) {
+        Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_annoyed)
+
+        else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_annoyed)
+    }
+}
+
 class TestActivity : AppCompatActivity() {
-    private var preferencesUtil: PreferencesUtil? = null
+    private var progressBar: IconRoundCornerProgressBar? = null
+    private lateinit var preferencesUtil: PreferencesUtil
     private var preguntas2 = Array<String?>(20){null}
-    private var i = 0
+    private var i: Int = 0
+    private var iconChange = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +57,18 @@ class TestActivity : AppCompatActivity() {
             navigateUpTo(intent)
         }
 
+        progressBar = findViewById(R.id.iconRoundCornerProgressBar)
+
         preferencesUtil = PreferencesUtil(this)
 
         val isFirst = preferencesUtil!!.isFirstRun()
         i = preferencesUtil!!.getNumPage()
+
+        progressBar?.apply {
+            setProgress(i)
+            setIconImageDrawable(getIconHappy(this@TestActivity))
+        }
+
         if(i == 15){
             findViewById<Button>(R.id.btnSiguiente).apply {
                 text = getString(R.string.mostrar)
@@ -249,6 +279,14 @@ class TestActivity : AppCompatActivity() {
                 if(i == preguntas2.size){
                     findViewById<Button>(R.id.btnSiguiente).apply { text = getString(R.string.mostrar) }
                 }
+
+                progressBar?.apply {
+                    setProgress(i-5)
+                    if (iconChange) {
+                        setIconImageDrawable(getIconHappy(this@TestActivity))
+                        iconChange = false
+                    }
+                }
             }else{
                 findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
@@ -261,11 +299,10 @@ class TestActivity : AppCompatActivity() {
 
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
-                    preferencesUtil = PreferencesUtil(this)
                     val con:ConexionFirebase = ConexionFirebase()
 
                     val usuario:String? = preferencesUtil!!.getUsername()
-                    val sexo:String? = preferencesUtil!!.getGender()
+                    val sexo: String = preferencesUtil!!.getGender().toString()
                     val edad: Int = preferencesUtil!!.getAge()
 
                     Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
@@ -327,10 +364,10 @@ class TestActivity : AppCompatActivity() {
                 findViewById<Button?>(R.id.btnSiguiente).apply {
                     isEnabled = false
                 }
+                progressBar?.setProgress(20)
                 i = 0
 
             }
-
             destruction()
         }else {
             showToast(this, "Contesta todas las preguntas")
@@ -343,6 +380,14 @@ class TestActivity : AppCompatActivity() {
                 i -=10
                 cargarPreguntas()
                 findViewById<Button>(R.id.btnSiguiente).apply { text = "Siguiente" }
+                progressBar?.apply {
+                    setProgress(i-5)
+
+                    if (!iconChange) {
+                        setIconImageDrawable(getIconAnnoyed(this@TestActivity))
+                        iconChange = true
+                    }
+                }
             }else{
                 showToast(this, "No hay preguntas anteriores")
             }

@@ -2,7 +2,7 @@ package com.example.mentalapp_equipoa
 
 import android.content.Context
 import android.content.SharedPreferences
-import kotlin.reflect.typeOf
+import com.example.mentalapp_equipoa.enums.Gender
 
 private const val PREF_NAME = "MyAppPrefs"
 private const val KEY_FIRST_RUN = "isFirstRun"
@@ -10,6 +10,7 @@ private const val KEY_PAG_NUM = "pagNum"
 private const val KEY_USERNAME = "username"
 private const val KEY_GENDER = "gender"
 private const val KEY_AGE = "age"
+private const val KEY_DATA_CHANGED = "dataChange"
 
 class PreferencesUtil(context: Context) {
 
@@ -48,10 +49,16 @@ class PreferencesUtil(context: Context) {
         writePreference(KEY_USERNAME, value)
     }
 
-    fun getGender (): String? = sharedPreferences.getString(KEY_GENDER, null)
+    fun getGender (): Gender? = sharedPreferences.getString(KEY_GENDER, null)?.let {
+        when(it) {
+            Gender.MALE_GENDER_DEFAULT_STRING -> Gender.MALE
+            Gender.FEMALE_GENDER_DEFAULT_STRING -> Gender.FEMALE
+            else -> Gender.NON_BINARY
+        }
+    }
 
-    fun setGender (value: String) {
-        writePreference(KEY_GENDER, value)
+    fun setGender (value: Gender) {
+        writePreference(KEY_GENDER, value.toString())
     }
 
     fun getAge (): Int = sharedPreferences.getInt(KEY_AGE,0)
@@ -59,6 +66,4 @@ class PreferencesUtil(context: Context) {
     fun setAge (value: Int) {
         writePreference(KEY_AGE, value)
     }
-
-
 }

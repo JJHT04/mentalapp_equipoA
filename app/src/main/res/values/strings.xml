@@ -62,4 +62,8 @@
     <string name="rdbNoBinario">No Binario\n</string>
     <string name="history">History</string>
     <string name="mostrar">Mostrar</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="non_binary">Non Binary</string>
+    <string name="years_old">years old</string>
 </resources>
