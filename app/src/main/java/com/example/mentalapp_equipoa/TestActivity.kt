@@ -297,7 +297,8 @@ class TestActivity : AppCompatActivity() {
                     val con:ConexionFirebase = ConexionFirebase()
 
                     val usuario:String? = preferencesUtil!!.getUsername()
-                    val idFirebaseUser:String? = preferencesUtil!!.getUsername() // conseguir el id de firebase
+                    val sexo:String? = preferencesUtil!!.getGender().toString()
+                    val edad:Int? = preferencesUtil!!.getAge()
 
                     Log.i("aus","Usuario -> ${usuario}")
 
@@ -319,7 +320,11 @@ class TestActivity : AppCompatActivity() {
                     bh.close()*/
 
                     Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
-                    con.insertarTest(3,trio.first,trio.second,trio.third)
+                    if (sexo != null && usuario != null && edad != null) {
+                        con.insertarTest(usuario,sexo, edad,trio.first,trio.second,trio.third)
+                    } else {
+                        sincronizado = false
+                    }
                 } else {
                     sincronizado = false
                     Log.i("aus","No hay conexion")

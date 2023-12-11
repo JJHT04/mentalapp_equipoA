@@ -112,9 +112,9 @@ class ConexionFirebase {
 
         // nick es referenica a usuario
         val c = dbR.rawQuery(
-            "SELECT id, username, fecha, factor1, factor2, factor3, subido" +
+            "SELECT resultados.id, username, fecha, factor1, factor2, factor3, subido" +
                     " FROM resultados, users" +
-                    " WHERE subido = 0", null
+                    " WHERE subido = 0 AND username = name", null
         )
         if (c.moveToFirst()) {
             do {
