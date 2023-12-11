@@ -74,6 +74,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         numPag.value = preferencesUtil.getNumPage()
+
+        val con:ConexionFirebase = ConexionFirebase()
+        if (TestCon.hayConexion()){
+            con.sincronizarLocalFirebase(this)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
