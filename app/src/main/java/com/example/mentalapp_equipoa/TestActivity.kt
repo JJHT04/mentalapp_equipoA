@@ -79,6 +79,27 @@ class TestActivity : AppCompatActivity() {
         }
         cargarPreguntas()
     }
+
+    override fun onNavigateUp(): Boolean {
+        numPag.value = preferencesUtil.getNumPage()
+        return super.onNavigateUp()
+    }
+
+    override fun onDestroy() {
+        numPag.value = preferencesUtil.getNumPage()
+        super.onDestroy()
+    }
+
+    override fun onStop() {
+        numPag.value = preferencesUtil.getNumPage()
+        super.onStop()
+    }
+
+    override fun onPause() {
+        numPag.value = preferencesUtil.getNumPage()
+        super.onPause()
+    }
+
     private fun leerArchivo(): Array<String> {
         val inputStream = resources.openRawResource(R.raw.preguntas)
         val byteArray = ByteArrayOutputStream()

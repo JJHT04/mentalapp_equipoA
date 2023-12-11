@@ -2,6 +2,7 @@ package com.example.mentalapp_equipoa
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.Task
@@ -15,17 +16,16 @@ import java.util.Calendar
 class PruebasFirebase {
     companion object {
 
-        fun iniciarSesion(userName: String){
-            //cargarResultadosPrevios(); //TODO:
+        fun iniciarSesion(context: Context, userName: String){
+            //cargarResultadosPrevios(); //TODO: crear PreferencesUtil y llamar a setIDFireBase()
         }
 
-        fun modificarUsuarioFirebase(userName: String, userAge: Int, userGender: String){
-            //TODO: Funciona pero qué sentido tiene hacer esto? Si en Firebase se pueden repetir los nombres de usuario, cómo elegimos al específico de ese dispositivo?
+        fun modificarUsuarioFirebase(context: Context, userName: String, userAge: Int, userGender: String){
             val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-            val oldUsername = "test55" //TODO: Variable de prueba, cambiar a parámetro cuando sepamos cómo obtener el nombre del current user logeado
+            val userID = PreferencesUtil(context).getIDFireBase()
             db.collection("user")
-                .whereEqualTo("userName", oldUsername)
+                .whereEqualTo("id", userID)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
                     for (document in querySnapshot.documents) {
@@ -51,7 +51,7 @@ class PruebasFirebase {
 
         fun modificarUsuario(context: MainActivity, newName : String, age : Int, gender : String){
             //TODO: SOLO PARA PRUEBAS el oldName como variable y no como parámetro, CAMBIAR A FUNCIONAL cuando sepamos de donde coger el currentUserName
-            val oldName = "test"
+            val oldName = PreferencesUtil(context).getUsername()
 
             val dbHelper = DBHelper(context)
             val db = dbHelper.writableDatabase
@@ -106,13 +106,13 @@ class PruebasFirebase {
             return existe
         }
 
-        fun registrarUsuarioFirebase(userName : String, userAge: Int, userGender: String){
+        fun registrarUsuarioFirebase(context: Context, userName : String, userAge: Int, userGender: String){
             val db: FirebaseFirestore = Firebase.firestore
 
             getMaxId("user").addOnCompleteListener { tarea ->
                 if (tarea.isSuccessful) {
                     val nuevoId = tarea.result
-
+                    PreferencesUtil(context).setIDFireBase(nuevoId.toLong())
                     val registro = hashMapOf(
                         "id" to nuevoId,
                         "userName" to userName,

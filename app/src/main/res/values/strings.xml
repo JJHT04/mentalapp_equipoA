@@ -66,4 +66,6 @@
     <string name="female">Female</string>
     <string name="non_binary">Non Binary</string>
     <string name="years_old">years old</string>
+    <string name="resume_test">Resume test</string>
+    <string name="take_test">Take test</string>
 </resources>

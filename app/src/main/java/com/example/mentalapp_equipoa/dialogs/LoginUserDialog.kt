@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.mentalapp_equipoa.MainActivity
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
+import com.example.mentalapp_equipoa.showToast
 import com.example.mentalapp_equipoa.userName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -36,7 +37,7 @@ class LoginUserDialog : DialogFragment() {
             val inflater = requireActivity().layoutInflater
             val dialogView = inflater.inflate(R.layout.layout_login, null)
 
-            builder.setTitle(getString(R.string.enter_the_new_username))
+            builder.setTitle("Introduce el nombre del usuario")
                 .setView(dialogView)
                 .setNegativeButton("Cancelar") { _, _ ->
                     //Toast.makeText(activity, "Acceso de usuario cancelado", Toast.LENGTH_SHORT).show()
@@ -44,18 +45,20 @@ class LoginUserDialog : DialogFragment() {
                 .setPositiveButton("Acceder") { _, _ ->
                     val username = dialogView.findViewById<TextView>(R.id.username).text.toString()
 
-                    if (username.isNotBlank() && username == userName.value) {
-                        Toast.makeText(activity, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
+                    if (username.isNotBlank() && username != userName.value) {
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){
-                            PruebasFirebase.iniciarSesion(username)
+                            PruebasFirebase.iniciarSesion(requireContext(), username)
+                            Toast.makeText(activity, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                         }else{
                             Toast.makeText(activity, "Este usuario no está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
                         }
                         valid = true //??
-                    } else {
-                        val toast = Toast.makeText(activity, "Introduce un nombre de usuario", Toast.LENGTH_SHORT)
+                    } else if (username.isBlank()) {
+                        val toast = Toast.makeText(activity, "Introduce el nombre", Toast.LENGTH_SHORT)
                         toast.setGravity(Gravity.CENTER, 0, 0)
                         toast.show()
+                    } else {
+                        showToast(requireContext(), "$username ya esta iniciado sesión")
                     }
                 }
 

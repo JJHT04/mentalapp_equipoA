@@ -9,11 +9,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.MutableLiveData
+import com.example.mentalapp_equipoa.dialogs.GenericDialog
 import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
 import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
 import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
@@ -24,7 +27,7 @@ val previous_results = ArrayList<String>()
 var userName = MutableLiveData<String>()
 var userAge: Int? = null
 var userGender: Gender? = null
-
+val numPag = MutableLiveData<Int>()
 fun showToast (context: Context, message: String) = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 fun showToast (context: Context, @StringRes id: Int) = Toast.makeText(context, id, Toast.LENGTH_SHORT).show()
 class MainActivity : AppCompatActivity() {
@@ -61,6 +64,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         userName.value = preferencesUtil.getUsername()
+
+        numPag.observe(this) {
+            if (it > 0) {
+                findViewById<Button>(R.id.btnForm).text = getString(R.string.resume_test)
+            } else {
+                findViewById<Button>(R.id.btnForm).text = getString(R.string.take_test)
+            }
+        }
+
+        numPag.value = preferencesUtil.getNumPage()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -80,7 +93,11 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.modificar -> {
-                ModifyUserDialog().show(supportFragmentManager, "modifyDialog")
+                if (userName.value != null) {
+                    ModifyUserDialog().show(supportFragmentManager, "modifyDialog")
+                } else {
+                    GenericDialog.showGenericDialog(supportFragmentManager, "Aviso", "No tienes ningún usuario registrado en este dispositivo", AppCompatResources.getDrawable(this,R.drawable.baseline_info_24))
+                }
                 true
             }
             R.id.acceder -> {
@@ -100,8 +117,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btnTestOnClick(view: View) {
-        TestDialog(getString(R.string.information_test_dialog),
-            getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
+        if (userName.value != null) {
+            TestDialog(getString(R.string.information_test_dialog),
+                getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
+        } else {
+            GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de iniciar sesión o registrarte para hacer el test", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
+        }
     }
 
     fun btnPreviousOnClick(view: View) {

@@ -72,7 +72,7 @@ class RegisterUserDialog : DialogFragment() {
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){ //Si ya existe
                             Toast.makeText(activity, "Este usuario ya está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
                         }else{
-                            PruebasFirebase.registrarUsuarioFirebase(username, Integer.parseInt(age), userGender.toString())
+                            PruebasFirebase.registrarUsuarioFirebase(requireContext(), username, Integer.parseInt(age), userGender.toString())
                             PruebasFirebase.registrarUsuarioLocal(actividadMain, username, Integer.parseInt(age), userGender.toString())
                             Toast.makeText(activity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
                         }

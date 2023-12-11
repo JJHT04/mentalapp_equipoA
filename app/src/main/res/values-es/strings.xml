@@ -35,4 +35,6 @@
     <string name="female">Mujer</string>
     <string name="non_binary">No Binario</string>
     <string name="years_old">años</string>
+    <string name="resume_test">Continuar test</string>
+    <string name="take_test">Realizar Test</string>
 </resources>

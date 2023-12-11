@@ -34,6 +34,7 @@ class DBHelper(context: Context) :
 // to simply to discard the data and start over
         db.execSQL(SQL_DELETE_ENTRIES1)
         db.execSQL(SQL_DELETE_ENTRIES2)
+        db.execSQL(SQL_DELETE_USERTABLE)
         onCreate(db)
     }
     companion object {
