@@ -1,5 +1,6 @@
 package com.example.mentalapp_equipoa
 
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -29,9 +30,53 @@ class PreviousResultsActivity : AppCompatActivity() {
             navigateUpTo(intent)
         }
 
-        for (i in 1..3) {
+        var numTest = numTestHechos()
+
+        if(numTest==0){
+            val textView = TextView(this).apply {
+                text= "No hay resultados anteriores"
+                textAlignment = View.TEXT_ALIGNMENT_CENTER
+            }
+        }
+        for (i in 1..numTest) {
             createCard("Resultado Test $i", "Resultado factores : [1,2,3]\n Consejos: BEBE AGUA", R.drawable.baseline_keyboard_arrow_left_24)
         }
+    }
+
+    private fun numTestHechos(): Int{
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.readableDatabase
+        var nombre = userName.value
+        val c = dbR.rawQuery("SELECT MAX(id) FROM Resultados WHERE username = ?", arrayOf(nombre))
+        var numTest = 0
+
+        if(c.moveToNext()){
+            do{
+                numTest = c.getInt(0)
+            } while (c.moveToNext())
+            c.close()
+        }
+        dbR.close()
+
+        return numTest
+    }
+
+    fun recogerFactores(i: Int):Array<Int>{
+        var factores = arrayOf<Int>(0,0,0)
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.readableDatabase
+        val c = dbR.rawQuery("SELECT factor1, factor2, factor3 FROM Resultados WHERE username = ? AND id = $i", arrayOf(userName.value))
+
+        if(c.moveToNext()){
+            do{
+                factores[0]= c.getInt(0)
+                factores[1]= c.getInt(1)
+                factores[2]= c.getInt(2)
+            } while (c.moveToNext())
+            c.close()
+        }
+        dbR.close()
+        return factores
     }
 
     private fun createCard (title: String, body: String, @DrawableRes icon: Int) {

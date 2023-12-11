@@ -1,7 +1,9 @@
 package com.example.mentalapp_equipoa
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -18,12 +20,13 @@ import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
 import com.example.mentalapp_equipoa.enums.Gender
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Date
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
+const val EXTRAMESSAGE = "mensaje"
 
 fun getIconHappy (context: Context): Drawable? {
     return when (userGender) {
@@ -103,22 +106,7 @@ class TestActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    private fun leerArchivo(): Array<String> {
-        val inputStream = resources.openRawResource(R.raw.preguntas)
-        val byteArray = ByteArrayOutputStream()
-        try {
-            var i = inputStream.read()
-            while (i != -1) {
-                byteArray.write(i)
-                i = inputStream.read()
-            }
-            inputStream.close()
-        } catch (io: IOException) {
-            io.printStackTrace()
-        }
-        return byteArray.toString().split("\n".toRegex()).dropLastWhile { it.isEmpty() }
-            .toTypedArray()
-    }
+
 
     private fun inicializar(iniciar: Boolean) {
         // Obtener las preferencias compartidas
@@ -126,7 +114,7 @@ class TestActivity : AppCompatActivity() {
         if (iniciar) {
             // Realizar acciones de inicialización o configuración inicial
             // Por ejemplo, crear la base de datos o realizar configuraciones iniciales
-            val texto: Array<String> = leerArchivo()
+            val texto: Array<String> = leerArchivo(resources.openRawResource(R.raw.preguntas))
 
             val bh = DBHelper(this)
             val db: SQLiteDatabase = bh.getWritableDatabase()
@@ -263,7 +251,7 @@ class TestActivity : AppCompatActivity() {
             )
             val radioButtonId = radioGroup.checkedRadioButtonId
             var num = findViewById<RadioButton>(radioButtonId).text.toString().toInt()
-            val texto: Array<String> = leerArchivo()
+            val texto: Array<String> = leerArchivo(resources.openRawResource(R.raw.preguntas))
             val bh = DBHelper(this)
             val db: SQLiteDatabase = bh.getWritableDatabase()
             db.beginTransaction()
@@ -309,7 +297,10 @@ class TestActivity : AppCompatActivity() {
                     }
                 }
             }else{
-                findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
+                val intent = Intent(this, UserGuideActivity::class.java ).apply {
+                    putExtra(EXTRAMESSAGE, asignarConsejos(calcularNota(calcularFactores()),this@TestActivity))
+                }
+
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
 
                 var sincronizado:Boolean = true
@@ -349,7 +340,7 @@ class TestActivity : AppCompatActivity() {
                 guardarResultados(factores,sincronizado)
 
 
-                val texto: Array<String> = leerArchivo()
+                val texto: Array<String> = leerArchivo(resources.openRawResource(R.raw.preguntas))
                 val bh = DBHelper(this)
                 val db: SQLiteDatabase = bh.getWritableDatabase()
                 db.beginTransaction()
@@ -387,7 +378,7 @@ class TestActivity : AppCompatActivity() {
                 }
                 progressBar?.setProgress(20)
                 i = 0
-
+                startActivity(intent)
             }
             destruction()
         }else {
@@ -473,13 +464,17 @@ class TestActivity : AppCompatActivity() {
         return sumFactores
     }
 
-    fun calcularNota(): String{
-        var sumFactores = calcularFactores()
+
+
+    fun calcularNota(factores: Array<Int>): Array<String>{
+        var sumFactores = factores
 
         var x = 0
         var y = 0
 
+        // Almacena los niveles de los factores por separado
         var nivel = arrayOf<String>("","","")
+        // Almacena los niveles de las sumas de los factores
         var nivel2 = arrayOf<String>("","","","")
 
         var t = 1
@@ -526,10 +521,11 @@ class TestActivity : AppCompatActivity() {
                 nivel2[j] = "alto"
             }
         }
-    // yyyy-mm-dd
 
-        return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]+"\n"+
-                "Otros, todo: "+nivel2[0]+", FigCog: "+nivel2[1]+", CogEvi: "+nivel2[2]+", FigEvi: "+nivel2[3]
+        // Almacena todos los nivele, los tres primeros son en separado, el resto son las sumas
+        var niveles= arrayOf<String>(nivel[0],nivel[1],nivel[2],nivel2[0],nivel2[1],nivel2[2],nivel2[3])
+
+        return niveles
     }
 
     fun guardarResultados(factores: Array<Int>, sincronizado:Boolean){
@@ -563,6 +559,229 @@ class TestActivity : AppCompatActivity() {
             preferencesUtil?.setNumPage(i-5)
         }else{
             preferencesUtil?.setNumPage(i)
+        }
+    }
+
+    companion object{
+        private fun leerArchivo(fichero: InputStream): Array<String> {
+            val byteArray = ByteArrayOutputStream()
+            try {
+                var i = fichero.read()
+                while (i != -1) {
+                    byteArray.write(i)
+                    i = fichero.read()
+                }
+                fichero.close()
+            } catch (io: IOException) {
+                io.printStackTrace()
+            }
+            return byteArray.toString().split("\n".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()
+        }
+
+        fun sacarLinea(i: Int, array: Array<String>): String{
+            val arrayAux = array[i].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()
+            return arrayAux[1]+"\n"+arrayAux[2]
+        }
+        fun asignarConsejos(niveles: Array<String>, activity: Activity): String{
+            var consejosPersonales = ""
+            val consejos = leerArchivo(activity.resources.openRawResource(R.raw.consejos))
+
+            for(i in niveles.indices){
+                //Fis
+                if (niveles[0]=="medio" || niveles[0]=="alto"){
+                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
+                                         sacarLinea(7, consejos)+"\n"+
+                                         sacarLinea(8, consejos)+"\n"+
+                                         sacarLinea(9, consejos)+"\n"+
+                                         sacarLinea(10, consejos)+"\n"+
+                                         "Consejos para no llegar a esta situacion: \n"+
+                                         sacarLinea(13, consejos)+"\n"+
+                                         sacarLinea(14, consejos)+"\n"+
+                                         sacarLinea(15, consejos)+"\n"
+                }
+                //Cog
+                if (niveles[1]=="medio" || niveles[1]=="alto"){
+                    consejosPersonales = sacarLinea(1, consejos)+"\n"+
+                                         sacarLinea(2, consejos)+"\n"+
+                                         sacarLinea(3, consejos)+"\n"+
+                                         sacarLinea(4, consejos)+"\n"+
+                                         sacarLinea(5, consejos)+"\n"+
+                                         "Consejos para no llegar a esta situacion: \n"+
+                                         sacarLinea(13, consejos)+"\n"+
+                                         sacarLinea(14, consejos)+"\n"+
+                                         sacarLinea(15, consejos)+"\n"+
+                                         sacarLinea(10, consejos)+"\n"
+                }
+                //Evi
+                if (niveles[2]=="medio" || niveles[2]=="alto"){
+                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
+                                        sacarLinea(3, consejos)+"\n"+
+                                        sacarLinea(11, consejos)+"\n"+
+                                        "Consejos para no llegar a esta situacion: \n"+
+                                        sacarLinea(19, consejos)+"\n"+
+                                        sacarLinea(20, consejos)+"\n"+
+                                        sacarLinea(10, consejos)+"\n"
+                }
+                //Todos
+                if (niveles[3]=="medio" || niveles[3]=="alto"){
+                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
+                                        sacarLinea(12, consejos)+"\n"+
+                                        sacarLinea(8, consejos)+"\n"+
+                                        sacarLinea(11, consejos)+"\n"+
+                                        sacarLinea(10, consejos)+"\n"+
+                                        "Consejos para no llegar a esta situacion: \n"+
+                                        sacarLinea(13, consejos)+"\n"+
+                                        sacarLinea(14, consejos)+"\n"+
+                                        sacarLinea(15, consejos)+"\n"
+                }
+                //Fis+Cog
+                if (niveles[4]=="medio" || niveles[4]=="alto"){
+                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
+                                        sacarLinea(2, consejos)+"\n"+
+                                        sacarLinea(3, consejos)+"\n"+
+                                        sacarLinea(8, consejos)+"\n"+
+                                        sacarLinea(9, consejos)+"\n"+
+                                        "Consejos para no llegar a esta situacion: \n"+
+                                        sacarLinea(13, consejos)+"\n"+
+                                        sacarLinea(14, consejos)+"\n"+
+                                        sacarLinea(15, consejos)+"\n"+
+                                        sacarLinea(10, consejos)+"\n"
+                }
+                //Cog+Evi
+                if (niveles[5]=="medio" || niveles[5]=="alto"){
+                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
+                                        sacarLinea(3, consejos)+"\n"+
+                                        sacarLinea(11, consejos)+"\n"+
+                                        sacarLinea(10, consejos)+"\n"+
+                                        "Consejos para no llegar a esta situacion: \n"+
+                                        sacarLinea(13, consejos)+"\n"+
+                                        sacarLinea(14, consejos)+"\n"+
+                                        sacarLinea(15, consejos)+"\n"
+                }
+                //Evi+Fis
+                if (niveles[6]=="medio" || niveles[6]=="alto"){
+                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
+                                        sacarLinea(8, consejos)+"\n"+
+                                        sacarLinea(11, consejos)+"\n"+
+                                        sacarLinea(10, consejos)+"\n"+
+                                        "Consejos para no llegar a esta situacion: \n"+
+                                        sacarLinea(13, consejos)+"\n"+
+                                        sacarLinea(14, consejos)+"\n"+
+                                        sacarLinea(15, consejos)+"\n"
+                }
+                //Ninguno
+                if (niveles[3]=="bajo") {
+                    consejosPersonales = "Consejos para seguir todo bajo control: "+
+                                        sacarLinea(13, consejos) + "\n" +
+                                        sacarLinea(14, consejos) + "\n" +
+                                        sacarLinea(15, consejos) + "\n"
+                }
+            }
+
+            return consejosPersonales
+        }
+        fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
+            var x = 0
+            var y = 0
+            if (factor == 1) {
+                x = 15
+                y = 23
+            }
+            if (factor == 2) {
+                x = 15
+                y = 21
+            }
+            if (factor == 3) {
+                x = 2
+                y = 3
+            }
+            return Pair(x, y)
+        }
+
+        fun asignarVariables2(factor: Int): Pair<Int, Int> {
+            var x = 0
+            var y = 0
+            if (factor == 0) {
+                x = 31
+                y = 50
+            }
+            if (factor == 1) {
+                x = 29
+                y = 46
+            }
+            if (factor == 2) {
+                x = 16
+                y = 27
+            }
+            if (factor == 3) {
+                x = 16
+                y = 29
+            }
+            return Pair(x, y)
+        }
+
+        fun calcularNota(factores: Array<Int>, context: Context): Array<String>{
+            var sumFactores = factores
+
+            var x = 0
+            var y = 0
+
+            // Almacena los niveles de los factores por separado
+            var nivel = arrayOf<String>("","","")
+            // Almacena los niveles de las sumas de los factores
+            var nivel2 = arrayOf<String>("","","","")
+
+            var t = 1
+
+            for(i in 1..3){
+                val variables = asignarVariablesCalcularNota(i)
+                x = variables!!.first
+                y = variables!!.second
+
+                if(sumFactores[t-1]<=x){
+                    nivel[t-1] = "bajo"
+                }
+                if(sumFactores[t-1]>x && sumFactores[t-1]<=y){
+                    nivel[t-1] = "medio"
+                }
+                if(sumFactores[t-1]>y){
+                    nivel[t-1] = "alto"
+                }
+                t++
+            }
+
+            /*
+            sumFactores2[0]: suma de todos
+            sumFactores2[1]:suma Fisiologico y Cognitivo
+            sumFactores2[2]: suma Cognitivo y Evitacion
+            sumFactores2[3]: suma Fisiologico y evitcion
+             */
+
+            val sumFactores2 = arrayOf<Int>(sumFactores[0]+sumFactores[1]+sumFactores[2],
+                sumFactores[0]+sumFactores[1],sumFactores[1]+sumFactores[2], sumFactores[0]+sumFactores[2])
+
+            for(j in 0..sumFactores2.size-1){
+                val variables = asignarVariables2(j)
+                x = variables!!.first
+                y = variables!!.second
+
+                if(sumFactores2[j]<=x){
+                    nivel2[j] = "bajo"
+                }
+                if(sumFactores2[j]>x && sumFactores2[j]<=y){
+                    nivel2[j] = "medio"
+                }
+                if(sumFactores2[j]>y){
+                    nivel2[j] = "alto"
+                }
+            }
+
+            // Almacena todos los nivele, los tres primeros son en separado, el resto son las sumas
+            var niveles= arrayOf<String>(nivel[0],nivel[1],nivel[2],nivel2[0],nivel2[1],nivel2[2],nivel2[3])
+
+            return niveles
         }
     }
 }
