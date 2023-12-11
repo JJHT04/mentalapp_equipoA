@@ -18,6 +18,9 @@ import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
 import com.example.mentalapp_equipoa.enums.Gender
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
@@ -313,6 +316,8 @@ class TestActivity : AppCompatActivity() {
                 // ** Firebase **
                 // Log.i("aus","Austria Hungria declaro la guerra a Serbia")
 
+                val factores:Array<Int> = calcularFactores()
+
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
                     val con:ConexionFirebase = ConexionFirebase()
@@ -323,7 +328,7 @@ class TestActivity : AppCompatActivity() {
 
                     Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
 
-                    val factores:Array<Int> = calcularFactores()
+
                     val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
                     Log.i("aus","DE FUERA\nFactor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
                     if (usuario != null && sexo != null) {
@@ -337,8 +342,11 @@ class TestActivity : AppCompatActivity() {
                     }
                 } else {
                     sincronizado = false
+
                     Log.i("aus","No hay conexion")
                 }
+
+                guardarResultados(factores,sincronizado)
 
 
                 val texto: Array<String> = leerArchivo()
@@ -408,24 +416,42 @@ class TestActivity : AppCompatActivity() {
     fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
         var x = 0
         var y = 0
-        if(factor==1){
-            x=15
-            y=23
+        if (factor == 1) {
+            x = 15
+            y = 23
         }
-        if(factor==2){
-            x=15
-            y=21
+        if (factor == 2) {
+            x = 15
+            y = 21
         }
-        if(factor==3){
-            x=2
-            y=3
+        if (factor == 3) {
+            x = 2
+            y = 3
         }
         return Pair(x, y)
     }
 
-    /*
-    Esta funcion sera cambiada una vez se introduzca la bbd
-     */
+    fun asignarVariables2(factor: Int): Pair<Int, Int> {
+        var x = 0
+        var y = 0
+        if (factor == 0) {
+            x = 31
+            y = 50
+        }
+        if (factor == 1) {
+            x = 29
+            y = 46
+        }
+        if (factor == 2) {
+            x = 16
+            y = 27
+        }
+        if (factor == 3) {
+            x = 16
+            y = 29
+        }
+        return Pair(x, y)
+    }
 
     fun calcularFactores(): Array<Int>{
         val sumFactores = arrayOf<Int>(0,0,0)
@@ -441,6 +467,9 @@ class TestActivity : AppCompatActivity() {
             }
             c.close()
         }
+
+        dbR.close()
+
         return sumFactores
     }
 
@@ -451,6 +480,7 @@ class TestActivity : AppCompatActivity() {
         var y = 0
 
         var nivel = arrayOf<String>("","","")
+        var nivel2 = arrayOf<String>("","","","")
 
         var t = 1
 
@@ -458,8 +488,6 @@ class TestActivity : AppCompatActivity() {
             val variables = asignarVariablesCalcularNota(i)
             x = variables!!.first
             y = variables!!.second
-
-            // si todos los valores son 0 explota Caused by: java.lang.NullPointerException
 
             if(sumFactores[t-1]<=x){
                 nivel[t-1] = "bajo"
@@ -472,8 +500,62 @@ class TestActivity : AppCompatActivity() {
             }
             t++
         }
-        return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]
+
+        /*
+        sumFactores2[0]: suma de todos
+        sumFactores2[1]:suma Fisiologico y Cognitivo
+        sumFactores2[2]: suma Cognitivo y Evitacion
+        sumFactores2[3]: suma Fisiologico y evitcion
+         */
+
+        val sumFactores2 = arrayOf<Int>(sumFactores[0]+sumFactores[1]+sumFactores[2],
+            sumFactores[0]+sumFactores[1],sumFactores[1]+sumFactores[2], sumFactores[0]+sumFactores[2])
+
+        for(j in 0..sumFactores2.size-1){
+            val variables = asignarVariables2(j)
+            x = variables!!.first
+            y = variables!!.second
+
+            if(sumFactores2[j]<=x){
+                nivel2[j] = "bajo"
+            }
+            if(sumFactores2[j]>x && sumFactores2[j]<=y){
+                nivel2[j] = "medio"
+            }
+            if(sumFactores2[j]>y){
+                nivel2[j] = "alto"
+            }
+        }
+    // yyyy-mm-dd
+
+        return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]+"\n"+
+                "Otros, todo: "+nivel2[0]+", FigCog: "+nivel2[1]+", CogEvi: "+nivel2[2]+", FigEvi: "+nivel2[3]
     }
+
+    fun guardarResultados(factores: Array<Int>, sincronizado:Boolean){
+        val formato = SimpleDateFormat("yyyy-MM-dd")
+        var subido = 0
+        if(sincronizado){
+            subido=1
+        }
+
+        val bh = DBHelper(this)
+        val db: SQLiteDatabase = bh.getWritableDatabase()
+        db.beginTransaction()
+        val cvalue = ContentValues()
+        cvalue.put("username", userName.value)
+        cvalue.put("fecha", formato.format(Date()))
+        cvalue.put("factor1", factores[0])
+        cvalue.put("factor2", factores[1])
+        cvalue.put("factor3", factores[2])
+        cvalue.put("subido", subido) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
+        db.insert("resultados", null, cvalue)
+        db.setTransactionSuccessful()
+        db.endTransaction()
+        db.close()
+    }
+
+
 
     private fun destruction() {
 
