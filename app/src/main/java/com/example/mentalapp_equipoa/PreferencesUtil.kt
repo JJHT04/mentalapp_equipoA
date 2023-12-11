@@ -10,7 +10,7 @@ private const val KEY_PAG_NUM = "pagNum"
 private const val KEY_USERNAME = "username"
 private const val KEY_GENDER = "gender"
 private const val KEY_AGE = "age"
-private const val KEY_DATA_CHANGED = "dataChange"
+private const val KEY_ID_USER_FIREBASE = "idUserFireBase"
 
 class PreferencesUtil(context: Context) {
 
@@ -63,7 +63,8 @@ class PreferencesUtil(context: Context) {
 
     fun getAge (): Int = sharedPreferences.getInt(KEY_AGE,0)
 
-    fun setAge (value: Int) {
-        writePreference(KEY_AGE, value)
-    }
+    fun setAge (value: Int) = writePreference(KEY_AGE, value)
+
+    fun getIDFireBase (): Long = sharedPreferences.getLong(KEY_ID_USER_FIREBASE, 0)
+    fun setIDFireBase (value: Long) = writePreference(KEY_ID_USER_FIREBASE, value)
 }

@@ -48,7 +48,7 @@ class ModifyUserDialog : DialogFragment() {
             spinner.adapter = adaptador
             spinner.setSelection(Spinner.INVALID_POSITION)
 
-            builder.setTitle(getString(R.string.enter_the_new_username))
+            builder.setTitle(getString(R.string.newUser))
                 .setView(dialogView)
                 .setNegativeButton("Cancelar") { _, _ ->
                 //Toast.makeText(activity, "Modificación de usuario cancelado", Toast.LENGTH_SHORT).show()
@@ -68,7 +68,7 @@ class ModifyUserDialog : DialogFragment() {
                         preferencesUtil.setUsername(userName.value!!)
                         Toast.makeText(activity, "Modificación realizada correctamente", Toast.LENGTH_SHORT).show()
                         PruebasFirebase.modificarUsuario(actividadMain, username, age.toInt(), userGender.toString())
-                        PruebasFirebase.modificarUsuarioFirebase(username, age.toInt(), userGender.toString())
+                        PruebasFirebase.modificarUsuarioFirebase(requireContext(), username, age.toInt(), userGender.toString())
                         valid = true
                     } else {
                         Toast.makeText(activity, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
