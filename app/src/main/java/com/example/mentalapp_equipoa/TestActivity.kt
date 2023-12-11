@@ -13,6 +13,8 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
@@ -52,8 +54,14 @@ class TestActivity : AppCompatActivity() {
     private var preguntas2 = Array<String?>(20){null}
     private var i: Int = 0
     private var iconChange = false
+    private lateinit var someActivityResultLauncher:ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        someActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                finish()
+            }
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
         val toolbar: Toolbar = findViewById(R.id.topAppBarTest)
@@ -299,7 +307,7 @@ class TestActivity : AppCompatActivity() {
                     }
                 }
             }else{
-                val intent = Intent(this, UserGuideActivity::class.java ).apply {
+                val intent = Intent(this, AdvicesActivity::class.java ).apply {
                     putExtra(EXTRAMESSAGE, asignarConsejos(calcularNota(calcularFactores()),this@TestActivity))
                 }
 
@@ -395,7 +403,8 @@ class TestActivity : AppCompatActivity() {
                 }
                 progressBar?.setProgress(20)
                 i = 0
-                startActivity(intent)
+
+                someActivityResultLauncher.launch(intent)
             }
             destruction()
         }else {
