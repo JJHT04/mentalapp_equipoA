@@ -15,7 +15,7 @@ private const val SQL_CREATE_ENTRIES2 = "CREATE TABLE IF NOT EXISTS resultados"+
 private const val SQL_CREATE_USERTABLE = "CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INT, gender TEXT)"
 private const val SQL_DELETE_ENTRIES1 = "DROP TABLE IF EXISTS preguntas"
 private const val SQL_DELETE_ENTRIES2 = "DROP TABLE IF EXISTS resultados"
-private const val SQL_DELETE_ENTRIES3 = "DROP TABLE IF EXISTS usuarios"
+private const val SQL_DELETE_ENTRIES3 = "DROP TABLE IF EXISTS user"
 private const val SQL_DELETE_ENTRIES4 = "DROP TABLE IF EXISTS respuestas"
 
 class DBHelper(context: Context) :
@@ -36,7 +36,7 @@ class DBHelper(context: Context) :
     }
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 2
+        const val DATABASE_VERSION = 3
         const val DATABASE_NAME = "p1_preguntas.db"
     }
 

@@ -4,19 +4,10 @@
     <string name="advices" translatable="false">Advices</string>
     <string name="information" translatable="false">Information</string>
     <string name="logo" translatable="false">logo</string>
-    <string name="show_user_name" translatable="false">Show user name</string>
-    <string name="show_actual_date" translatable="false">Show actual date</string>
-    <string name="about_us" translatable="false">About us</string>
+    <string name="show_user_name" translatable="false">Show username</string>
     <string name="complete_form">Take/Resume test</string>
     <string name="consult_previous_results">Consult Previous Results</string>
-    <string-array name="test_items">
-        <item>@string/fine</item>
-        <item>@string/regular</item>
-        <item>@string/tired</item>
-        <item>@string/sad</item>
-    </string-array>
     <string name="test">Test</string>
-    <string name="Bienvenida">Bienvenido/a al test de salud mental.</string>
     <string name="sig">Next</string>
     <string name="ant">Previous</string>
     <string name="r0">0</string>
@@ -25,38 +16,33 @@
     <string name="r3">3</string>
     <string name="r4">4</string>
     <string name="r5">Siempre</string>
-    <string name="How_are_you" translatable="false">How are you?</string>
-    <string name="fine" translatable="false">Fine</string>
-    <string name="regular" translatable="false">Regular</string>
-    <string name="tired" translatable="false">Tired</string>
-    <string name="sad" translatable="false">Sad</string>
     <string name="ok" translatable="false">OK</string>
     <string name="home" translatable="false">Home</string>
     <string name="username">Username</string>
-    <string name="enter_the_new_username">Enter the new username</string>
+    <string name="newUser">Enter the new username</string>
     <string name="profile_icon" translatable="false">profile icon</string>
-    <string name="c_mo_funciona">How it works?</string>
+    <string name="comoFunciona">How it works?</string>
     <string name="background">background</string>
     <string name="introduction">We help you to analize, understand and improve in those aspects that procudes anxiety to you when you face an exam</string>
     <string name="test_appBar_title">Test</string>
     <string name="information_test_dialog">Information</string>
     <string name="title_top_appbar_user_guide">User Guide</string>
-    <string name="test_how_it_works" translatable="false">Se presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.</string>
+    <string name="comoFuncionaDialog" translatable="false">Se presentarán cinco respuestas, del 0 al 4, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: De vez en cuando.\n• Tres: A menudo.\n• Cuatro: Siempre.</string>
     <string name="usuarios">Usuarios</string>
-    <string name="el_boton_esta_ubicado_en_la_esquina_superior_derecha_una_vez_seleccionada_esta_opcion_se_debera_introducir_los_datos_en_el_formulario_de_la_ventana_emergente_nombre_de_usuario_y_contrase_a_y_hacer_clic_en_conectarse">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
+    <string name="infoUsabilidad1">El botón relacionado con la información del usuario está ubicado en la esquina superior derecha. Aquí encontramos opciones para el registro, inicio y modificación.</string>
     <string name="gender">gender</string>
     <string name="Age">Age</string>
     <string name="connectHeader">Conectarse o cambiar de usuario</string>
-    <string name="infoUserButton" translatable="false">El boton esta ubicado en la [esquina superior derecha], una vez seleccionada esta opcion, se debera introducir los datos en el formulario de la ventana emergente: nombre de usuario y contraseña, y hacer clic en conectarse.</string>
+    <string name="infoUserButton" translatable="false">El botón relacionado con la información del usuario está ubicado en la esquina superior derecha. Aquí encontramos opciones para el registro, inicio y modificación</string>
     <string name="registerHeader" translatable="false">Registrar un nuevo usuario</string>
-    <string name="registerInfo" translatable="false">En [la ventana de cambiar usuario, al final del formulario] estara ubicado el boton “Registrarse”, una vez hecho clic el formulario se adaptara para poder introducir los necesarios: nombre de usuario, contraseña, confirmar contraseña, [gmail]. Se debera hacer clic en confirmar y volvera a aparecer el formulario de conexión de usuario.</string>
+    <string name="registerInfo" translatable="false">En el menú de opciones localizado en la esquina superior derecha, estará ubicado el botón “Registro”.\nUna vez hecho clic, el formulario se adaptará para poder introducir los necesarios: nombre de usuario, edad y género.\n ¡No tienes por qué introducir tu nombre real! Elige el apodo con el que más cómodo te sientas. Tus datos no serán utilizados y la encuesta será totalmente anónima.\nAl hacer clic en confirmar, se iniciará sesión automáticamente con este usuario recién registrado.</string>
     <string name="userInfoHeader" translatable="false">¿Cómo conozco la información relativa a mi usuario?</string>
-    <string name="userInfoInfo" translatable="false">El nombre de usuario actual se mostrara en [la esquina inferior izquierda]</string>
+    <string name="userInfoInfo" translatable="false">El nombre de usuario actual se mostrará en el margen superior.\nAdemás, puedes consultar y modificar tu información en el apartado "Modificar" del menú encontrado en la esquina superior derecha.</string>
     <string name="startText" translatable="false">Comenzar test</string>
     <string name="continueText" translatable="false">Reanudar test</string>
-    <string name="beginTestHeader" translatable="false">Al hacer clic en este boton se empezara un test nuevo para el usuario, si el usuario ya empezo un test y decidio posponerlo, se retomara ese mismo test.\n[El test consiste en una serie de preguntas que apareceran de cinco en cinco, y una vez el usuario haya terminado esas preguntas prodra pulsar en siguiente ubicado en [la esquina inferio derecha] para pasar a las siguientes, se podra volver a las anteriores con el boton “Anterior”]\nSe presentaran cinco respuestas, del cero al cuatro, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.\nEl resultado se mostrara una vez terminado el test</string>
-    <string name="previousResultHeader" translatable="false">Ver resultado anteriores</string>
-    <string name="previousResultInfo" translatable="false">Se muestra los resultados de los test anteriores que ha realizado el usuario actual.</string>
+    <string name="beginTestHeader" translatable="false">Al hacer clic en este botón se empezará un test nuevo para el usuario. En caso de que ya haya un test en curso, se retomará este último.\nEl test consiste en una serie de preguntas que aparecerán de 5 en 5. Una vez el usuario haya contestado todas las preguntas del bloque, podrá pulsar en siguiente ubicado bajo estas para pasar al siguiente bloque.\nSe podrá volver a las anteriores con el boton “Anterior”.\nLos valores de cada respuesta se encuentran en un rango del 0 al 4, siendo:\n• Cero: nunca.\n• Uno: En pocas ocasiones.\n• Dos: Con cierta frecuencia.\n• Tres: A menudo.\n• Cuatro: Siempre.\nEl resultado se mostrará una vez terminado el test. Este resultado trata sobre consejos para aliviar los síntomas detectados de ansiedad, en base a un estudio respaldado por psicólogos de la universidad de Alicante.</string>
+    <string name="previousResultHeader" translatable="false">Ver resultados anteriores</string>
+    <string name="previousResultInfo" translatable="false">Se muestran los resultados de los tests anteriores que ha realizado el usuario actual en este mismo dispositivo.</string>
     <string name="rdbHombre">Hombre</string>
     <string name="rdbMujer">Mujer</string>
     <string name="rdbNoBinario">No Binario\n</string>
@@ -66,4 +52,6 @@
     <string name="female">Female</string>
     <string name="non_binary">Non Binary</string>
     <string name="years_old">years old</string>
+    <string name="resume_test">Resume test</string>
+    <string name="take_test">Take test</string>
 </resources>
