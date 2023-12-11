@@ -2,7 +2,6 @@ package com.example.mentalapp_equipoa.dialogs
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
@@ -11,7 +10,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.example.mentalapp_equipoa.DBHelper
 import com.example.mentalapp_equipoa.MainActivity
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
@@ -49,7 +47,7 @@ class RegisterUserDialog : DialogFragment() {
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adaptador
 
-            builder.setTitle(getString(R.string.enter_the_new_username))
+            builder.setTitle(getString(R.string.newUser))
                 .setView(dialogView)
                 .setNegativeButton("Cancelar registro") { _, _ ->
                     //Toast.makeText(activity, "Registro de usuario cancelado", Toast.LENGTH_SHORT).show()

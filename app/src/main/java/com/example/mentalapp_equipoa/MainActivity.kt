@@ -12,9 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mentalapp_equipoa.dialogs.LoginUserDialog
 import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
 import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
-import com.example.mentalapp_equipoa.dialogs.PreviousDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
-import com.example.mentalapp_equipoa.TestActivity
 
 val previous_results = ArrayList<String>()
 var userName: String? = null
@@ -93,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
     fun btnTestOnClick(view: View) {
         TestDialog(getString(R.string.information_test_dialog),
-            getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
+            getString(R.string.comoFuncionaDialog), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
     }
 
     fun btnPreviousOnClick(view: View) {

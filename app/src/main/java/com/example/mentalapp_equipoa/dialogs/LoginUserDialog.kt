@@ -5,16 +5,12 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.mentalapp_equipoa.MainActivity
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
-import com.example.mentalapp_equipoa.userAge
-import com.example.mentalapp_equipoa.userGender
 import com.example.mentalapp_equipoa.userName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -40,7 +36,7 @@ class LoginUserDialog : DialogFragment() {
             val inflater = requireActivity().layoutInflater
             val dialogView = inflater.inflate(R.layout.layout_login, null)
 
-            builder.setTitle(getString(R.string.enter_the_new_username))
+            builder.setTitle(getString(R.string.newUser))
                 .setView(dialogView)
                 .setNegativeButton("Cancelar") { _, _ ->
                     //Toast.makeText(activity, "Acceso de usuario cancelado", Toast.LENGTH_SHORT).show()

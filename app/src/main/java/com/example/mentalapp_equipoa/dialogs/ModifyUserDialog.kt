@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
@@ -45,7 +44,7 @@ class ModifyUserDialog : DialogFragment() {
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adaptador
 
-            builder.setTitle(getString(R.string.enter_the_new_username))
+            builder.setTitle(getString(R.string.newUser))
                 .setView(dialogView)
                 .setNegativeButton("Cancelar") { _, _ ->
                 //Toast.makeText(activity, "Modificación de usuario cancelado", Toast.LENGTH_SHORT).show()
