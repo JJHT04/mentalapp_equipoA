@@ -704,16 +704,16 @@ class TestActivity : AppCompatActivity() {
             var x = 0
             var y = 0
             if (factor == 1) {
-                x = 15
-                y = 23
+                x = 14
+                y = 24
             }
             if (factor == 2) {
-                x = 15
-                y = 21
+                x = 14
+                y = 22
             }
             if (factor == 3) {
-                x = 2
-                y = 3
+                x = 1
+                y = 4
             }
             return Pair(x, y)
         }
@@ -751,21 +751,21 @@ class TestActivity : AppCompatActivity() {
             // Almacena los niveles de las sumas de los factores
             var nivel2 = arrayOf<String>("","","","")
 
-            var t = 1
+            var t = 0
 
             for(i in 1..3){
                 val variables = asignarVariablesCalcularNota(i)
                 x = variables!!.first
                 y = variables!!.second
 
-                if(sumFactores[t-1]<=x){
-                    nivel[t-1] = "bajo"
+                if(sumFactores[t]<=x){
+                    nivel[t] = "bajo"
                 }
-                if(sumFactores[t-1]>x && sumFactores[t-1]<=y){
-                    nivel[t-1] = "medio"
+                if(sumFactores[t]>x && sumFactores[t]<=y){
+                    nivel[t] = "medio"
                 }
-                if(sumFactores[t-1]>y){
-                    nivel[t-1] = "alto"
+                if(sumFactores[t]>y){
+                    nivel[t] = "alto"
                 }
                 t++
             }

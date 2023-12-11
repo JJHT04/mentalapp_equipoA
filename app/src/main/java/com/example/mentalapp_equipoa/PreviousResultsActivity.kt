@@ -19,6 +19,8 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
+import com.example.mentalapp_equipoa.TestActivity.Companion.asignarConsejos
+import com.example.mentalapp_equipoa.TestActivity.Companion.calcularNota
 
 class PreviousResultsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,8 +40,18 @@ class PreviousResultsActivity : AppCompatActivity() {
                 textAlignment = View.TEXT_ALIGNMENT_CENTER
             }
         }
-        for (i in 1..numTest) {
-            createCard("Resultado Test $i", "Resultado factores : [1,2,3]\n Consejos: BEBE AGUA", R.drawable.baseline_keyboard_arrow_left_24)
+        val ides = testUser()
+
+        for (i in 0..numTest-1) {
+            val factores = recogerFactores(ides[i])
+            val niveles = calcularNota(factores, this)
+            val consejos = asignarConsejos(calcularNota(recogerFactores(ides[i]), this), this)
+
+            createCard("Resultado Test $i", "Factor Fisiologico: "+niveles[0]+"\n"+
+                    "Factor Cognitivo: "+niveles[1]+"\n"+
+                    "Factor Evitacion "+niveles[2]+"\n"+
+                    consejos
+                    , R.drawable.baseline_keyboard_arrow_left_24)
         }
     }
 
@@ -47,7 +59,7 @@ class PreviousResultsActivity : AppCompatActivity() {
         val bh = DBHelper(this)
         val dbR: SQLiteDatabase = bh.readableDatabase
         var nombre = userName.value
-        val c = dbR.rawQuery("SELECT MAX(id) FROM Resultados WHERE username = ?", arrayOf(nombre))
+        val c = dbR.rawQuery("SELECT COUNT(id) FROM Resultados WHERE username = ?", arrayOf(nombre))
         var numTest = 0
 
         if(c.moveToNext()){
@@ -59,6 +71,26 @@ class PreviousResultsActivity : AppCompatActivity() {
         dbR.close()
 
         return numTest
+    }
+
+    private fun testUser(): ArrayList<Int>{
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.readableDatabase
+        var nombre = userName.value
+        val c = dbR.rawQuery("SELECT id FROM Resultados WHERE username = ?", arrayOf(nombre))
+        val ides = ArrayList<Int>()
+
+
+        if(c.moveToFirst()){
+
+            do{
+                ides.add(c.getInt(0))
+            } while (c.moveToNext())
+            c.close()
+        }
+        dbR.close()
+
+        return ides
     }
 
     fun recogerFactores(i: Int):Array<Int>{
