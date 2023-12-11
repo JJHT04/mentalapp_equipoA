@@ -1,5 +1,6 @@
 package com.example.mentalapp_equipoa
 
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -18,6 +19,8 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
+import com.example.mentalapp_equipoa.TestActivity.Companion.asignarConsejos
+import com.example.mentalapp_equipoa.TestActivity.Companion.calcularNota
 
 class PreviousResultsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +32,83 @@ class PreviousResultsActivity : AppCompatActivity() {
             navigateUpTo(intent)
         }
 
-        for (i in 1..3) {
-            createCard("Resultado Test $i", "Resultado factores : [1,2,3]\n Consejos: BEBE AGUA", R.drawable.baseline_keyboard_arrow_left_24)
+        var numTest = numTestHechos()
+
+        if(numTest==0){
+            val textView = TextView(this).apply {
+                text= "No hay resultados anteriores"
+                textAlignment = View.TEXT_ALIGNMENT_CENTER
+            }
         }
+        val ides = testUser()
+
+        for (i in 0..numTest-1) {
+            val factores = recogerFactores(ides[i])
+            val niveles = calcularNota(factores, this)
+            val consejos = asignarConsejos(calcularNota(recogerFactores(ides[i]), this), this)
+
+            createCard("Resultado Test $i", "Factor Fisiologico: "+niveles[0]+"\n"+
+                    "Factor Cognitivo: "+niveles[1]+"\n"+
+                    "Factor Evitacion "+niveles[2]+"\n"+
+                    consejos
+                    , R.drawable.baseline_keyboard_arrow_left_24)
+        }
+    }
+
+    private fun numTestHechos(): Int{
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.readableDatabase
+        var nombre = userName.value
+        val c = dbR.rawQuery("SELECT COUNT(id) FROM Resultados WHERE username = ?", arrayOf(nombre))
+        var numTest = 0
+
+        if(c.moveToNext()){
+            do{
+                numTest = c.getInt(0)
+            } while (c.moveToNext())
+            c.close()
+        }
+        dbR.close()
+
+        return numTest
+    }
+
+    private fun testUser(): ArrayList<Int>{
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.readableDatabase
+        var nombre = userName.value
+        val c = dbR.rawQuery("SELECT id FROM Resultados WHERE username = ?", arrayOf(nombre))
+        val ides = ArrayList<Int>()
+
+
+        if(c.moveToFirst()){
+
+            do{
+                ides.add(c.getInt(0))
+            } while (c.moveToNext())
+            c.close()
+        }
+        dbR.close()
+
+        return ides
+    }
+
+    fun recogerFactores(i: Int):Array<Int>{
+        var factores = arrayOf<Int>(0,0,0)
+        val bh = DBHelper(this)
+        val dbR: SQLiteDatabase = bh.readableDatabase
+        val c = dbR.rawQuery("SELECT factor1, factor2, factor3 FROM Resultados WHERE username = ? AND id = $i", arrayOf(userName.value))
+
+        if(c.moveToNext()){
+            do{
+                factores[0]= c.getInt(0)
+                factores[1]= c.getInt(1)
+                factores[2]= c.getInt(2)
+            } while (c.moveToNext())
+            c.close()
+        }
+        dbR.close()
+        return factores
     }
 
     private fun createCard (title: String, body: String, @DrawableRes icon: Int) {
