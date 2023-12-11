@@ -446,6 +446,9 @@ class TestActivity : AppCompatActivity() {
             }
             c.close()
         }
+
+        dbR.close()
+
         return sumFactores
     }
 
@@ -487,25 +490,25 @@ class TestActivity : AppCompatActivity() {
         val sumFactores2 = arrayOf<Int>(sumFactores[0]+sumFactores[1]+sumFactores[2],
             sumFactores[0]+sumFactores[1],sumFactores[1]+sumFactores[2], sumFactores[0]+sumFactores[2])
 
-        for(i in 0..sumFactores2.size-1){
-            val variables = asignarVariables2(i)
+        for(j in 0..sumFactores2.size-1){
+            val variables = asignarVariables2(j)
             x = variables!!.first
             y = variables!!.second
 
-            if(sumFactores[i]<=x){
-                nivel2[i] = "bajo"
+            if(sumFactores2[j]<=x){
+                nivel2[j] = "bajo"
             }
-            if(sumFactores[i]>x && sumFactores[i]<=y){
-                nivel2[i] = "medio"
+            if(sumFactores2[j]>x && sumFactores2[j]<=y){
+                nivel2[j] = "medio"
             }
-            if(sumFactores[i]>y){
-                nivel2[i] = "alto"
+            if(sumFactores2[j]>y){
+                nivel2[j] = "alto"
             }
         }
-
+    // yyyy-mm-dd
 
         return "resultado nivel 1: "+nivel[0]+", nivel 2: "+nivel[1]+", nivel 3: "+nivel[2]+"\n"+
-                "Otros "
+                "Otros, todo: "+nivel2[0]+", FigCog: "+nivel2[1]+", CogEvi: "+nivel2[2]+", FigEvi: "+nivel2[3]
     }
 
     fun guardarResultados(factores: Array<Int>, sincronizado:Boolean){
@@ -519,13 +522,16 @@ class TestActivity : AppCompatActivity() {
         val db: SQLiteDatabase = bh.getWritableDatabase()
         db.beginTransaction()
         val cvalue = ContentValues()
-        cvalue.put("username", userName)
+        cvalue.put("username", userName.value)
         cvalue.put("fecha", formato.format(Date()))
         cvalue.put("factor1", factores[0])
         cvalue.put("factor2", factores[1])
         cvalue.put("factor3", factores[2])
         cvalue.put("subido", subido) // 0 indica que NO esta subido(o se entiende mejor si es 1?)
         db.insert("resultados", null, cvalue)
+        db.setTransactionSuccessful()
+        db.endTransaction()
+        db.close()
     }
 
 
