@@ -1,10 +1,12 @@
 package com.example.mentalapp_equipoa
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.example.mentalapp_equipoa.enums.Gender
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.Firebase
@@ -16,8 +18,26 @@ import java.util.Calendar
 class PruebasFirebase {
     companion object {
 
-        fun iniciarSesion(context: Context, userName: String){
+        @SuppressLint("Range")
+        fun iniciarSesion(context: Context, userNameAconsultar: String){
             //cargarResultadosPrevios(); //TODO: crear PreferencesUtil y llamar a setIDFireBase()
+            val dbHelper = DBHelper(context)
+            var preferencesUtil = PreferencesUtil(context)
+            val db = dbHelper.readableDatabase
+            val query = "SELECT * FROM ${"user"} WHERE ${"name"} = ?"
+            val cursor = db.rawQuery(query, arrayOf(userNameAconsultar))
+            val genderMap = Gender.getGenderMap(context)
+            if(cursor.moveToFirst()){
+                userAge = cursor.getInt(cursor.getColumnIndex("age"))
+                userGender = genderMap[cursor.getString(cursor.getColumnIndex("gender"))]
+                preferencesUtil.setAge(userAge!!)
+                userGender?.let { preferencesUtil.setGender(it) }
+                userName.value = cursor.getString(cursor.getColumnIndex("name"))
+                val user = userName.value
+                if (user != null) {
+                    preferencesUtil.setUsername(user)
+                }
+            }
         }
 
         fun modificarUsuarioFirebase(context: Context, userName: String, userAge: Int, userGender: String){
