@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.setIcon(resizedDrawable)
             }
         }
+
         userName.value = preferencesUtil.getUsername()
 
         numPag.observe(this) {
@@ -71,8 +72,6 @@ class MainActivity : AppCompatActivity() {
                 findViewById<Button>(R.id.btnForm).text = getString(R.string.take_test)
             }
         }
-
-    }
 
         numPag.value = preferencesUtil.getNumPage()
     }

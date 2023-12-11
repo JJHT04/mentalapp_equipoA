@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.mentalapp_equipoa.MainActivity
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
+import com.example.mentalapp_equipoa.showToast
 import com.example.mentalapp_equipoa.userName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -47,7 +48,7 @@ class LoginUserDialog : DialogFragment() {
                     if (username.isNotBlank() && username != userName.value) {
                         Toast.makeText(activity, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){
-                            PruebasFirebase.iniciarSesion(username)
+                            PruebasFirebase.iniciarSesion(requireContext(),username)
                         }else{
                             Toast.makeText(activity, "Este usuario no está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
                         }
