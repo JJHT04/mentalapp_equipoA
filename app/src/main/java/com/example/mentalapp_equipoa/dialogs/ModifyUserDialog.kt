@@ -48,7 +48,7 @@ class ModifyUserDialog : DialogFragment() {
             spinner.adapter = adaptador
             spinner.setSelection(Spinner.INVALID_POSITION)
 
-            builder.setTitle(getString(R.string.enter_the_new_username))
+            builder.setTitle(getString(R.string.newUser))
                 .setView(dialogView)
                 .setNegativeButton("Cancelar") { _, _ ->
                 //Toast.makeText(activity, "Modificación de usuario cancelado", Toast.LENGTH_SHORT).show()

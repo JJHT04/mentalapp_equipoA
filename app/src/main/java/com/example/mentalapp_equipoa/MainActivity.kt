@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     fun btnTestOnClick(view: View) {
         if (userName.value != null) {
             TestDialog(getString(R.string.information_test_dialog),
-                getString(R.string.test_how_it_works), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
+                getString(R.string.comoFuncionaDialog), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
         } else {
             GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de iniciar sesión o registrarte para hacer el test", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
         }
