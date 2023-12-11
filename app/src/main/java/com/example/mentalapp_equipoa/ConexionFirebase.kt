@@ -112,25 +112,25 @@ class ConexionFirebase {
 
         // nick es referenica a usuario
         val c = dbR.rawQuery(
-            "SELECT resultados.id, username, fecha, factor1, factor2, factor3, subido" +
-                    " FROM resultados, users" +
+            "SELECT resultados.id, resultados.username, gender, age, fecha, factor1, factor2, factor3" +
+                    " FROM resultados, user" +
                     " WHERE subido = 0 AND username = name", null
         )
         if (c.moveToFirst()) {
             do {
-                val intentoID: Int = c.getInt(1)
+                val intentoID: Int = c.getInt(0)
 
                 val nick: String = c.getString(1)
-                val sexo: String = c.getString(1)
-                val edad:Int = c.getInt(1)
+                val sexo: String = c.getString(2)
+                val edad:Int = c.getInt(3)
 
 
-                val fechaString: String = c.getString(3)
+                val fechaString: String = c.getString(4)
                 val fecha: Date = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(fechaString)!!
 
-                val fac1: Int = c.getInt(4)
-                val fac2: Int = c.getInt(5)
-                val fac3: Int = c.getInt(6)
+                val fac1: Int = c.getInt(5)
+                val fac2: Int = c.getInt(6)
+                val fac3: Int = c.getInt(7)
 
                 insertarTest(nick, sexo, fecha, edad, fac1, fac2, fac3)
 
@@ -145,7 +145,7 @@ class ConexionFirebase {
                 val whereArgs = Array<String>(1) { intentoID.toString() }
 
                 // Realiza la actualización
-                val filasActualizadas = db.update("resultados", cvalue, whereClause, whereArgs)
+                db.update("resultados", cvalue, whereClause, whereArgs)
 
                 db.setTransactionSuccessful()
                 db.endTransaction()
