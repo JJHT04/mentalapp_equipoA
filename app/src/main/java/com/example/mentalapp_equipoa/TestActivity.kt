@@ -461,27 +461,6 @@ class TestActivity : AppCompatActivity() {
         return Pair(x, y)
     }
 
-    fun asignarVariables2(factor: Int): Pair<Int, Int> {
-        var x = 0
-        var y = 0
-        if (factor == 0) {
-            x = 31
-            y = 50
-        }
-        if (factor == 1) {
-            x = 29
-            y = 46
-        }
-        if (factor == 2) {
-            x = 16
-            y = 27
-        }
-        if (factor == 3) {
-            x = 16
-            y = 29
-        }
-        return Pair(x, y)
-    }
 
     fun calcularFactores(): Array<Int>{
         val sumFactores = arrayOf<Int>(0,0,0)
