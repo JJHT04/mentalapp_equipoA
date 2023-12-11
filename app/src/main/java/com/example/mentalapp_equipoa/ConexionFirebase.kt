@@ -27,7 +27,7 @@ class ConexionFirebase {
         //Devuelve una conexion del firebase directa a la base de datos
         val db: FirebaseFirestore = Firebase.firestore
 
-        getMaxId("resultados2").addOnCompleteListener { res ->
+        getMaxId("resultados").addOnCompleteListener { res ->
             // Es como un Diccionario de Strings(campos) y cualquier elemento
             val inserto = hashMapOf<String, Any>(
                 "id" to res.result,
@@ -40,7 +40,7 @@ class ConexionFirebase {
                 "FACT03" to factor3
             )
 
-            db.collection("resultados2").add(inserto)
+            db.collection("resultados").add(inserto)
             /*    .addOnSuccessListener { documentReference ->
                     Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
                 }
@@ -56,7 +56,7 @@ class ConexionFirebase {
         //Devuelve una conexion del firebase directa a la base de datos
         val db: FirebaseFirestore = Firebase.firestore
 
-        getMaxId("resultados2").addOnCompleteListener { res ->
+        getMaxId("resultados").addOnCompleteListener { res ->
             // Es como un Diccionario de Strings(campos) y cualquier elemento
             val inserto = hashMapOf<String, Any>(
                 "id" to res.result,
@@ -69,7 +69,7 @@ class ConexionFirebase {
                 "FACT03" to factor3
             )
 
-            db.collection("resultados2").add(inserto)
+            db.collection("resultados").add(inserto)
             /*    .addOnSuccessListener { documentReference ->
                     Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
                 }
