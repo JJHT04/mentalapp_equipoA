@@ -68,7 +68,7 @@ class ModifyUserDialog : DialogFragment() {
                         preferencesUtil.setUsername(userName.value!!)
                         Toast.makeText(activity, "Modificación realizada correctamente", Toast.LENGTH_SHORT).show()
                         PruebasFirebase.modificarUsuario(actividadMain, username, age.toInt(), userGender.toString())
-                        PruebasFirebase.modificarUsuarioFirebase(username, age.toInt(), userGender.toString())
+                        PruebasFirebase.modificarUsuarioFirebase(requireContext(), username, age.toInt(), userGender.toString())
                         valid = true
                     } else {
                         Toast.makeText(activity, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
