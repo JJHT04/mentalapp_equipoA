@@ -50,7 +50,7 @@ class RegisterUserDialog : DialogFragment() {
             spinner.adapter = adaptador
             spinner.setSelection(Spinner.INVALID_POSITION)
 
-            builder.setTitle(getString(R.string.enter_the_new_username))
+            builder.setTitle(getString(R.string.newUser))
                 .setView(dialogView)
                 .setNegativeButton("Cancelar registro") { _, _ ->
                     //Toast.makeText(activity, "Registro de usuario cancelado", Toast.LENGTH_SHORT).show()
