@@ -20,9 +20,11 @@ import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
 import com.example.mentalapp_equipoa.enums.Gender
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Date
+import java.io.InputStream
+
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
@@ -305,39 +307,54 @@ class TestActivity : AppCompatActivity() {
 
                 var sincronizado:Boolean = true
                 // ** Firebase **
-                // Log.i("aus","Austria Hungria declaro la guerra a Serbia")
-
                 val factores:Array<Int> = calcularFactores()
 
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
                     val con:ConexionFirebase = ConexionFirebase()
 
-                    val usuario:String? = preferencesUtil!!.getUsername()
-                    val sexo: String = preferencesUtil!!.getGender().toString()
-                    val edad: Int = preferencesUtil!!.getAge()
+                    val usuario:String? = preferencesUtil.getUsername()
+                    val sexo: String = preferencesUtil.getGender().toString()
+                    val edad: Int = preferencesUtil.getAge()
 
-                    Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
-
+                    Log.i("aus","Usuario -> ${usuario}")
 
                     val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
-                    Log.i("aus","DE FUERA\nFactor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
-                    if (usuario != null && sexo != null) {
-                        Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
-                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
+
+                    /*val bh = DBHelper(this)
+                    val dbR: SQLiteDatabase = bh.readableDatabase
+
+                    val c = dbR.rawQuery("SELECT id FROM user WHERE name = $usuario ",null)
+                    var idUsuario:Int = -1
+
+                    if (c.moveToFirst()) {
+                        idUsuario = c.getInt(0)
+                    }
+
+                    c.close()
+                    dbR.close()
+                    bh.close()*/
+
+                    Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                    if (usuario != null) {
+                        con.insertarTest(usuario,sexo, edad,trio.first,trio.second,trio.third)
                     } else {
-                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
-                        // Petaron las "preferencesUtil"
-                        // TODO: Si no ha podido insertar cambiar el boolean de sicnronizado de true a false
-                        sincronizado = false
+                        val usuario:String? = userName.value
+                        val sexo:String? = userGender?.name
+                        val edad:Int? = userAge
+                        if (sexo != null && usuario != null && edad != null) {
+                            con.insertarTest(usuario,sexo,edad,trio.first,trio.second,trio.third)
+                        } else {
+                            sincronizado = false
+                        }
                     }
                 } else {
                     sincronizado = false
-
                     Log.i("aus","No hay conexion")
                 }
 
                 guardarResultados(factores,sincronizado)
+
 
 
                 val texto: Array<String> = leerArchivo(resources.openRawResource(R.raw.preguntas))
@@ -408,16 +425,38 @@ class TestActivity : AppCompatActivity() {
         var x = 0
         var y = 0
         if (factor == 1) {
-            x = 15
-            y = 23
+            x = 14
+            y = 24
         }
         if (factor == 2) {
-            x = 15
-            y = 21
+            x = 14
+            y = 22
         }
         if (factor == 3) {
-            x = 2
-            y = 3
+            x = 1
+            y = 4
+        }
+        return Pair(x, y)
+    }
+
+    fun asignarVariables2(factor: Int): Pair<Int, Int> {
+        var x = 0
+        var y = 0
+        if (factor == 0) {
+            x = 31
+            y = 50
+        }
+        if (factor == 1) {
+            x = 29
+            y = 46
+        }
+        if (factor == 2) {
+            x = 16
+            y = 27
+        }
+        if (factor == 3) {
+            x = 16
+            y = 29
         }
         return Pair(x, y)
     }
