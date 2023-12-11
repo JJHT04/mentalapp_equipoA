@@ -37,7 +37,7 @@ fun showToast (context: Context, @StringRes id: Int) = Toast.makeText(context, i
 fun resizeDrawable( resources: Resources , originalDrawable: Drawable?): BitmapDrawable {
 
     // Redimensiona el Drawable creando un nuevo Bitmap con las dimensiones deseadas
-    val resizedBitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888)
+    val resizedBitmap = Bitmap.createBitmap(130, 130, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(resizedBitmap)
     originalDrawable?.setBounds(0, 0, canvas.width, canvas.height)
     originalDrawable?.draw(canvas)
