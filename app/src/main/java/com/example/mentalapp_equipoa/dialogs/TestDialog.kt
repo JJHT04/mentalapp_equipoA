@@ -4,10 +4,8 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.example.mentalapp_equipoa.EXTRA_MESSAGE
 import com.example.mentalapp_equipoa.R
 import com.example.mentalapp_equipoa.TestActivity
-import com.example.mentalapp_equipoa.userName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TestDialog(private val title: String, private val message: String, private val iconID: Int): DialogFragment() {
@@ -19,9 +17,7 @@ class TestDialog(private val title: String, private val message: String, private
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) {
                     _,_ ->
-                    val intent = Intent(it, TestActivity::class.java).apply {
-                        putExtra(EXTRA_MESSAGE, userName)
-                    }
+                    val intent = Intent(it, TestActivity::class.java)
                     startActivity(intent)
                 }
                 .setIcon(iconID)

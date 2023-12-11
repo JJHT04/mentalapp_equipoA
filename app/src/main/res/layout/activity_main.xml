@@ -47,9 +47,10 @@
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/circular_bg"
                 tools:ignore="VisualLintBounds" />
 
@@ -145,7 +146,12 @@
             android:background="@drawable/shape_rounded"
             android:minHeight="?attr/actionBarSize"
             app:menu="@menu/optionsmenu"
-            app:title=" " />
+            app:subtitleCentered="true"
+            app:subtitleTextAppearance="@style/toolbarTextSubTitle"
+            app:title=" "
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/toolbarText"
+            app:titleTextColor="@color/md_theme_light_onPrimary_alt" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

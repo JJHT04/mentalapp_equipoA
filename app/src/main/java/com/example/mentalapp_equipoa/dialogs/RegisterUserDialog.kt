@@ -11,8 +11,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.mentalapp_equipoa.MainActivity
+import com.example.mentalapp_equipoa.PreferencesUtil
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
+import com.example.mentalapp_equipoa.enums.Gender
 import com.example.mentalapp_equipoa.userAge
 import com.example.mentalapp_equipoa.userGender
 import com.example.mentalapp_equipoa.userName
@@ -41,11 +43,12 @@ class RegisterUserDialog : DialogFragment() {
             val inflater = requireActivity().layoutInflater
             val dialogView = inflater.inflate(R.layout.layout_register_modify, null)
             val spinner = dialogView.findViewById<Spinner>(R.id.spiGeneros)
-            val lista = listOf("Seleccione su género", "Masculino", "Femenino", "No binario")
-
+            val lista = Gender.getAllStringRepresentations(requireContext())
+            val genderMap = Gender.getGenderMap(requireContext())
             val adaptador = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, lista)
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adaptador
+            spinner.setSelection(Spinner.INVALID_POSITION)
 
             builder.setTitle(getString(R.string.newUser))
                 .setView(dialogView)
@@ -55,18 +58,22 @@ class RegisterUserDialog : DialogFragment() {
                 .setPositiveButton("Registrarse") { _, _ ->
                     val username = dialogView.findViewById<TextView>(R.id.username).text.toString()
                     val age = dialogView.findViewById<TextView>(R.id.Age).text.toString()
-                    val genero = spinner.selectedItem.toString()
 
-                    if (username.isNotBlank() && age.isNotBlank() && genero != "Seleccione su género") {
-                        userName = username
+                    if (username.isNotBlank() && age.isNotBlank() && spinner.selectedItemPosition != Spinner.INVALID_POSITION) {
                         userAge = age.toInt() //Que sea solo entero ya está manejado en el componente
-                        userGender = genero
+                        userGender = genderMap[spinner.selectedItem.toString()]
 
+                        val preferencesUtil = PreferencesUtil(requireContext())
+                        preferencesUtil.setAge(userAge!!)
+                        preferencesUtil.setGender(userGender!!)
+
+                        userName.value = username
+                        preferencesUtil.setUsername(userName.value!!)
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){ //Si ya existe
                             Toast.makeText(activity, "Este usuario ya está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
                         }else{
-                            PruebasFirebase.registrarUsuarioFirebase(username, Integer.parseInt(age), genero)
-                            PruebasFirebase.registrarUsuarioLocal(actividadMain, username, Integer.parseInt(age), genero)
+                            PruebasFirebase.registrarUsuarioFirebase(requireContext(), username, Integer.parseInt(age), userGender.toString())
+                            PruebasFirebase.registrarUsuarioLocal(actividadMain, username, Integer.parseInt(age), userGender.toString())
                             Toast.makeText(activity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
                         }
                         valid = true //¿esto no se usa nunca?

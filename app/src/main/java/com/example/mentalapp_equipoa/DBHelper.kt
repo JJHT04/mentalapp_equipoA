@@ -34,11 +34,12 @@ class DBHelper(context: Context) :
 // to simply to discard the data and start over
         db.execSQL(SQL_DELETE_ENTRIES1)
         db.execSQL(SQL_DELETE_ENTRIES2)
+        db.execSQL(SQL_DELETE_USERTABLE)
         onCreate(db)
     }
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val DATABASE_NAME = "p1_preguntas.db"
     }
 

@@ -1,26 +1,49 @@
 package com.example.mentalapp_equipoa
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+import com.example.mentalapp_equipoa.enums.Gender
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
+
+fun getIconHappy (context: Context): Drawable? {
+    return when (userGender) {
+        Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_happy)
+
+        else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_happy)
+    }
+}
+
+fun getIconAnnoyed (context: Context): Drawable? {
+    return when (userGender) {
+        Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_annoyed)
+
+        else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_annoyed)
+    }
+}
+
 class TestActivity : AppCompatActivity() {
-    private var preferencesUtil: PreferencesUtil? = null
+    private var progressBar: IconRoundCornerProgressBar? = null
+    private lateinit var preferencesUtil: PreferencesUtil
     private var preguntas2 = Array<String?>(20){null}
-    private var i = 0
+    private var i: Int = 0
+    private var iconChange = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +54,18 @@ class TestActivity : AppCompatActivity() {
             navigateUpTo(intent)
         }
 
+        progressBar = findViewById(R.id.iconRoundCornerProgressBar)
+
         preferencesUtil = PreferencesUtil(this)
 
         val isFirst = preferencesUtil!!.isFirstRun()
         i = preferencesUtil!!.getNumPage()
+
+        progressBar?.apply {
+            setProgress(i)
+            setIconImageDrawable(getIconHappy(this@TestActivity))
+        }
+
         if(i == 15){
             findViewById<Button>(R.id.btnSiguiente).apply {
                 text = getString(R.string.mostrar)
@@ -48,6 +79,27 @@ class TestActivity : AppCompatActivity() {
         }
         cargarPreguntas()
     }
+
+    override fun onNavigateUp(): Boolean {
+        numPag.value = preferencesUtil.getNumPage()
+        return super.onNavigateUp()
+    }
+
+    override fun onDestroy() {
+        numPag.value = preferencesUtil.getNumPage()
+        super.onDestroy()
+    }
+
+    override fun onStop() {
+        numPag.value = preferencesUtil.getNumPage()
+        super.onStop()
+    }
+
+    override fun onPause() {
+        numPag.value = preferencesUtil.getNumPage()
+        super.onPause()
+    }
+
     private fun leerArchivo(): Array<String> {
         val inputStream = resources.openRawResource(R.raw.preguntas)
         val byteArray = ByteArrayOutputStream()
@@ -245,13 +297,55 @@ class TestActivity : AppCompatActivity() {
                 if(i == preguntas2.size){
                     findViewById<Button>(R.id.btnSiguiente).apply { text = getString(R.string.mostrar) }
                 }
+
+                progressBar?.apply {
+                    setProgress(i-5)
+                    if (iconChange) {
+                        setIconImageDrawable(getIconHappy(this@TestActivity))
+                        iconChange = false
+                    }
+                }
             }else{
                 findViewById<TextView>(R.id.txvAlerta).apply {text = calcularNota() }
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
+
+                var sincronizado:Boolean = true
+                // ** Firebase **
+                // Log.i("aus","Austria Hungria declaro la guerra a Serbia")
+
+                if (TestCon.hayConexion()){
+                    Log.i("aus","Si hay conexion")
+                    val con:ConexionFirebase = ConexionFirebase()
+
+                    val usuario:String? = preferencesUtil!!.getUsername()
+                    val sexo: String = preferencesUtil!!.getGender().toString()
+                    val edad: Int = preferencesUtil!!.getAge()
+
+                    Log.i("aus","Usuario -> ${usuario}. Sexo -> ${sexo}. Edad -> ${edad}.")
+
+                    val factores:Array<Int> = calcularFactores()
+                    val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
+                    Log.i("aus","DE FUERA\nFactor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                    if (usuario != null && sexo != null) {
+                        Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
+                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
+                    } else {
+                        con.insertarTest("Josefina","Femenino",32, trio.first,trio.second,trio.third)
+                        // Petaron las "preferencesUtil"
+                        // TODO: Si no ha podido insertar cambiar el boolean de sicnronizado de true a false
+                        sincronizado = false
+                    }
+                } else {
+                    sincronizado = false
+                    Log.i("aus","No hay conexion")
+                }
+
+
                 val texto: Array<String> = leerArchivo()
                 val bh = DBHelper(this)
                 val db: SQLiteDatabase = bh.getWritableDatabase()
                 db.beginTransaction()
+
                 for (cc in texto.indices) {
                     if (texto[cc] !== "") {
                         val linea = texto[cc].split(";".toRegex()).dropLastWhile { it.isEmpty() }
@@ -283,10 +377,10 @@ class TestActivity : AppCompatActivity() {
                 findViewById<Button?>(R.id.btnSiguiente).apply {
                     isEnabled = false
                 }
+                progressBar?.setProgress(20)
                 i = 0
 
             }
-
             destruction()
         }else {
             showToast(this, "Contesta todas las preguntas")
@@ -299,6 +393,14 @@ class TestActivity : AppCompatActivity() {
                 i -=10
                 cargarPreguntas()
                 findViewById<Button>(R.id.btnSiguiente).apply { text = "Siguiente" }
+                progressBar?.apply {
+                    setProgress(i-5)
+
+                    if (!iconChange) {
+                        setIconImageDrawable(getIconAnnoyed(this@TestActivity))
+                        iconChange = true
+                    }
+                }
             }else{
                 showToast(this, "No hay preguntas anteriores")
             }
@@ -325,21 +427,25 @@ class TestActivity : AppCompatActivity() {
     Esta funcion sera cambiada una vez se introduzca la bbd
      */
 
-    fun calcularNota(): String{
-
-        var sumFactores = arrayOf<Int>(0,0,0)
-
+    fun calcularFactores(): Array<Int>{
+        val sumFactores = arrayOf<Int>(0,0,0)
         val bh = DBHelper(this)
-        val dbR: SQLiteDatabase = bh.getReadableDatabase()
+        val dbR: SQLiteDatabase = bh.readableDatabase
 
         for(i in 1..3){
             val c = dbR.rawQuery("SELECT SUM(valor) FROM Preguntas Where factor = $i", null)
-            if(c.moveToFirst()){
-                do{
-                    sumFactores[i-1]=c.getInt(0)
+            if(c.moveToFirst()) {
+                do {
+                    sumFactores[i-1] = c.getInt(0)
                 } while (c.moveToNext())
             }
+            c.close()
         }
+        return sumFactores
+    }
+
+    fun calcularNota(): String{
+        var sumFactores = calcularFactores()
 
         var x = 0
         var y = 0

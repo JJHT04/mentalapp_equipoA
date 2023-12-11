@@ -44,7 +44,7 @@ class LoginUserDialog : DialogFragment() {
                 .setPositiveButton("Acceder") { _, _ ->
                     val username = dialogView.findViewById<TextView>(R.id.username).text.toString()
 
-                    if (username.isNotBlank() && username == userName) {
+                    if (username.isNotBlank() && username != userName.value) {
                         Toast.makeText(activity, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){
                             PruebasFirebase.iniciarSesion(username)
@@ -53,14 +53,11 @@ class LoginUserDialog : DialogFragment() {
                         }
                         valid = true //??
                     } else {
-                        val toast = Toast.makeText(activity, "Introduce un nombre de usuario", Toast.LENGTH_SHORT)
-                        toast.setGravity(Gravity.CENTER, 0, 0)
-                        toast.show()
+                        showToast(requireContext(), "$username ya esta iniciado sesión")
                     }
                 }
 
             builder.create()
         } ?: throw IllegalStateException("Activity can't be null")
     }
-
 }
