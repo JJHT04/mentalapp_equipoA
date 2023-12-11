@@ -314,7 +314,6 @@ class TestActivity : AppCompatActivity() {
 
                 var sincronizado:Boolean = true
                 // ** Firebase **
-
                 val factores:Array<Int> = calcularFactores()
 
                 if (TestCon.hayConexion()){
@@ -322,12 +321,11 @@ class TestActivity : AppCompatActivity() {
                     preferencesUtil = PreferencesUtil(this)
                     val con:ConexionFirebase = ConexionFirebase()
 
-                    val usuario:String? = preferencesUtil!!.getUsername()
-                    val sexo:String? = preferencesUtil!!.getGender().toString()
-                    val edad:Int? = preferencesUtil!!.getAge()
+                    val usuario:String? = preferencesUtil.getUsername()
+                    val sexo: String = preferencesUtil.getGender().toString()
+                    val edad: Int = preferencesUtil.getAge()
 
                     Log.i("aus","Usuario -> ${usuario}")
-
 
                     val trio:Triple<Int,Int,Int> = Triple(factores[0],factores[1],factores[2])
 
@@ -346,14 +344,20 @@ class TestActivity : AppCompatActivity() {
                     bh.close()*/
 
                     Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
-                    if (sexo != null && usuario != null && edad != null) {
+                    if (usuario != null) {
                         con.insertarTest(usuario,sexo, edad,trio.first,trio.second,trio.third)
                     } else {
-                        sincronizado = false
+                        val usuario:String? = userName.value
+                        val sexo:String? = userGender?.name
+                        val edad:Int? = userAge
+                        if (sexo != null && usuario != null && edad != null) {
+                            con.insertarTest(usuario,sexo,edad,trio.first,trio.second,trio.third)
+                        } else {
+                            sincronizado = false
+                        }
                     }
                 } else {
                     sincronizado = false
-
                     Log.i("aus","No hay conexion")
                 }
 
