@@ -1,6 +1,5 @@
 package com.example.mentalapp_equipoa
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -18,15 +17,13 @@ import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
 class ConexionFirebase {
 
-    fun insertarTest(usuario: Int, fecha: Date, factor1: Int, factor2: Int, factor3: Int) {
+    fun insertarTest(usuario:String, sexo:String, fecha:Date, edad:Int, factor1:Int, factor2:Int, factor3:Int) {
         //Devuelve una conexion del firebase directa a la base de datos
         val db: FirebaseFirestore = Firebase.firestore
 
@@ -36,6 +33,8 @@ class ConexionFirebase {
                 "id" to res.result,
                 "usuario" to usuario,
                 "fecha" to fecha,
+                "sexo" to sexo,
+                "edad" to edad,
                 "FACT01" to factor1,
                 "FACT02" to factor2,
                 "FACT03" to factor3
@@ -50,8 +49,7 @@ class ConexionFirebase {
                 }*/
         }
     }
-
-    fun insertarTest(usuario: Int, factor1: Int, factor2: Int, factor3: Int) {
+    fun insertarTest(usuario:String, sexo:String, edad:Int, factor1:Int, factor2:Int, factor3:Int) {
         // Toast.makeText(actividad,"Hola don Pepito",Toast.LENGTH_LONG).show()
         val time: Date = Calendar.getInstance().time
 
@@ -64,6 +62,8 @@ class ConexionFirebase {
                 "id" to res.result,
                 "usuario" to usuario,
                 "fecha" to time,
+                "sexo" to sexo,
+                "edad" to edad,
                 "FACT01" to factor1,
                 "FACT02" to factor2,
                 "FACT03" to factor3
@@ -78,7 +78,6 @@ class ConexionFirebase {
                 }*/
         }
     }
-
     private fun getMaxId(coleccion: String): Task<Long> {
         val db: FirebaseFirestore = Firebase.firestore
         val max: TaskCompletionSource<Long> = TaskCompletionSource<Long>()
@@ -114,14 +113,17 @@ class ConexionFirebase {
         // nick es referenica a usuario
         val c = dbR.rawQuery(
             "SELECT id, username, fecha, factor1, factor2, factor3, subido" +
-                    " FROM resultados" +
+                    " FROM resultados, users" +
                     " WHERE subido = 0", null
         )
         if (c.moveToFirst()) {
             do {
                 val intentoID: Int = c.getInt(1)
 
-                val idUsuario: Int = c.getInt(2)
+                val nick: String = c.getString(1)
+                val sexo: String = c.getString(1)
+                val edad:Int = c.getInt(1)
+
 
                 val fechaString: String = c.getString(3)
                 val fecha: Date = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(fechaString)!!
@@ -130,13 +132,13 @@ class ConexionFirebase {
                 val fac2: Int = c.getInt(5)
                 val fac3: Int = c.getInt(6)
 
-                insertarTest(idUsuario, fecha, fac1, fac2, fac3)
+                insertarTest(nick, sexo, fecha, edad, fac1, fac2, fac3)
 
                 // ** Actualizar la tabla local **
                 db.beginTransaction()
 
                 val cvalue = ContentValues()
-                cvalue.put("sincronizado", 1)
+                cvalue.put("subido", 1)
 
                 // Especifica la condición para la actualización (en este ejemplo, basado en el Id)
                 val whereClause = "id = ?"
@@ -148,32 +150,12 @@ class ConexionFirebase {
                 db.setTransactionSuccessful()
                 db.endTransaction()
             } while (c.moveToNext())
-        } else {
-            // Todas Sincronizadas
         }
         c.close()
         db.close()
         dbR.close()
         bh.close()
     }
-
-    fun recuperarTestFirebase() {
-        //Devuelve una conexion del firebase directa a la base de datos
-        val db: FirebaseFirestore = Firebase.firestore
-
-        db.collection("resultados")
-            //.whereEqualTo("capital", true) // campo -> valor buscado
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Log.d("Holi", "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("Holi", "Error getting documents: ", exception)
-            }
-    }
-
 }
 
 class TestCon {
