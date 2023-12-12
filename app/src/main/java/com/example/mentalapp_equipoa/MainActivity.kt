@@ -37,7 +37,7 @@ fun showToast (context: Context, @StringRes id: Int) = Toast.makeText(context, i
 fun resizeDrawable( resources: Resources , originalDrawable: Drawable?): BitmapDrawable {
 
     // Redimensiona el Drawable creando un nuevo Bitmap con las dimensiones deseadas
-    val resizedBitmap = Bitmap.createBitmap(130, 130, Bitmap.Config.ARGB_8888)
+    val resizedBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(resizedBitmap)
     originalDrawable?.setBounds(0, 0, canvas.width, canvas.height)
     originalDrawable?.draw(canvas)
@@ -155,8 +155,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btnPreviousOnClick(view: View) {
-        val intent = Intent(this, PreviousResultsActivity::class.java)
-        startActivity(intent)
+        if (userName.value != null) {
+            val intent = Intent(this, PreviousResultsActivity::class.java)
+            startActivity(intent)
+        } else {
+            GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de iniciar sesión o registrarte para hacer el test", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
+        }
     }
 
 }

@@ -30,12 +30,13 @@ import java.io.InputStream
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
-const val EXTRAMESSAGE = "mensaje"
+const val EXTRAMESSAGE = "consejos"
+const val EXTRAMESSAGE2 = "factores"
 
 fun getIconHappy (context: Context): Drawable? {
     return when (userGender) {
         Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_happy)
-
+        Gender.MALE -> AppCompatResources.getDrawable(context, R.drawable.male_icon_happy)
         else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_happy)
     }
 }
@@ -43,7 +44,7 @@ fun getIconHappy (context: Context): Drawable? {
 fun getIconAnnoyed (context: Context): Drawable? {
     return when (userGender) {
         Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_annoyed)
-
+        Gender.MALE -> AppCompatResources.getDrawable(context, R.drawable.male_icon_annoyed)
         else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_annoyed)
     }
 }
@@ -307,15 +308,17 @@ class TestActivity : AppCompatActivity() {
                     }
                 }
             }else{
-                val intent = Intent(this, AdvicesActivity::class.java ).apply {
-                    putExtra(EXTRAMESSAGE, asignarConsejos(calcularNota(calcularFactores()),this@TestActivity))
-                }
 
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
 
                 var sincronizado:Boolean = true
                 // ** Firebase **
                 val factores:Array<Int> = calcularFactores()
+
+                val intent = Intent(this, AdvicesActivity::class.java ).apply {
+                    putExtra(EXTRAMESSAGE2, intArrayOf(factores[0], factores[1], factores[2]))
+                    putExtra(EXTRAMESSAGE, asignarConsejos(calcularNota(calcularFactores()),this@TestActivity))
+                }
 
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
@@ -471,7 +474,7 @@ class TestActivity : AppCompatActivity() {
     }
 
 
-    fun calcularFactores(): Array<Int>{
+    private fun calcularFactores(): Array<Int>{
         val sumFactores = arrayOf<Int>(0,0,0)
         val bh = DBHelper(this)
         val dbR: SQLiteDatabase = bh.readableDatabase
@@ -709,7 +712,7 @@ class TestActivity : AppCompatActivity() {
 
             return consejosPersonales
         }
-        fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
+        private fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
             var x = 0
             var y = 0
             if (factor == 1) {
@@ -727,7 +730,7 @@ class TestActivity : AppCompatActivity() {
             return Pair(x, y)
         }
 
-        fun asignarVariables2(factor: Int): Pair<Int, Int> {
+        private fun asignarVariables2(factor: Int): Pair<Int, Int> {
             var x = 0
             var y = 0
             if (factor == 0) {
