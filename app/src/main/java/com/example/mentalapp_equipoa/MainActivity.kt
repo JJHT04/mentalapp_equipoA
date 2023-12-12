@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     private val icon = MutableLiveData<Drawable>()
     private var iconState = false
+    private var x = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +79,13 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         icon.value = resizeDrawable(resources, getIconAnnoyed(this))
                         iconState = true
+                    }
+
+                    x++
+
+                    if (x == 20) {
+                        showToast(this@MainActivity, "CHIIIIILLLLL")
+                        x = 0
                     }
                 }
             }

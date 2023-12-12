@@ -416,7 +416,6 @@ class TestActivity : AppCompatActivity() {
     }
     fun btnAnteriorOnClick(view: View) {
             if ((i-5) > 0) {
-                findViewById<TextView>(R.id.txvAlerta).apply { text = "" }
                 limpiarRespuestas()
                 i -=10
                 cargarPreguntas()
