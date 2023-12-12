@@ -316,7 +316,8 @@ class TestActivity : AppCompatActivity() {
                 val factores:Array<Int> = calcularFactores()
 
                 val intent = Intent(this, AdvicesActivity::class.java ).apply {
-                    putExtra(EXTRAMESSAGE2, intArrayOf(factores[0], factores[1], factores[2]))
+                    val notitas = Companion.calcularNota(factores, this@TestActivity)
+                    putExtra(EXTRAMESSAGE2, notitas)
                     putExtra(EXTRAMESSAGE, asignarConsejos(calcularNota(calcularFactores()),this@TestActivity))
                 }
 
@@ -620,92 +621,92 @@ class TestActivity : AppCompatActivity() {
             for(i in niveles.indices){
                 //Fis
                 if (niveles[0]=="medio" || niveles[0]=="alto"){
-                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
-                                         sacarLinea(7, consejos)+"\n"+
-                                         sacarLinea(8, consejos)+"\n"+
-                                         sacarLinea(9, consejos)+"\n"+
-                                         sacarLinea(10, consejos)+"\n"+
-                                         "Consejos para no llegar a esta situacion: \n"+
-                                         sacarLinea(13, consejos)+"\n"+
-                                         sacarLinea(14, consejos)+"\n"+
-                                         sacarLinea(15, consejos)+"\n"
+                    consejosPersonales = sacarLinea(6, consejos)+"\n\n"+
+                                         sacarLinea(7, consejos)+"\n\n"+
+                                         sacarLinea(8, consejos)+"\n\n"+
+                                         sacarLinea(9, consejos)+"\n\n"+
+                                         sacarLinea(10, consejos)+"\n\n"+
+                                         "Consejos para no llegar a esta situación: \n"+
+                                         sacarLinea(13, consejos)+"\n\n"+
+                                         sacarLinea(14, consejos)+"\n\n"+
+                                         sacarLinea(15, consejos)+"\n\n"
                 }
                 //Cog
                 if (niveles[1]=="medio" || niveles[1]=="alto"){
-                    consejosPersonales = sacarLinea(1, consejos)+"\n"+
-                                         sacarLinea(2, consejos)+"\n"+
-                                         sacarLinea(3, consejos)+"\n"+
-                                         sacarLinea(4, consejos)+"\n"+
-                                         sacarLinea(5, consejos)+"\n"+
-                                         "Consejos para no llegar a esta situacion: \n"+
-                                         sacarLinea(13, consejos)+"\n"+
-                                         sacarLinea(14, consejos)+"\n"+
-                                         sacarLinea(15, consejos)+"\n"+
-                                         sacarLinea(10, consejos)+"\n"
+                    consejosPersonales = sacarLinea(1, consejos)+"\n\n"+
+                                         sacarLinea(2, consejos)+"\n\n"+
+                                         sacarLinea(3, consejos)+"\n\n"+
+                                         sacarLinea(4, consejos)+"\n\n"+
+                                         sacarLinea(5, consejos)+"\n\n"+
+                                         "Consejos para no llegar a esta situación: \n"+
+                                         sacarLinea(13, consejos)+"\n\n"+
+                                         sacarLinea(14, consejos)+"\n\n"+
+                                         sacarLinea(15, consejos)+"\n\n"+
+                                         sacarLinea(10, consejos)+"\n\n"
                 }
                 //Evi
                 if (niveles[2]=="medio" || niveles[2]=="alto"){
                     consejosPersonales = sacarLinea(6, consejos)+"\n"+
                                         sacarLinea(3, consejos)+"\n"+
                                         sacarLinea(11, consejos)+"\n"+
-                                        "Consejos para no llegar a esta situacion: \n"+
+                                        "Consejos para no llegar a esta situación: \n"+
                                         sacarLinea(19, consejos)+"\n"+
                                         sacarLinea(20, consejos)+"\n"+
                                         sacarLinea(10, consejos)+"\n"
                 }
                 //Todos
                 if (niveles[3]=="medio" || niveles[3]=="alto"){
-                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
-                                        sacarLinea(12, consejos)+"\n"+
-                                        sacarLinea(8, consejos)+"\n"+
-                                        sacarLinea(11, consejos)+"\n"+
-                                        sacarLinea(10, consejos)+"\n"+
-                                        "Consejos para no llegar a esta situacion: \n"+
-                                        sacarLinea(13, consejos)+"\n"+
-                                        sacarLinea(14, consejos)+"\n"+
-                                        sacarLinea(15, consejos)+"\n"
+                    consejosPersonales = sacarLinea(6, consejos)+"\n\n"+
+                                        sacarLinea(12, consejos)+"\n\n"+
+                                        sacarLinea(8, consejos)+"\n\n"+
+                                        sacarLinea(11, consejos)+"\n\n"+
+                                        sacarLinea(10, consejos)+"\n\n"+
+                                        "Consejos para no llegar a esta situación: \n"+
+                                        sacarLinea(13, consejos)+"\n\n"+
+                                        sacarLinea(14, consejos)+"\n\n"+
+                                        sacarLinea(15, consejos)+"\n\n"
                 }
                 //Fis+Cog
                 if (niveles[4]=="medio" || niveles[4]=="alto"){
-                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
-                                        sacarLinea(2, consejos)+"\n"+
-                                        sacarLinea(3, consejos)+"\n"+
-                                        sacarLinea(8, consejos)+"\n"+
-                                        sacarLinea(9, consejos)+"\n"+
-                                        "Consejos para no llegar a esta situacion: \n"+
-                                        sacarLinea(13, consejos)+"\n"+
-                                        sacarLinea(14, consejos)+"\n"+
-                                        sacarLinea(15, consejos)+"\n"+
-                                        sacarLinea(10, consejos)+"\n"
+                    consejosPersonales = sacarLinea(6, consejos)+"\n\n"+
+                                        sacarLinea(2, consejos)+"\n\n"+
+                                        sacarLinea(3, consejos)+"\n\n"+
+                                        sacarLinea(8, consejos)+"\n\n"+
+                                        sacarLinea(9, consejos)+"\n\n"+
+                                        "Consejos para no llegar a esta situación: \n"+
+                                        sacarLinea(13, consejos)+"\n\n"+
+                                        sacarLinea(14, consejos)+"\n\n"+
+                                        sacarLinea(15, consejos)+"\n\n"+
+                                        sacarLinea(10, consejos)+"\n\n"
                 }
                 //Cog+Evi
                 if (niveles[5]=="medio" || niveles[5]=="alto"){
-                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
-                                        sacarLinea(3, consejos)+"\n"+
-                                        sacarLinea(11, consejos)+"\n"+
-                                        sacarLinea(10, consejos)+"\n"+
-                                        "Consejos para no llegar a esta situacion: \n"+
-                                        sacarLinea(13, consejos)+"\n"+
-                                        sacarLinea(14, consejos)+"\n"+
-                                        sacarLinea(15, consejos)+"\n"
+                    consejosPersonales = sacarLinea(6, consejos)+"\n\n"+
+                                        sacarLinea(3, consejos)+"\n\n"+
+                                        sacarLinea(11, consejos)+"\n\n"+
+                                        sacarLinea(10, consejos)+"\n\n"+
+                                        "Consejos para no llegar a esta situación: \n"+
+                                        sacarLinea(13, consejos)+"\n\n"+
+                                        sacarLinea(14, consejos)+"\n\n"+
+                                        sacarLinea(15, consejos)+"\n\n"
                 }
                 //Evi+Fis
                 if (niveles[6]=="medio" || niveles[6]=="alto"){
-                    consejosPersonales = sacarLinea(6, consejos)+"\n"+
-                                        sacarLinea(8, consejos)+"\n"+
-                                        sacarLinea(11, consejos)+"\n"+
-                                        sacarLinea(10, consejos)+"\n"+
-                                        "Consejos para no llegar a esta situacion: \n"+
-                                        sacarLinea(13, consejos)+"\n"+
-                                        sacarLinea(14, consejos)+"\n"+
-                                        sacarLinea(15, consejos)+"\n"
+                    consejosPersonales = sacarLinea(6, consejos)+"\n\n"+
+                                        sacarLinea(8, consejos)+"\n\n"+
+                                        sacarLinea(11, consejos)+"\n\n"+
+                                        sacarLinea(10, consejos)+"\n\n"+
+                                        "Consejos para no llegar a esta situación: \n"+
+                                        sacarLinea(13, consejos)+"\n\n"+
+                                        sacarLinea(14, consejos)+"\n\n"+
+                                        sacarLinea(15, consejos)+"\n\n"
                 }
                 //Ninguno
                 if (niveles[3]=="bajo") {
-                    consejosPersonales = "Consejos para seguir todo bajo control: "+
-                                        sacarLinea(13, consejos) + "\n" +
-                                        sacarLinea(14, consejos) + "\n" +
-                                        sacarLinea(15, consejos) + "\n"
+                    consejosPersonales = "Consejos para mantener todo bajo control:\n "+
+                                        sacarLinea(13, consejos) + "\n\n" +
+                                        sacarLinea(14, consejos) + "\n\n" +
+                                        sacarLinea(15, consejos) + "\n\n"
                 }
             }
 
