@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -42,13 +43,15 @@ class ModifyUserDialog : DialogFragment() {
             val spinner = dialogView.findViewById<Spinner>(R.id.spiGeneros)
             val genderMap = Gender.getGenderMap(requireContext())
             val lista = Gender.getAllStringRepresentations(requireContext())
-
             val adaptador = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, lista)
+            val preferencesUtil = PreferencesUtil(requireContext())
+            dialogView.findViewById<EditText>(R.id.Age).setText(preferencesUtil.getAge().toString())
+            dialogView.findViewById<EditText>(R.id.username).setText(preferencesUtil.getAge().toString())
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adaptador
-            spinner.setSelection(Spinner.INVALID_POSITION)
+            spinner.setSelection(lista.indexOf(preferencesUtil.getGender()?.toString()))
 
-            builder.setTitle(getString(R.string.newUser))
+            builder.setTitle(getString(R.string.modify_title) + ": ${preferencesUtil.getUsername()}")
                 .setView(dialogView)
                 .setNegativeButton("Cancelar") { _, _ ->
                 //Toast.makeText(activity, "Modificación de usuario cancelado", Toast.LENGTH_SHORT).show()
@@ -61,7 +64,7 @@ class ModifyUserDialog : DialogFragment() {
                         userAge = age.toInt()
                         userGender = genderMap[spinner.selectedItem.toString()]
 
-                        val preferencesUtil = PreferencesUtil(requireContext())
+
                         preferencesUtil.setAge(userAge!!)
                         preferencesUtil.setGender(userGender!!)
                         userName.value = username
