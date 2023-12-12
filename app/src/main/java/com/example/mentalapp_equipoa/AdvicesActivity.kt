@@ -19,9 +19,9 @@ class AdvicesActivity : AppCompatActivity() {
             finish()
         }
 
-        val factores = intent.getIntArrayExtra(EXTRAMESSAGE2)
+        val notitas = intent.getStringArrayExtra(EXTRAMESSAGE2)
 
-        val formatString = "RESULTADOS\nFactor Fisiológico: ${factores?.get(0)}\nFactor Cognitivo: ${factores?.get(1)}\nFactor de Evitación: ${factores?.get(2)}" +
+        val formatString = "RESULTADOS\nFactor Fisiológico: ${notitas?.get(0)}\nFactor Cognitivo: ${notitas?.get(1)}\nFactor de Evitación: ${notitas?.get(2)}" +
                 "\n\nCONSEJOS\n${intent.getStringExtra(EXTRAMESSAGE)}"
 
         findViewById<TextView>(R.id.textViewConsejos).text = formatString
