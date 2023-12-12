@@ -55,4 +55,7 @@
     <string name="resume_test">Resume test</string>
     <string name="take_test">Take test</string>
     <string name="advices_title">Advices</string>
+    <string name="registro">Register</string>
+    <string name="access">Access</string>
+    <string name="modifify">Modifify</string>
 </resources>

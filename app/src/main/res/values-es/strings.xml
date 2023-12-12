@@ -37,4 +37,7 @@
     <string name="resume_test">Continuar test</string>
     <string name="take_test">Realizar Test</string>
     <string name="advices_title">Consejos</string>
+    <string name="registro">Registrarse</string>
+    <string name="access">Acceder</string>
+    <string name="modifify">Modificar</string>
 </resources>

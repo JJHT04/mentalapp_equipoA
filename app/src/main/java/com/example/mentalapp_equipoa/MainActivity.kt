@@ -84,7 +84,10 @@ class MainActivity : AppCompatActivity() {
                     x++
 
                     if (x == 20) {
-                        showToast(this@MainActivity, "CHIIIIILLLLL")
+                        val arrayEasterEggs = arrayOf("CHIIIIILLLLL", "YA BASTA NO????", "DALE DALE DALE", "AAAAAAAAAAAAA", "PORFAVO PARA")
+                        val range = arrayEasterEggs.indices
+
+                        showToast(this@MainActivity, arrayEasterEggs[range.random()])
                         x = 0
                     }
                 }
@@ -158,7 +161,7 @@ class MainActivity : AppCompatActivity() {
             TestDialog(getString(R.string.information_test_dialog),
                 getString(R.string.comoFuncionaDialog), R.drawable.baseline_info_24).show(supportFragmentManager, "test01")
         } else {
-            GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de iniciar sesión o registrarte para hacer el test", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
+            GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de registrarte para hacer el test\nHaz click en el icono de la arriba a la derecha y pulsa: Registrarse", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
         }
     }
 
@@ -167,7 +170,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, PreviousResultsActivity::class.java)
             startActivity(intent)
         } else {
-            GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de iniciar sesión o registrarte para hacer el test", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
+            GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de registrarte para hacer el test\n" +
+                    "Haz click en el icono de la arriba a la derecha y pulsa: Registrarse", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
         }
     }
 

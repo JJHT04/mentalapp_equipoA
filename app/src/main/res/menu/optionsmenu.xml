@@ -13,18 +13,18 @@
             <item
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:title="Registrar"
+                android:title="@string/registro"
                 android:id="@+id/registrar"/>
             <item
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/acceder"
-                android:title="Acceder" />
+                android:title="@string/access" />
             <item
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/modificar"
-                android:title="Modificar" />
+                android:title="@string/modifify" />
         </menu>
     </item>
 
