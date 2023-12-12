@@ -13,6 +13,8 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
@@ -28,12 +30,13 @@ import java.io.InputStream
 
 var respuestas=Array<Int?>(20){null}
 var factor = Array<Int?>(20){null}
-const val EXTRAMESSAGE = "mensaje"
+const val EXTRAMESSAGE = "consejos"
+const val EXTRAMESSAGE2 = "factores"
 
 fun getIconHappy (context: Context): Drawable? {
     return when (userGender) {
         Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_happy)
-
+        Gender.MALE -> AppCompatResources.getDrawable(context, R.drawable.male_icon_happy)
         else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_happy)
     }
 }
@@ -41,7 +44,7 @@ fun getIconHappy (context: Context): Drawable? {
 fun getIconAnnoyed (context: Context): Drawable? {
     return when (userGender) {
         Gender.FEMALE -> AppCompatResources.getDrawable(context, R.drawable.female_icon_annoyed)
-
+        Gender.MALE -> AppCompatResources.getDrawable(context, R.drawable.male_icon_annoyed)
         else -> AppCompatResources.getDrawable(context, R.drawable.non_binary_icon_annoyed)
     }
 }
@@ -52,8 +55,14 @@ class TestActivity : AppCompatActivity() {
     private var preguntas2 = Array<String?>(20){null}
     private var i: Int = 0
     private var iconChange = false
+    private lateinit var someActivityResultLauncher:ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        someActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                finish()
+            }
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
         val toolbar: Toolbar = findViewById(R.id.topAppBarTest)
@@ -299,15 +308,17 @@ class TestActivity : AppCompatActivity() {
                     }
                 }
             }else{
-                val intent = Intent(this, UserGuideActivity::class.java ).apply {
-                    putExtra(EXTRAMESSAGE, asignarConsejos(calcularNota(calcularFactores()),this@TestActivity))
-                }
 
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
 
                 var sincronizado:Boolean = true
                 // ** Firebase **
                 val factores:Array<Int> = calcularFactores()
+
+                val intent = Intent(this, AdvicesActivity::class.java ).apply {
+                    putExtra(EXTRAMESSAGE2, intArrayOf(factores[0], factores[1], factores[2]))
+                    putExtra(EXTRAMESSAGE, asignarConsejos(calcularNota(calcularFactores()),this@TestActivity))
+                }
 
                 if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
@@ -395,7 +406,8 @@ class TestActivity : AppCompatActivity() {
                 }
                 progressBar?.setProgress(20)
                 i = 0
-                startActivity(intent)
+
+                someActivityResultLauncher.launch(intent)
             }
             destruction()
         }else {
@@ -404,7 +416,6 @@ class TestActivity : AppCompatActivity() {
     }
     fun btnAnteriorOnClick(view: View) {
             if ((i-5) > 0) {
-                findViewById<TextView>(R.id.txvAlerta).apply { text = "" }
                 limpiarRespuestas()
                 i -=10
                 cargarPreguntas()
@@ -462,7 +473,7 @@ class TestActivity : AppCompatActivity() {
     }
 
 
-    fun calcularFactores(): Array<Int>{
+    private fun calcularFactores(): Array<Int>{
         val sumFactores = arrayOf<Int>(0,0,0)
         val bh = DBHelper(this)
         val dbR: SQLiteDatabase = bh.readableDatabase
@@ -700,7 +711,7 @@ class TestActivity : AppCompatActivity() {
 
             return consejosPersonales
         }
-        fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
+        private fun asignarVariablesCalcularNota(factor: Int): Pair<Int, Int> {
             var x = 0
             var y = 0
             if (factor == 1) {
@@ -718,7 +729,7 @@ class TestActivity : AppCompatActivity() {
             return Pair(x, y)
         }
 
-        fun asignarVariables2(factor: Int): Pair<Int, Int> {
+        private fun asignarVariables2(factor: Int): Pair<Int, Int> {
             var x = 0
             var y = 0
             if (factor == 0) {
