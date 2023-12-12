@@ -46,13 +46,17 @@ class LoginUserDialog : DialogFragment() {
                     val username = dialogView.findViewById<TextView>(R.id.username).text.toString()
 
                     if (username.isNotBlank() && username != userName.value) {
-                        Toast.makeText(activity, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                         if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){
-                            PruebasFirebase.iniciarSesion(requireContext(),username)
+                            PruebasFirebase.iniciarSesion(requireContext(), username)
+                            Toast.makeText(activity, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                         }else{
                             Toast.makeText(activity, "Este usuario no está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
                         }
                         valid = true //??
+                    } else if (username.isBlank()) {
+                        val toast = Toast.makeText(activity, "Introduce el nombre", Toast.LENGTH_SHORT)
+                        toast.setGravity(Gravity.CENTER, 0, 0)
+                        toast.show()
                     } else {
                         showToast(requireContext(), "$username ya esta iniciado sesión")
                     }

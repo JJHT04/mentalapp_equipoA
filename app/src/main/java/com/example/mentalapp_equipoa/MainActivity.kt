@@ -2,9 +2,11 @@ package com.example.mentalapp_equipoa
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -28,10 +30,26 @@ var userName = MutableLiveData<String>()
 var userAge: Int? = null
 var userGender: Gender? = null
 val numPag = MutableLiveData<Int>()
+
 fun showToast (context: Context, message: String) = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 fun showToast (context: Context, @StringRes id: Int) = Toast.makeText(context, id, Toast.LENGTH_SHORT).show()
+
+fun resizeDrawable( resources: Resources , originalDrawable: Drawable?): BitmapDrawable {
+
+    // Redimensiona el Drawable creando un nuevo Bitmap con las dimensiones deseadas
+    val resizedBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(resizedBitmap)
+    originalDrawable?.setBounds(0, 0, canvas.width, canvas.height)
+    originalDrawable?.draw(canvas)
+
+    // Crea un nuevo Drawable a partir del Bitmap redimensionado
+    return BitmapDrawable(resources, resizedBitmap)
+}
 class MainActivity : AppCompatActivity() {
     private lateinit var preferencesUtil: PreferencesUtil
+
+    private val icon = MutableLiveData<Drawable>()
+    private var iconState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,17 +68,23 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.title = it
                 supportActionBar?.subtitle = "$userAge ${getString(R.string.years_old)}"
 
-                val originalDrawable = getIconHappy(this)
-                // Redimensiona el Drawable creando un nuevo Bitmap con las dimensiones deseadas
-                val resizedBitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888)
-                val canvas = Canvas(resizedBitmap)
-                originalDrawable?.setBounds(0, 0, canvas.width, canvas.height)
-                originalDrawable?.draw(canvas)
 
-                // Crea un nuevo Drawable a partir del Bitmap redimensionado
-                val resizedDrawable = BitmapDrawable(resources, resizedBitmap)
-                supportActionBar?.setIcon(resizedDrawable)
+                toolbar.navigationIcon = resizeDrawable(resources, getIconHappy(this))
+
+                toolbar.setNavigationOnClickListener {
+                    if (iconState) {
+                        icon.value = resizeDrawable(resources, getIconHappy(this))
+                        iconState = false
+                    } else {
+                        icon.value = resizeDrawable(resources, getIconAnnoyed(this))
+                        iconState = true
+                    }
+                }
             }
+        }
+
+        icon.observe(this) { drawable ->
+            toolbar.navigationIcon = drawable
         }
 
         userName.value = preferencesUtil.getUsername()
@@ -131,8 +155,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btnPreviousOnClick(view: View) {
-        val intent = Intent(this, PreviousResultsActivity::class.java)
-        startActivity(intent)
+        if (userName.value != null) {
+            val intent = Intent(this, PreviousResultsActivity::class.java)
+            startActivity(intent)
+        } else {
+            GenericDialog.showGenericDialog(supportFragmentManager, "Inicio de sesión requerido", "Debes de iniciar sesión o registrarte para hacer el test", AppCompatResources.getDrawable(this, R.drawable.baseline_info_24))
+        }
     }
 
 }

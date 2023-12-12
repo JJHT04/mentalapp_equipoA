@@ -38,7 +38,12 @@ class PreviousResultsActivity : AppCompatActivity() {
             val textView = TextView(this).apply {
                 text= "No hay resultados anteriores"
                 textAlignment = View.TEXT_ALIGNMENT_CENTER
+                textSize = 24F
+                typeface = ResourcesCompat.getFont(this@PreviousResultsActivity, R.font.lexend)
+                setTextColor(resources.getColor(R.color.md_theme_light_onPrimary, null))
             }
+
+            findViewById<LinearLayout>(R.id.linear_previous).addView(textView)
         }
         val ides = testUser()
 
@@ -47,9 +52,10 @@ class PreviousResultsActivity : AppCompatActivity() {
             val niveles = calcularNota(factores, this)
             val consejos = asignarConsejos(calcularNota(recogerFactores(ides[i]), this), this)
 
-            createCard("Resultado Test $i", "Factor Fisiologico: "+niveles[0]+"\n"+
+            createCard("Resultado Test ${i+1}", "Factor Fisiologico: "+niveles[0]+"\n"+
                     "Factor Cognitivo: "+niveles[1]+"\n"+
-                    "Factor Evitacion "+niveles[2]+"\n"+
+                    "Factor Evitacion "+niveles[2]+"\n\n"+
+                    "CONSEJOS\n" +
                     consejos
                     , R.drawable.baseline_keyboard_arrow_left_24)
         }
