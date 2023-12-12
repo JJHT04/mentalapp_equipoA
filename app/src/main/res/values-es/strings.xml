@@ -37,4 +37,10 @@
     <string name="resume_test">Continuar test</string>
     <string name="take_test">Realizar Test</string>
     <string name="advices_title">Consejos</string>
+    <string name="registro">Registrarse</string>
+    <string name="access">Acceder</string>
+    <string name="modifify">Modificar</string>
+    <string name="login_title">Introduce el nombre del usuario</string>
+    <string name="modify_title">Modifica el usuario</string>
+    <string name="register_title">Rellena los campos</string>
 </resources>

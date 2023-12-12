@@ -37,7 +37,7 @@ class LoginUserDialog : DialogFragment() {
             val inflater = requireActivity().layoutInflater
             val dialogView = inflater.inflate(R.layout.layout_login, null)
 
-            builder.setTitle(getString(R.string.newUser))
+            builder.setTitle(getString(R.string.login_title))
                 .setView(dialogView)
                 .setNegativeButton("Cancelar") { _, _ ->
                     //Toast.makeText(activity, "Acceso de usuario cancelado", Toast.LENGTH_SHORT).show()
