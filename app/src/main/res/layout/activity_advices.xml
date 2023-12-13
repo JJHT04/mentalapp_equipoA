@@ -53,8 +53,9 @@
                 android:id="@+id/textViewConsejos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:fontFamily="@font/lexend"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="14sp" />
         </ScrollView>

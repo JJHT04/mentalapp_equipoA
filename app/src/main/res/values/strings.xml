@@ -58,4 +58,7 @@
     <string name="registro">Register</string>
     <string name="access">Access</string>
     <string name="modifify">Modifify</string>
+    <string name="login_title">Introduce el nombre del usuario</string>
+    <string name="modify_title">Modifica el usuario</string>
+    <string name="register_title">Rellena los campos</string>
 </resources>
