@@ -102,15 +102,16 @@ class PreviousResultsActivity : AppCompatActivity() {
     }
 
     fun recogerFactores(i: Int):Pair<Array<Int>, String> {
+        val meses = arrayOf("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
         var factores = arrayOf<Int>(0,0,0)
-        var fecha = ""
+        var fechaAux = ""
         val bh = DBHelper(this)
         val dbR: SQLiteDatabase = bh.readableDatabase
         val c = dbR.rawQuery("SELECT fecha, factor1, factor2, factor3 FROM Resultados WHERE username = ? AND id = $i", arrayOf(userName.value))
 
         if(c.moveToFirst()){
             do{
-                fecha= c.getString(0)
+                fechaAux= c.getString(0)
                 factores[0]= c.getInt(1)
                 factores[1]= c.getInt(2)
                 factores[2]= c.getInt(3)
@@ -118,6 +119,9 @@ class PreviousResultsActivity : AppCompatActivity() {
             c.close()
         }
         dbR.close()
+
+        var fechaAux2=fechaAux.split("-")
+        var fecha = fechaAux2[2] + " de " + meses[fechaAux2[1].toInt()-1] + ", " + fechaAux2[0]
 
         return Pair(factores, fecha)
     }
