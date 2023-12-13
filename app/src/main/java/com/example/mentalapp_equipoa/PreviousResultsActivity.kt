@@ -48,11 +48,13 @@ class PreviousResultsActivity : AppCompatActivity() {
         val ides = testUser()
 
         for (i in 0..numTest-1) {
-            val factores = recogerFactores(ides[i])
+            val datos = recogerFactores(ides[i])
+            val factores =  datos.first
+            val fecha = datos.second
             val niveles = calcularNota(factores, this)
-            val consejos = asignarConsejos(calcularNota(recogerFactores(ides[i]), this), this)
+            val consejos = asignarConsejos(calcularNota(factores, this), this)
 
-            createCard("Resultado Test ${i+1}", "Factor Fisiologico: "+niveles[0]+"\n"+
+            createCard("Resultado Test $fecha", "Factor Fisiologico: "+niveles[0]+"\n"+
                     "Factor Cognitivo: "+niveles[1]+"\n"+
                     "Factor Evitacion "+niveles[2]+"\n\n"+
                     "CONSEJOS\n" +
@@ -99,22 +101,25 @@ class PreviousResultsActivity : AppCompatActivity() {
         return ides
     }
 
-    fun recogerFactores(i: Int):Array<Int>{
+    fun recogerFactores(i: Int):Pair<Array<Int>, String> {
         var factores = arrayOf<Int>(0,0,0)
+        var fecha = ""
         val bh = DBHelper(this)
         val dbR: SQLiteDatabase = bh.readableDatabase
-        val c = dbR.rawQuery("SELECT factor1, factor2, factor3 FROM Resultados WHERE username = ? AND id = $i", arrayOf(userName.value))
+        val c = dbR.rawQuery("SELECT fecha, factor1, factor2, factor3 FROM Resultados WHERE username = ? AND id = $i", arrayOf(userName.value))
 
-        if(c.moveToNext()){
+        if(c.moveToFirst()){
             do{
-                factores[0]= c.getInt(0)
-                factores[1]= c.getInt(1)
-                factores[2]= c.getInt(2)
+                fecha= c.getString(0)
+                factores[0]= c.getInt(1)
+                factores[1]= c.getInt(2)
+                factores[2]= c.getInt(3)
             } while (c.moveToNext())
             c.close()
         }
         dbR.close()
-        return factores
+
+        return Pair(factores, fecha)
     }
 
     private fun createCard (title: String, body: String, @DrawableRes icon: Int) {
