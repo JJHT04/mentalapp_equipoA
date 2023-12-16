@@ -20,12 +20,15 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
 import com.example.mentalapp_equipoa.enums.Gender
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
 import java.io.InputStream
+import java.util.Calendar
 
 
 var respuestas=Array<Int?>(20){null}
@@ -310,7 +313,7 @@ class TestActivity : AppCompatActivity() {
             }else{
 
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
-
+                val exito: TaskCompletionSource<Boolean> = TaskCompletionSource<Boolean>()
                 var sincronizado:Boolean = true
                 // ** Firebase **
                 val factores:Array<Int> = calcularFactores()
@@ -349,23 +352,34 @@ class TestActivity : AppCompatActivity() {
 
                     Log.i("aus","Factor 1 -> ${trio.first}. Factor 2 -> ${trio.second}. Factor 3 -> ${trio.third}.")
                     if (usuario != null) {
-                        con.insertarTest(usuario,sexo, edad,trio.first,trio.second,trio.third)
+                        val time: Date = Calendar.getInstance().time
+                        con.insertarTest(usuario,sexo,time, edad,trio.first,trio.second,trio.third).addOnCompleteListener{ res ->
+                            exito.setResult(res.result)
+                        }
                     } else {
-                        val usuario:String? = userName.value
-                        val sexo:String? = userGender?.name
-                        val edad:Int? = userAge
-                        if (sexo != null && usuario != null && edad != null) {
-                            con.insertarTest(usuario,sexo,edad,trio.first,trio.second,trio.third)
+                        val usuario2:String? = userName.value
+                        val sexo2:String? = userGender?.name
+                        val edad2:Int? = userAge
+                        if (sexo2 != null && usuario2 != null && edad2 != null) {
+                            val time: Date = Calendar.getInstance().time
+                            con.insertarTest(usuario2,sexo2,time, edad2 ,trio.first,trio.second,trio.third).addOnCompleteListener{ res ->
+                                exito.setResult(res.result)
+                            }
                         } else {
                             sincronizado = false
+                            exito.setResult(false)
                         }
                     }
                 } else {
                     sincronizado = false
+                    exito.setResult(false)
                     Log.i("aus","No hay conexion")
                 }
 
-                guardarResultados(factores,sincronizado)
+                exito.task.addOnCompleteListener{res ->
+                    guardarResultados(factores,res.result)
+                }
+
 
 
 

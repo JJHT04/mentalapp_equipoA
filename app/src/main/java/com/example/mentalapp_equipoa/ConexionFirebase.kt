@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
+import com.example.mentalapp_equipoa.PruebasFirebase.Companion.getMaxId
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.Firebase
@@ -22,63 +23,45 @@ import java.util.Date
 import java.util.Locale
 
 class ConexionFirebase {
-
-    fun insertarTest(usuario:String, sexo:String, fecha:Date, edad:Int, factor1:Int, factor2:Int, factor3:Int) {
+    fun insertarTest(usuario:String, sexo:String,fecha:Date, edad:Int, factor1:Int, factor2:Int, factor3:Int): Task<Boolean> {
         //Devuelve una conexion del firebase directa a la base de datos
         val db: FirebaseFirestore = Firebase.firestore
 
-        getMaxId("resultados").addOnCompleteListener { res ->
-            // Es como un Diccionario de Strings(campos) y cualquier elemento
-            val inserto = hashMapOf<String, Any>(
-                "id" to res.result,
-                "usuario" to usuario,
-                "fecha" to fecha,
-                "sexo" to sexo,
-                "edad" to edad,
-                "FACT01" to factor1,
-                "FACT02" to factor2,
-                "FACT03" to factor3
-            )
-
-            db.collection("resultados").add(inserto)
-            /*    .addOnSuccessListener { documentReference ->
-                    Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w("prueba", "Error adding document", e)
-                }*/
-        }
-    }
-    fun insertarTest(usuario:String, sexo:String, edad:Int, factor1:Int, factor2:Int, factor3:Int) {
-        // Toast.makeText(actividad,"Hola don Pepito",Toast.LENGTH_LONG).show()
-        val time: Date = Calendar.getInstance().time
-
-        //Devuelve una conexion del firebase directa a la base de datos
-        val db: FirebaseFirestore = Firebase.firestore
+        val exito: TaskCompletionSource<Boolean> = TaskCompletionSource<Boolean>()
 
         getMaxId("resultados").addOnCompleteListener { res ->
-            // Es como un Diccionario de Strings(campos) y cualquier elemento
-            val inserto = hashMapOf<String, Any>(
-                "id" to res.result,
-                "usuario" to usuario,
-                "fecha" to time,
-                "sexo" to sexo,
-                "edad" to edad,
-                "FACT01" to factor1,
-                "FACT02" to factor2,
-                "FACT03" to factor3
-            )
+            if (res.result != ((-1).toLong())){
+                // Es como un Diccionario de Strings(campos) y cualquier elemento
+                val inserto = hashMapOf<String, Any>(
+                    "id" to res.result,
+                    "usuario" to usuario,
+                    "fecha" to fecha,
+                    "sexo" to sexo,
+                    "edad" to edad,
+                    "FACT01" to factor1,
+                    "FACT02" to factor2,
+                    "FACT03" to factor3
+                )
 
-            db.collection("resultados").add(inserto)
-            /*    .addOnSuccessListener { documentReference ->
-                    Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w("prueba", "Error adding document", e)
-                }*/
+                db.collection("resultados").add(inserto)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d("prueba", "DocumentSnapshot added with ID: ${documentReference.id}")
+                        exito.setResult(true)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("prueba", "Error adding document: "+e.message)
+                        exito.setResult(false)
+                    }
+                    .addOnCanceledListener {
+                        exito.setResult(false)
+                    }
+            } else {
+                exito.setResult(false)
+            }
         }
+        return exito.task
     }
-    private fun getMaxId(coleccion: String): Task<Long> {
+    fun getMaxId(coleccion: String): Task<Long> {
         val db: FirebaseFirestore = Firebase.firestore
         val max: TaskCompletionSource<Long> = TaskCompletionSource<Long>()
 
@@ -101,14 +84,17 @@ class ConexionFirebase {
                 max.setResult(0)
             }
         }
+
+        loc.addOnFailureListener { e ->
+            Log.w("prueba", "Error adding document", e)
+            max.setResult(-1)
+        }
         //Log.d("test", "Máximo ID fuera : ${max.task.result}")
         return max.task
     }
-
     fun sincronizarLocalFirebase(context: Context) {
         val bh = DBHelper(context)
         val dbR: SQLiteDatabase = bh.readableDatabase
-        val db: SQLiteDatabase = bh.writableDatabase
 
         // nick es referenica a usuario
         val c = dbR.rawQuery(
@@ -116,6 +102,8 @@ class ConexionFirebase {
                     " FROM resultados, user" +
                     " WHERE subido = 0 AND username = name", null
         )
+        val restirar: TaskCompletionSource<Boolean> = TaskCompletionSource<Boolean>()
+
         if (c.moveToFirst()) {
             do {
                 val intentoID: Int = c.getInt(0)
@@ -132,29 +120,36 @@ class ConexionFirebase {
                 val fac2: Int = c.getInt(6)
                 val fac3: Int = c.getInt(7)
 
-                insertarTest(nick, sexo, fecha, edad, fac1, fac2, fac3)
+                insertarTest(nick, sexo, fecha, edad, fac1, fac2, fac3).addOnCompleteListener{ res ->
+                    if (res.result){
+                        // ** Actualizar la tabla local **
+                        val db: SQLiteDatabase = bh.writableDatabase
+                        db.beginTransaction()
 
-                // ** Actualizar la tabla local **
-                db.beginTransaction()
+                        val cvalue = ContentValues()
+                        cvalue.put("subido", 1)
 
-                val cvalue = ContentValues()
-                cvalue.put("subido", 1)
+                        // Especifica la condición para la actualización (en este ejemplo, basado en el Id)
+                        val whereClause = "id = ?"
+                        val whereArgs = Array<String>(1) { intentoID.toString() }
 
-                // Especifica la condición para la actualización (en este ejemplo, basado en el Id)
-                val whereClause = "id = ?"
-                val whereArgs = Array<String>(1) { intentoID.toString() }
+                        // Realiza la actualización
+                        db.update("resultados", cvalue, whereClause, whereArgs)
 
-                // Realiza la actualización
-                db.update("resultados", cvalue, whereClause, whereArgs)
-
-                db.setTransactionSuccessful()
-                db.endTransaction()
+                        db.setTransactionSuccessful()
+                        db.endTransaction()
+                        db.close()
+                    }
+                }
             } while (c.moveToNext())
+            restirar.setResult(true)
         }
-        c.close()
-        db.close()
-        dbR.close()
-        bh.close()
+
+        restirar.task.addOnCompleteListener{ ern ->
+            c.close()
+            dbR.close()
+            bh.close()
+        }
     }
 }
 
