@@ -24,6 +24,8 @@ import com.example.mentalapp_equipoa.dialogs.ModifyUserDialog
 import com.example.mentalapp_equipoa.dialogs.RegisterUserDialog
 import com.example.mentalapp_equipoa.dialogs.TestDialog
 import com.example.mentalapp_equipoa.enums.Gender
+import java.util.Calendar
+import java.util.Date
 
 val previous_results = ArrayList<String>()
 var userName = MutableLiveData<String>()
