@@ -1,16 +1,17 @@
 package com.example.mentalapp_equipoa
 
 import android.database.sqlite.SQLiteDatabase
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
@@ -47,16 +48,17 @@ class PreviousResultsActivity : AppCompatActivity() {
         }
         val ides = testUser()
 
-        for (i in 0..numTest-1) {
-            val factores = recogerFactores(ides[i])
+        for (i in 0..<numTest) {
+            val datos = recogerFactores(ides[i])
+            val factores =  datos.first
+            val fecha = datos.second
             val niveles = calcularNota(factores, this)
-            val consejos = asignarConsejos(calcularNota(recogerFactores(ides[i]), this), this)
+            val consejos = asignarConsejos(calcularNota(factores, this), this)
 
-            createCard("Resultado Test ${i+1}", "Factor Fisiologico: "+niveles[0]+"\n"+
-                    "Factor Cognitivo: "+niveles[1]+"\n"+
-                    "Factor Evitacion "+niveles[2]+"\n\n"+
-                    "CONSEJOS\n" +
-                    consejos
+            createCard("Test del $fecha", Html.fromHtml("<h4>Factor Fisiologico: "+niveles[0]+"</h4>"+
+                    "<h4>Factor Cognitivo: "+niveles[1]+"</h4>"+
+                    "<h4>Factor Evitacion "+niveles[2]+"</h4> <br> <br>"+
+                    "<h2>CONSEJOS</h2> <br>" + Html.toHtml(consejos, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE),Html.FROM_HTML_MODE_COMPACT)
                     , R.drawable.baseline_keyboard_arrow_left_24)
         }
     }
@@ -99,25 +101,32 @@ class PreviousResultsActivity : AppCompatActivity() {
         return ides
     }
 
-    fun recogerFactores(i: Int):Array<Int>{
+    fun recogerFactores(i: Int):Pair<Array<Int>, String> {
+        val meses = arrayOf("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
         var factores = arrayOf<Int>(0,0,0)
+        var fechaAux = ""
         val bh = DBHelper(this)
         val dbR: SQLiteDatabase = bh.readableDatabase
-        val c = dbR.rawQuery("SELECT factor1, factor2, factor3 FROM Resultados WHERE username = ? AND id = $i", arrayOf(userName.value))
+        val c = dbR.rawQuery("SELECT fecha, factor1, factor2, factor3 FROM Resultados WHERE username = ? AND id = $i", arrayOf(userName.value))
 
-        if(c.moveToNext()){
+        if(c.moveToFirst()){
             do{
-                factores[0]= c.getInt(0)
-                factores[1]= c.getInt(1)
-                factores[2]= c.getInt(2)
+                fechaAux= c.getString(0)
+                factores[0]= c.getInt(1)
+                factores[1]= c.getInt(2)
+                factores[2]= c.getInt(3)
             } while (c.moveToNext())
             c.close()
         }
         dbR.close()
-        return factores
+
+        var fechaAux2=fechaAux.split("-")
+        var fecha = fechaAux2[2] + " de " + meses[fechaAux2[1].toInt()-1] + ", " + fechaAux2[0]
+
+        return Pair(factores, fecha)
     }
 
-    private fun createCard (title: String, body: String, @DrawableRes icon: Int) {
+    private fun createCard (title: String, body: CharSequence, @DrawableRes icon: Int) {
 
         val cardView = CardView(this).apply {
             isClickable = true
@@ -143,11 +152,13 @@ class PreviousResultsActivity : AppCompatActivity() {
             textSize = 16F
             text = body
             visibility = View.GONE
+            movementMethod = LinkMovementMethod.getInstance()
         }
 
         val constraintLayout = ConstraintLayout(this).apply {
-            View.generateViewId()
+            id = View.generateViewId()
         }
+
         constraintLayout.addView(titleView)
         constraintLayout.addView(iconView)
         constraintLayout.addView(bodyView)
@@ -155,12 +166,11 @@ class PreviousResultsActivity : AppCompatActivity() {
         val constraintSet = ConstraintSet()
         constraintSet.clone(constraintLayout)
 
-// Establecer las restricciones para el TextView
         constraintSet.constrainWidth(titleView.id, ConstraintSet.WRAP_CONTENT)
         constraintSet.constrainHeight(titleView.id, ConstraintSet.WRAP_CONTENT)
         constraintSet.constrainWidth(iconView.id, ConstraintSet.WRAP_CONTENT)
         constraintSet.constrainHeight(iconView.id, ConstraintSet.WRAP_CONTENT)
-        constraintSet.constrainWidth(bodyView.id, ConstraintSet.WRAP_CONTENT)
+        constraintSet.constrainWidth(bodyView.id, ConstraintSet.MATCH_CONSTRAINT)
         constraintSet.constrainHeight(bodyView.id, ConstraintSet.WRAP_CONTENT)
 
         constraintSet.connect(
@@ -207,7 +217,7 @@ class PreviousResultsActivity : AppCompatActivity() {
             ConstraintSet.TOP,
             titleView.id,
             ConstraintSet.BOTTOM,
-            10
+            20
         )
 
         constraintSet.connect(
@@ -215,7 +225,7 @@ class PreviousResultsActivity : AppCompatActivity() {
             ConstraintSet.BOTTOM,
             ConstraintSet.PARENT_ID,
             ConstraintSet.BOTTOM,
-            0
+            30
         )
 
         constraintSet.connect(
@@ -223,14 +233,14 @@ class PreviousResultsActivity : AppCompatActivity() {
             ConstraintSet.END,
             ConstraintSet.PARENT_ID,
             ConstraintSet.END,
-            0
+            20
         )
         constraintSet.connect(
             bodyView.id,
             ConstraintSet.START,
             ConstraintSet.PARENT_ID,
             ConstraintSet.START,
-            0
+            20
         )
 
         constraintSet.applyTo(constraintLayout)
@@ -246,18 +256,13 @@ class PreviousResultsActivity : AppCompatActivity() {
         val marginParams = layoutParams as ViewGroup.MarginLayoutParams
         marginParams.setMargins(10, 0, 10, 16) // Margen inferior entre las cartas
 
-        val frameLayout = FrameLayout(this).apply {
-            id = View.generateViewId()
-        }
 
-        frameLayout.addView(cardView)
-
-        frameLayout.layoutParams = marginParams
+        cardView.layoutParams = marginParams
 
 
         createDropDownCard(cardView, bodyView, iconView)
 
-        findViewById<LinearLayout>(R.id.linear_previous).addView(frameLayout)
+        findViewById<LinearLayout>(R.id.linear_previous).addView(cardView)
     }
 
     private fun createDropDownCard (card: CardView, text: TextView, icon: ImageView) {
