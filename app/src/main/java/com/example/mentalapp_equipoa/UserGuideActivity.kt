@@ -1,7 +1,6 @@
 package com.example.mentalapp_equipoa
 
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
