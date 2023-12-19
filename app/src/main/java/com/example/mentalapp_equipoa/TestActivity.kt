@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -312,6 +313,8 @@ class TestActivity : AppCompatActivity() {
                         iconChange = false
                     }
                 }
+
+                findViewById<ScrollView>(R.id.scrollViewTest).scrollTo(0,0)
             }else{
 
                 //findViewById<TextView>(R.id.txvAlerta).apply {text = "Has completado el test" }
@@ -319,6 +322,12 @@ class TestActivity : AppCompatActivity() {
                 var sincronizado:Boolean = true
                 // ** Firebase **
                 val factores:Array<Int> = calcularFactores()
+                val con:ConexionFirebase = ConexionFirebase()
+
+                guardarResultados(factores,false)
+                if (TestCon.hayConexion()) {
+                    con.sincronizarLocalFirebase(this)
+                }
 
                 val intent = Intent(this, AdvicesActivity::class.java ).apply {
                     val notitas = Companion.calcularNota(factores, this@TestActivity)
@@ -326,7 +335,7 @@ class TestActivity : AppCompatActivity() {
                     putExtra(EXTRAMESSAGE, Html.toHtml(asignarConsejos(calcularNota(calcularFactores()),this@TestActivity), Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE))
                 }
 
-                if (TestCon.hayConexion()){
+                /*if (TestCon.hayConexion()){
                     Log.i("aus","Si hay conexion")
                     val con:ConexionFirebase = ConexionFirebase()
 
@@ -379,11 +388,8 @@ class TestActivity : AppCompatActivity() {
                 }
 
                 exito.task.addOnCompleteListener{res ->
-                    guardarResultados(factores,res.result)
-                }
 
-
-
+                }*/
 
                 val texto: Array<String> = leerArchivo(resources.openRawResource(R.raw.preguntas))
                 val bh = DBHelper(this)
@@ -445,6 +451,8 @@ class TestActivity : AppCompatActivity() {
                         iconChange = true
                     }
                 }
+
+                findViewById<ScrollView>(R.id.scrollViewTest).scrollTo(0,0)
             }else{
                 showToast(this, "No hay preguntas anteriores")
             }
