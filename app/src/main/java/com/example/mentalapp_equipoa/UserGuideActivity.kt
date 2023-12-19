@@ -49,7 +49,7 @@ class UserGuideActivity : AppCompatActivity() {
         val titleView = TextView(this).apply {
             id = View.generateViewId()
             typeface = ResourcesCompat.getFont(this@UserGuideActivity, R.font.lexend)
-            textSize = 20F
+            textSize = 18F
             text = title
             textAlignment = View.TEXT_ALIGNMENT_CENTER
         }
@@ -97,15 +97,15 @@ class UserGuideActivity : AppCompatActivity() {
             ConstraintSet.START,
             ConstraintSet.PARENT_ID,
             ConstraintSet.START,
-            0 // Margen izquierdo en píxeles
+            10 // Margen izquierdo en píxeles
         )
 
         constraintSet.connect(
             titleView.id,
             ConstraintSet.END,
-            ConstraintSet.PARENT_ID,
-            ConstraintSet.END,
-            0
+            iconView.id,
+            ConstraintSet.START,
+            10
         )
 
         constraintSet.connect(

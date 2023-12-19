@@ -46,7 +46,7 @@ class ModifyUserDialog : DialogFragment() {
             val adaptador = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, lista)
             val preferencesUtil = PreferencesUtil(requireContext())
             dialogView.findViewById<EditText>(R.id.Age).setText(preferencesUtil.getAge().toString())
-            dialogView.findViewById<EditText>(R.id.username).setText(preferencesUtil.getAge().toString())
+            dialogView.findViewById<EditText>(R.id.username).setText(preferencesUtil.getUsername().toString())
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adaptador
             spinner.setSelection(lista.indexOf(preferencesUtil.getGender()?.toString()))
