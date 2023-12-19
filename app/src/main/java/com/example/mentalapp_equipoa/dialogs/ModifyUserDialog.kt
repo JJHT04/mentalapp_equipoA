@@ -66,7 +66,7 @@ class ModifyUserDialog : DialogFragment() {
                         userGender = genderMap[spinner.selectedItem.toString()]
 
 
-                        if (userAge!! < 7 || userAge!! >= 114) {
+                        if (userAge!! in 7..113) {
                             preferencesUtil.setAge(userAge!!)
                             preferencesUtil.setGender(userGender!!)
                             userName.value = username

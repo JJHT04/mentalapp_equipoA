@@ -64,7 +64,7 @@ class RegisterUserDialog : DialogFragment() {
                         userAge = age.toInt() //Que sea solo entero ya está manejado en el componente
                         userGender = genderMap[spinner.selectedItem.toString()]
 
-                        if (userAge!! < 7 || userAge!! >= 114) {
+                        if (userAge in 7..114) {
                             val preferencesUtil = PreferencesUtil(requireContext())
                             preferencesUtil.setAge(userAge!!)
                             preferencesUtil.setGender(userGender!!)
