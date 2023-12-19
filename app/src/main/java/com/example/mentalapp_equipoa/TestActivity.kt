@@ -650,7 +650,7 @@ class TestActivity : AppCompatActivity() {
                                          sacarLinea(8, consejos)+"<br><br>"+
                                          sacarLinea(9, consejos)+"<br><br>"+
                                          sacarLinea(10, consejos)+"<br><br>"+
-                                         "<p>Consejos para no llegar a esta situación: </p>"+
+                                         "<br><p>Consejos para no llegar a esta situación: </p>"+
                                          sacarLinea(13, consejos)+"<br><br>"+
                                          sacarLinea(14, consejos)+"<br><br>"+
                                          sacarLinea(15, consejos)+"<br><br>"
@@ -662,7 +662,7 @@ class TestActivity : AppCompatActivity() {
                                          sacarLinea(3, consejos)+"<br><br>"+
                                          sacarLinea(4, consejos)+"<br><br>"+
                                          sacarLinea(5, consejos)+"<br><br>"+
-                                         "<p>Consejos para no llegar a esta situación: </p>"+
+                                         "<br><p>Consejos para no llegar a esta situación: </p>"+
                                          sacarLinea(13, consejos)+"<br><br>"+
                                          sacarLinea(14, consejos)+"<br><br>"+
                                          sacarLinea(15, consejos)+"<br><br>"+
@@ -673,7 +673,7 @@ class TestActivity : AppCompatActivity() {
                     consejosPersonales = sacarLinea(6, consejos)+"<br><br>"+
                                         sacarLinea(3, consejos)+"<br><br>"+
                                         sacarLinea(11, consejos)+"<br><br>"+
-                                        "<p>Consejos para no llegar a esta situación: </p>"+
+                                        "<br><p>Consejos para no llegar a esta situación: </p>"+
                                         sacarLinea(19, consejos)+"<br><br>"+
                                         sacarLinea(20, consejos)+"<br><br>"+
                                         sacarLinea(10, consejos)+"<br><br>"
@@ -685,7 +685,7 @@ class TestActivity : AppCompatActivity() {
                                         sacarLinea(8, consejos)+"<br><br>"+
                                         sacarLinea(11, consejos)+"<br><br>"+
                                         sacarLinea(10, consejos)+"<br><br>"+
-                                        "<p>Consejos para no llegar a esta situación: </p>"+
+                                        "<br><p>Consejos para no llegar a esta situación: </p>"+
                                         sacarLinea(13, consejos)+"<br><br>"+
                                         sacarLinea(14, consejos)+"<br><br>"+
                                         sacarLinea(15, consejos)+"<br><br>"
@@ -697,7 +697,7 @@ class TestActivity : AppCompatActivity() {
                                         sacarLinea(3, consejos)+"<br><br>"+
                                         sacarLinea(8, consejos)+"<br><br>"+
                                         sacarLinea(9, consejos)+"<br><br>"+
-                                        "<p>Consejos para no llegar a esta situación: </p>"+
+                                        "<br><p>Consejos para no llegar a esta situación: </p>"+
                                         sacarLinea(13, consejos)+"<br><br>"+
                                         sacarLinea(14, consejos)+"<br><br>"+
                                         sacarLinea(15, consejos)+"<br><br>"+
@@ -709,7 +709,7 @@ class TestActivity : AppCompatActivity() {
                                         sacarLinea(3, consejos)+"<br><br>"+
                                         sacarLinea(11, consejos)+"<br><br>"+
                                         sacarLinea(10, consejos)+"<br><br>"+
-                                        "<p>Consejos para no llegar a esta situación: </p>"+
+                                        "<br><p>Consejos para no llegar a esta situación: </p>"+
                                         sacarLinea(13, consejos)+"<br><br>"+
                                         sacarLinea(14, consejos)+"<br><br>"+
                                         sacarLinea(15, consejos)+"<br><br>"
@@ -720,14 +720,14 @@ class TestActivity : AppCompatActivity() {
                                         sacarLinea(8, consejos)+"<br><br>"+
                                         sacarLinea(11, consejos)+"<br><br>"+
                                         sacarLinea(10, consejos)+"<br><br>"+
-                                        "<p>Consejos para no llegar a esta situación: </p>"+
+                                        "<br><p>Consejos para no llegar a esta situación: </p>"+
                                         sacarLinea(13, consejos)+"<br><br>"+
                                         sacarLinea(14, consejos)+"<br><br>"+
                                         sacarLinea(15, consejos)+"<br><br>"
                 }
                 //Ninguno
                 if (niveles[3]=="bajo") {
-                    consejosPersonales = "<p>Consejos para mantener todo bajo control: </p> "+
+                    consejosPersonales = "<br><p>Consejos para mantener todo bajo control: </p> "+
                                         sacarLinea(13, consejos) + "<br><br>" +
                                         sacarLinea(14, consejos) + "<br><br>" +
                                         sacarLinea(15, consejos) + "<br><br>"
