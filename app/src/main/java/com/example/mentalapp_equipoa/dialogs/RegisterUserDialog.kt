@@ -15,6 +15,7 @@ import com.example.mentalapp_equipoa.PreferencesUtil
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
 import com.example.mentalapp_equipoa.enums.Gender
+import com.example.mentalapp_equipoa.showToast
 import com.example.mentalapp_equipoa.userAge
 import com.example.mentalapp_equipoa.userGender
 import com.example.mentalapp_equipoa.userName
@@ -63,20 +64,25 @@ class RegisterUserDialog : DialogFragment() {
                         userAge = age.toInt() //Que sea solo entero ya está manejado en el componente
                         userGender = genderMap[spinner.selectedItem.toString()]
 
-                        val preferencesUtil = PreferencesUtil(requireContext())
-                        preferencesUtil.setAge(userAge!!)
-                        preferencesUtil.setGender(userGender!!)
+                        if (userAge!! < 7 || userAge!! >= 114) {
+                            val preferencesUtil = PreferencesUtil(requireContext())
+                            preferencesUtil.setAge(userAge!!)
+                            preferencesUtil.setGender(userGender!!)
 
-                        userName.value = username
-                        preferencesUtil.setUsername(userName.value!!)
-                        if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){ //Si ya existe
-                            Toast.makeText(activity, "Este usuario ya está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
-                        }else{
-                            PruebasFirebase.registrarUsuarioFirebase(requireContext(), username, Integer.parseInt(age), userGender.toString())
-                            PruebasFirebase.registrarUsuarioLocal(actividadMain, username, Integer.parseInt(age), userGender.toString())
-                            Toast.makeText(activity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+                            userName.value = username
+                            preferencesUtil.setUsername(userName.value!!)
+                            if(PruebasFirebase.comprobarSiExisteUsuarioLocal(actividadMain, username)){ //Si ya existe
+                                Toast.makeText(activity, "Este usuario ya está registrado en este dispositivo", Toast.LENGTH_SHORT).show()
+                            }else{
+                                PruebasFirebase.registrarUsuarioFirebase(requireContext(), username, Integer.parseInt(age), userGender.toString())
+                                PruebasFirebase.registrarUsuarioLocal(actividadMain, username, Integer.parseInt(age), userGender.toString())
+                                Toast.makeText(activity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+                            }
+                            valid = true //¿esto no se usa nunca?
+                        } else {
+                            showToast(requireContext(), "Introduce una edad válida")
                         }
-                        valid = true //¿esto no se usa nunca?
+
                     } else {
                         val toast = Toast.makeText(activity, "Debes rellenar todos los campos", Toast.LENGTH_SHORT)
                         toast.setGravity(Gravity.CENTER, 0, 0)

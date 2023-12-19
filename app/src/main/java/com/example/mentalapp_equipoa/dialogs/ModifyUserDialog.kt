@@ -15,6 +15,7 @@ import com.example.mentalapp_equipoa.PreferencesUtil
 import com.example.mentalapp_equipoa.PruebasFirebase
 import com.example.mentalapp_equipoa.R
 import com.example.mentalapp_equipoa.enums.Gender
+import com.example.mentalapp_equipoa.showToast
 import com.example.mentalapp_equipoa.userAge
 import com.example.mentalapp_equipoa.userGender
 import com.example.mentalapp_equipoa.userName
@@ -65,14 +66,19 @@ class ModifyUserDialog : DialogFragment() {
                         userGender = genderMap[spinner.selectedItem.toString()]
 
 
-                        preferencesUtil.setAge(userAge!!)
-                        preferencesUtil.setGender(userGender!!)
-                        userName.value = username
-                        preferencesUtil.setUsername(userName.value!!)
-                        Toast.makeText(activity, "Modificación realizada correctamente", Toast.LENGTH_SHORT).show()
-                        PruebasFirebase.modificarUsuario(actividadMain, username, age.toInt(), userGender.toString())
-                        PruebasFirebase.modificarUsuarioFirebase(requireContext(), username, age.toInt(), userGender.toString())
-                        valid = true
+                        if (userAge!! < 7 || userAge!! >= 114) {
+                            preferencesUtil.setAge(userAge!!)
+                            preferencesUtil.setGender(userGender!!)
+                            userName.value = username
+                            preferencesUtil.setUsername(userName.value!!)
+                            Toast.makeText(activity, "Modificación realizada correctamente", Toast.LENGTH_SHORT).show()
+                            PruebasFirebase.modificarUsuario(actividadMain, username, age.toInt(), userGender.toString())
+                            PruebasFirebase.modificarUsuarioFirebase(requireContext(), username, age.toInt(), userGender.toString())
+                            valid = true
+                        } else {
+                            showToast(requireContext(), "Introduce una edad válida")
+                        }
+
                     } else {
                         Toast.makeText(activity, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                     }
